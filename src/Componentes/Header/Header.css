@@ -1,0 +1,91 @@
+.meu-cabecalho {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 10px; 
+  background-color: rgba(211, 220, 252, 0.827);
+  width: 100%;
+  box-sizing: border-box; 
+  border-bottom: 2px solid #6d6d7d; 
+}
+
+
+.logo-e-titulo {
+  display: flex;
+  align-items: center;
+  gap: -3px;
+}
+
+.meu-cabecalho img{
+    width: 120px;
+    height: auto;
+}
+
+
+.textos-header {
+  display: flex;
+  flex-direction: column;
+}
+
+.meu-cabecalho h1 {
+  color: rgba(106, 177, 221, 0.896);
+  text-shadow: 1px 1px 3px rgb(112, 82, 190, 0.7);
+  font-size: 36px;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  margin: 0;
+}
+
+.menu-navegacao {
+  display: flex;
+  justify-content: center;
+  flex: 2.5;
+}
+
+.menu-navegacao a {
+  text-decoration: none;
+  color: rgb(0, 11, 107);
+  font-size: 20px;
+  font-weight: 600;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  justify-content: center;
+  flex: -1;
+  
+}
+
+.menu-navegacao a:hover {
+  background-color: rgba(106, 177, 221, 0.2);
+  color: #333;
+}
+
+
+.menu-conta{
+    display: flex;
+    gap: 30px;
+    justify-content: flex-end;
+    align-items: center;
+    flex: 1;
+
+}
+
+
+.menu-conta a{
+    text-decoration: none;
+    color: rgb(0, 11, 107);
+    font-size: 25px;
+    font-weight: 735;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    justify-content: flex-end;
+    align-items: center;
+
+}
+
+.menu-conta a:hover{
+    background-color: rgb(65, 147, 255);
+    color: #333;
+}
+

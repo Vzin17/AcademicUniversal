@@ -1,0 +1,10 @@
+.Rodape {
+  text-align: center;
+  padding: 10px 0;
+  background-color: #9fd4fc;
+  border-top: 2px solid #535353;
+}
+
+.Rodape h1{
+    font-size: 20px;
+}
