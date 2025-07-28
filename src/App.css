@@ -31,3 +31,13 @@ html, body {
 .App main {
   flex: 1;
 }
+
+h1{
+  color: aquamarine;
+  text-align: center;
+  text-shadow: #282c34;
+}
+
+p{
+  font-size: 20px;
+}
