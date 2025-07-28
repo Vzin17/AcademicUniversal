@@ -1,21 +1,26 @@
 import './App.css';
-import MeuComponente from './Componentes/MeuComponente';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from './Pages/home';
-import Contato from './Pages/contato';
+
+import Header from './Componentes/Header/Header';
+import Footer from './Componentes/Footer/Footer';
+import Inicio from './Pages/Inicio';
 
 
 function App() {
+
   return (
-   <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} /> 
-        <Route path="/contato" element={<Contato />} />
-        <Route path="/MeuComponete" element={<MeuComponente />} />
-      </Routes>
-    </BrowserRouter>
-    
-    
+    <div className="App">
+      <Header />
+
+      <Inicio /> 
+
+      <main>
+        <h1></h1>
+      </main>
+
+      <Footer />
+    </div>
+
+
   );
 }
 
