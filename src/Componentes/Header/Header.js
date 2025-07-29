@@ -1,5 +1,7 @@
+
 import './Header.css';
 import logo from './Imgs/Chapeu AcademicUniversal.png'
+import { Link } from 'react-router-dom';
 
 function Header() {
   return(
@@ -13,15 +15,18 @@ function Header() {
 
   
       <nav className="menu-navegacao">
-        <a href="#inicio">Início</a>
-        <a href="#cursos">Cursos</a>
-        <a href="#sobre">Sobre</a>
-        <a href="#contato">Contato</a>
+        <ul>
+          <li><Link to="/">Início</Link></li>
+          <li><Link to="/cursos">Cursos</Link></li>
+          <li><Link to="/sobre">Sobre</Link></li>
+          <li><Link to="/contato">Contato</Link></li>
+        </ul>
       </nav>
 
       <div className="menu-conta">
         <a href="#conta">Conta</a>
       </div>
+
       
     </header>
     );

@@ -1,12 +1,20 @@
 import './Inicio.css';
+import { useNavigate } from 'react-router-dom';
 
 function Inicio(){
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate('/criarConta');
+  };
+
     return(
     <main>
     <section className="hero">
         <h1>Conectando Universitários e Profissionais</h1>
         <p>A plataforma que transforma conhecimento em oportunidades.</p>
-        <button>Crie sua Conta Gratuitamente</button>
+        <button onClick={handleClick}>Crie sua Conta Gratuitamente</button>
+
     </section>
 
     <section className="features">
@@ -18,6 +26,7 @@ function Inicio(){
         <div className="card">Networking acadêmico</div>
         </div>
     </section>
+
     </main>
 
     );

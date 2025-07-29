@@ -1,7 +1,14 @@
+import { Link } from 'react-router-dom';
 import './criarConta.css';
 
-function criarConta(){
-    return(
-        <h1>Criar Conta</h1>
-    );
+
+function CriarConta() {
+  return (
+    <div>
+      <h1>Crie sua Conta</h1>
+    
+    </div>
+  );
 }
+
+export default CriarConta;
