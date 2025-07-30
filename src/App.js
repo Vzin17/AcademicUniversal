@@ -2,25 +2,20 @@ import './App.css';
 
 import Header from './Componentes/Header/Header';
 import Footer from './Componentes/Footer/Footer';
-import Inicio from './Pages/Inicio';
+import Inicio from './Pages/Incio/Inicio';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
 
 
 function App() {
-
   return (
     <div className="App">
       <Header />
 
-      <Inicio /> 
-
-      <main>
-        <h1></h1>
-      </main>
+      <Inicio />
 
       <Footer />
     </div>
-
-
   );
 }
 
