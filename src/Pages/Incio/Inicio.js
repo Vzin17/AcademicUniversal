@@ -11,19 +11,36 @@ function Inicio(){
     return(
     <main>
     <section className="hero">
-        <h1>Conectando Universitários e Profissionais</h1>
-        <p>A plataforma que transforma conhecimento em oportunidades.</p>
-        <button onClick={handleClick}>Crie sua Conta Gratuitamente</button>
+        <h1>Conectando Universitários e Profissionais, para atendimento gratuito para a comunidade.</h1>
+        <p>Unindo estudantes e professores para oferecer o apoio jurídico, psicológico e de saúde que você precisa!</p>
+        <button onClick={handleClick}>Saiba como ser atendido</button>
 
     </section>
 
     <section className="features">
-        <h2>O que você encontra aqui?</h2>
+        <h2>Como Podemos Ajudar</h2>
         <div className="cards">
-        <div className="card">Compartilhe TCCs e Trabalhos</div>
-        <div className="card">Marketplace de livros e materiais</div>
-        <div className="card">Cursos e eventos</div>
-        <div className="card">Networking acadêmico</div>
+
+            <div className="card">
+                <h3>Apoio Jurídico Gratuito</h3>
+                <p>Orientação para resolver questões de família, consumidor, contratos e outros direitos.</p>
+            </div>
+
+            <div className="card">
+                <h3>Acolhimento Psicológico</h3>
+                <p>Um espaço seguro de escuta e cuidado para sua saúde mental e bem-estar emocional.</p>
+            </div>
+
+            <div className="card">
+                <h3>Cuidados em Saúde</h3>
+                <p>Atendimentos em Fisioterapia, Odontologia e orientação sobre o uso de medicamentos.</p>
+            </div>
+            
+            <div className="card">
+                <h3>Atendimento Integrado</h3>
+                <p>Nossa equipe de diferentes áreas olhando para você de forma completa e humanizada.</p>
+            </div>
+
         </div>
     </section>
 

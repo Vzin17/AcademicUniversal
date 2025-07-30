@@ -5,7 +5,7 @@
   justify-content: space-between;
   align-items: center; 
   padding: 5px 20px; 
-  background-color: rgba(211, 220, 252, 0.827);
+  background: linear-gradient(to right, #5c84a7, #72daf1);
   width: 100%;
   box-sizing: border-box; 
 }
@@ -23,7 +23,7 @@
 }
 
 .logo-e-titulo h1 {
-  color: rgba(106, 177, 221, 0.896);
+  color: rgba(56, 174, 248, 0.896);
   text-shadow: 1px 1px 3px rgb(112, 82, 190, 0.7);
   font-size: 32px;
   margin: 0;
@@ -31,7 +31,7 @@
 
 
 .menu-navegacao {
-  flex: 3; 
+  flex: 5; 
   display: flex;
   justify-content: center;
 }
@@ -59,7 +59,7 @@
 
 
 .menu-navegacao a:hover {
-  background-color: rgba(106, 177, 221, 0.2);
+  background-color: rgba(144, 0, 255, 0.2);
 }
 
 
