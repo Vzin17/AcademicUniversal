@@ -1,19 +1,19 @@
 import './Inicio.css';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function Inicio(){
-  const navigate = useNavigate();
-
-  const handleClick = () => {
-    navigate('/criarConta');
-  };
 
     return(
     <main>
     <section className="hero">
-        <h1>Conectando Universitários e Profissionais, para atendimento gratuito para a comunidade.</h1>
+        <h1>Conectando Universitários e Profissionais,</h1>
+        <h1> para atendimento gratuito para a comunidade.</h1>
         <p>Unindo estudantes e professores para oferecer o apoio jurídico, psicológico e de saúde que você precisa!</p>
-        <button onClick={handleClick}>Saiba como ser atendido</button>
+        
+        <Link to="/voluntario">
+            <button>Quero ser voluntário!</button>
+        </Link>
 
     </section>
 
