@@ -9,7 +9,7 @@ function Header() {
       <div className="logo-e-titulo">
         <img src={logo} alt="Logotipo Inter Social" />
         <div className="textos-header">
-          <h1>InterSocial</h1>
+          <h1>Vincle</h1>
         </div>
       </div>
 
@@ -25,7 +25,6 @@ function Header() {
     </nav>
 
     <div className="menu-conta">
-        {/* Recomendo fortemente mudar o texto aqui */}
         <a href="#login-voluntario">Área do Voluntário</a>
     </div>
 
