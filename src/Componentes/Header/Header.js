@@ -25,7 +25,7 @@ function Header() {
     </nav>
 
     <div className="menu-conta">
-        <a href="#login-voluntario">Área do Voluntário</a>
+        <a href="#login-voluntario">Conta</a>
     </div>
 
       

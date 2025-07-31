@@ -1,5 +1,4 @@
 import './Inicio.css';
-import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
 function Inicio(){
@@ -43,7 +42,6 @@ function Inicio(){
 
         </div>
     </section>
-
     </main>
 
     );
