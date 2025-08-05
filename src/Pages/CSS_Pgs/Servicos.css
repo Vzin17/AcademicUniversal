@@ -1,0 +1,196 @@
+/* Importa uma fonte bonita do Google Fonts */
+
+
+/* Variáveis de Cor para fácil customização */
+:root {
+  --cor-azul-escuro: #0a3d62;
+  --cor-azul-claro: #f0f8ff;
+  --cor-azul-hover: #0056b3;
+  --cor-texto: #333;
+  --cor-texto-claro: #666;
+  --cor-branco: #ffffff;
+  --cor-sombra: rgba(10, 61, 98, 0.1);
+}
+
+/* Estilos Gerais para a seção */
+.services-section {
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--cor-azul-claro);
+  padding: 80px 20px;
+  text-align: center;
+}
+
+.services-section .container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.services-section .section-title {
+  font-size: 2.8rem;
+  color: var(--cor-azul-escuro);
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.services-section .section-intro {
+  font-size: 1.1rem;
+  color: var(--cor-texto-claro);
+  max-width: 800px;
+  margin: 0 auto 4rem auto;
+  line-height: 1.6;
+}
+
+/* Container dos Cards */
+.services-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+}
+
+/* Estilo Individual do Card de Serviço */
+.service-card {
+  background-color: var(--cor-branco);
+  border-radius: 15px;
+  padding: 2.5rem;
+  box-shadow: 0 10px 25px var(--cor-sombra);
+  flex: 1 1 320px;
+  max-width: 380px;
+  text-align: left;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(10, 61, 98, 0.2);
+}
+
+.service-card .icon {
+  font-size: 3rem;
+  color: var(--cor-azul-escuro);
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.service-card .card-title {
+  font-size: 1.5rem;
+  color: var(--cor-azul-escuro);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  text-align: center;
+  min-height: 50px;
+}
+
+.service-card .card-description {
+  font-size: 0.95rem;
+  color: var(--cor-texto-claro);
+  line-height: 1.5;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  min-height: 80px;
+}
+
+/* Lista de serviços dentro do card */
+.services-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+}
+
+.services-list li {
+  color: var(--cor-texto);
+  margin-bottom: 0.8rem;
+  display: flex;
+  align-items: flex-start;
+}
+
+/* Ícone de check */
+.services-list .fa-check {
+  color: var(--cor-azul-hover);
+  margin-right: 10px;
+  margin-top: 4px;
+  font-size: 0.8rem;
+}
+
+
+/* Seção "Como Funciona" */
+.how-it-works {
+    margin-top: 5rem;
+}
+
+.how-it-works .section-title {
+  font-size: 2.2rem;
+}
+
+.steps-list {
+    list-style: none;
+    padding: 0;
+    max-width: 600px;
+    margin: 2rem auto 0 auto;
+    text-align: left;
+}
+.steps-list li {
+    display: flex;
+    align-items: center;
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+}
+.steps-list .step-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--cor-azul-escuro);
+    color: var(--cor-branco);
+    font-weight: 700;
+    font-size: 1.2rem;
+    margin-right: 15px;
+}
+
+/* Seção Final de Chamada para Ação (CTA) */
+.cta-section {
+  margin-top: 5rem;
+  padding: 3rem;
+  background-color: var(--cor-branco);
+  border-radius: 15px;
+  box-shadow: 0 10px 25px var(--cor-sombra);
+}
+
+.cta-section h2 {
+  font-size: 2.2rem;
+  color: var(--cor-azul-escuro);
+  margin: 0 0 0.5rem 0;
+}
+
+.cta-button {
+  display: inline-block;
+  background-color: var(--cor-azul-escuro);
+  color: var(--cor-branco);
+  padding: 1rem 2.5rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-top: 1.5rem;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  cursor: pointer;
+  border: none;
+}
+
+.cta-button:hover {
+  background-color: var(--cor-azul-hover);
+  transform: scale(1.05);
+}
+
+/* Ajustes para Telas Menores (Responsividade) */
+@media (max-width: 768px) {
+  .services-section .section-title {
+    font-size: 2.2rem;
+  }
+  .cta-section h2 {
+    font-size: 1.8rem;
+  }
+}

@@ -17,6 +17,7 @@ function Header() {
 <nav className="menu-navegacao">
         <ul>
             <li><Link to="/">Início</Link></li>
+            <li><Link to="/cadastro">Cadastro</Link></li>
             <li><Link to="/servicos">Serviços</Link></li> 
             <li><Link to="/projeto">O Projeto</Link></li>
             <li><Link to="/seja-voluntario">Seja Voluntário</Link></li>
