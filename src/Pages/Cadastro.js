@@ -1,0 +1,22 @@
+
+
+function Cadastro() {
+  return (
+    <main>
+      <h2>Cadastro</h2>
+      <form className="formulario">
+        <input type="text" placeholder="Nome" required />
+        <input type="email" placeholder="Email" required />
+        <select required>
+          <option value="">Selecione</option>
+          <option>Estudante</option>
+          <option>Professor</option>
+          <option>Paciente</option>
+        </select>
+        <button type="submit">Enviar</button>
+      </form>
+    </main>
+  );
+}
+
+export default Cadastro;
