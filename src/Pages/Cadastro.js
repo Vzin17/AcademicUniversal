@@ -1,8 +1,10 @@
-
+import './CSS_Pgs/Cadastro.css';
+import logo from '../Componentes/IMAGENS/InterSocial.png'
 
 function Cadastro() {
   return (
     <main>
+      <img src={logo} alt="Logotipo Inter Social" />
       <h2>Cadastro</h2>
       <form className="formulario">
         <input type="text" placeholder="Nome" required />
