@@ -3,7 +3,7 @@ import './CSS_Pgs/Projeto.css';
 function Projeto() {
   return (
 <section className="about-project-section">
-      <div className="container">
+      <div className="container"> 
         <h1 className="main-title">Sobre o Projeto Vincle</h1>
 
         <div className="content-block">
