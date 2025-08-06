@@ -4,7 +4,7 @@ function Projeto() {
   return (
 <section className="about-project-section">
       <div className="container">
-        <h1 className="main-title">Sobre o Projeto InterSocial</h1>
+        <h1 className="main-title">Sobre o Projeto Vincle</h1>
 
         <div className="content-block">
           <h2>A Essência do Projeto</h2>
