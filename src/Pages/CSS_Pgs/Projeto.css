@@ -1,0 +1,76 @@
+/* As variáveis de cor e a fonte são as mesmas para manter a consistência */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+:root {
+  --cor-azul-escuro: #0a3d62;
+  --cor-azul-claro: #f0f8ff;
+  --cor-azul-hover: #0056b3;
+  --cor-texto: #333;
+  --cor-texto-claro: #555; /* Um pouco mais escuro para melhor leitura */
+  --cor-branco: #ffffff;
+}
+
+.about-project-section {
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--cor-branco); /* Fundo branco para diferenciar da home */
+  padding: 80px 20px;
+}
+
+.about-project-section .container {
+  max-width: 900px; /* Um pouco mais estreito para facilitar a leitura de textos longos */
+  margin: 0 auto;
+}
+
+.about-project-section .main-title {
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: var(--cor-azul-escuro);
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.about-project-section .content-block {
+  margin-bottom: 2.5rem;
+}
+
+.about-project-section .content-block h2 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--cor-azul-escuro);
+  margin-bottom: 1rem;
+  border-left: 4px solid var(--cor-azul-hover);
+  padding-left: 15px;
+}
+
+.about-project-section .content-block p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: var(--cor-texto-claro);
+  text-align: justify; /* Justificado para uma aparência de documento */
+}
+
+/* Estilo para a lista de impacto */
+.impact-list {
+  list-style: none;
+  padding-left: 20px;
+}
+
+.impact-list li {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: var(--cor-texto-claro);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: flex-start;
+}
+
+.impact-list .fa-check-circle {
+  color: var(--cor-azul-hover);
+  margin-right: 12px;
+  margin-top: 7px;
+}
+
+.impact-list strong {
+  color: var(--cor-azul-escuro);
+  font-weight: 600;
+}
