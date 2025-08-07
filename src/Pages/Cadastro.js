@@ -1,4 +1,4 @@
-import { useState } from 'react'; // Importa o hook useState
+import { useState } from 'react';
 import './CSS_Pgs/Cadastro.css';
 import logo from '../Componentes/IMAGENS/InterSocial.png';
 import { FaEye, FaEyeSlash } from 'react-icons/fa'; 
