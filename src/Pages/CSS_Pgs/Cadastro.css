@@ -59,7 +59,7 @@ main h2 {
   background-repeat: no-repeat;
   background-position: right 16px top 50%;
   background-size: 12px;
-  padding-right: 40px;
+  padding-right: 140px;
 }
 
 
@@ -92,28 +92,23 @@ main h2 {
   transform: translateY(0);
 }
 
-/* --- Estilos para o container da senha e ícone --- */
-
-/* Container para o campo de senha e o ícone */
 .password-container {
-  position: relative; /* Essencial para posicionar o ícone dentro dele */
-  width: 100%; /* Faz o container ocupar a largura total do formulário */
+  position: relative; 
+  width: 100%; 
 }
 
-/* Garante que o input dentro do container não tenha margens estranhas */
 .password-container input {
   width: 100%;
-  padding-right: 45px; /* Adiciona um espaço à direita no input para o ícone não sobrepor o texto */
+  padding-right: 45px;
   box-sizing: border-box;
 }
 
-/* Ícone de olho */
 .password-icon {
-  position: absolute; /* Posiciona o ícone em relação ao .password-container */
+  position: absolute;
   top: 50%;
-  right: 15px; /* Distância da borda direita */
-  transform: translateY(-50%); /* Ajuste para centralização vertical perfeita */
+  right: 15px;
+  transform: translateY(-50%);
   cursor: pointer;
   color: #555;
-  font-size: 1.1rem; /* Tamanho do ícone */
+  font-size: 1.1rem;
 }
