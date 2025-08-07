@@ -1,13 +1,18 @@
 
 .meu-cabecalho {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+
+  width: 100%;
+  height: 80px; /* define uma altura fixa */
+  background: linear-gradient(to right, #5c84a7, #72daf1);
+
   display: flex;
   justify-content: space-between;
-  align-items: center; 
-  padding: 5px 20px; 
-  background: linear-gradient(to right, #5c84a7, #72daf1);
-  width: 100%;
-  box-sizing: border-box;
-  
+  align-items: center;
+  padding: 0 20px;
 }
 
 .logo-e-titulo {

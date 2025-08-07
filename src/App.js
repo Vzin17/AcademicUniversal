@@ -3,11 +3,10 @@ import './App.css';
 import Header from './Componentes/Header/Header';
 import Footer from './Componentes/Footer/Footer';
 import Inicio from './Pages/Incio/Inicio';
-import Voluntario from './Pages/Incio/Voluntário/Voluntario';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Cadastro from './Pages/Cadastro';
 import Estudante from './Pages/Estudante';
-import Professor from './Pages/Professos';
+import Professor from './Pages/Coordenador';
 import Paciente from './Pages/Paciente';
 import Agendamento from './Pages/Agendamento';
 import Servicos from './Pages/Servicos';
@@ -28,7 +27,6 @@ function App() {
         <main>
           <Routes>
             <Route path="/" element={<Inicio />} />
-            <Route path="/voluntario" element={<Voluntario />} />
             <Route path="/cadastro" element={<Cadastro />} />
             <Route path="/estudante" element={<Estudante />} />
             <Route path="/professor" element={<Professor />} />
