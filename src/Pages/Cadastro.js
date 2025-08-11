@@ -2,6 +2,9 @@ import { useState } from 'react';
 import './CSS_Pgs/Cadastro.css';
 import logo from '../Componentes/IMAGENS/InterSocial.png';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import api from './services/api';
+import { useNavigate } from 'react-router-dom';
+
 
 function Cadastro() {
 
@@ -15,22 +18,35 @@ function Cadastro() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    
-    if (senha !== confirmaSenha) {
-      alert("Erro: As senhas não correspondem!");
-      return; 
-    }
-
+  const navigate = useNavigate(); // Hook para redirecionar o usuário
   
-    console.log("Formulário válido! Enviando dados...");
-    console.log({ nome, email, senha, tipoUsuario });
+  if (senha !== confirmaSenha) {
+    alert("Erro: As senhas não correspondem!");
+    return;
+  }
+  
+const handleSubmit = async (event) => {
+  event.preventDefault();
+  // ... (validação da senha) ...
+  
+  try {
+    // AGORA SIM! O `api.post` existe e vai funcionar!
+    await api.post('/usuarios', {
+      nome,
+      email,
+      senha,
+      role: tipoUsuario
+    });
+    alert('Cadastro realizado com sucesso!');
+    // ...
+  } catch (error) {
+    alert('Erro no cadastro!');
+    console.error(error);
+  }
+};
 
-    alert('Cadastro realizado com sucesso! 👍');
-  };
+
+
 
   return (
     <main>
@@ -96,6 +112,6 @@ function Cadastro() {
       </form>
     </main>
   );
-}
+};
 
 export default Cadastro;

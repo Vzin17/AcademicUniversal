@@ -3,7 +3,10 @@ import './App.css';
 import Header from './Componentes/Header/Header';
 import Footer from './Componentes/Footer/Footer';
 import Inicio from './Pages/Incio/Inicio';
+
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './Contexts/AuthContext';
+
 import Cadastro from './Pages/Cadastro';
 import Estudante from './Pages/Estudante';
 import Professor from './Pages/Coordenador';
@@ -19,28 +22,30 @@ import Contato from './Pages/Contato';
 
 function App() {
   return (
+    <AuthProvider>
 
-    <BrowserRouter>
-      <div className="App">
-        <Header />
+      <BrowserRouter>
+        <div className="App">
+          <Header />
 
-        <main>
-          <Routes>
-            <Route path="/" element={<Inicio />} />
-            <Route path="/cadastro" element={<Cadastro />} />
-            <Route path="/estudante" element={<Estudante />} />
-            <Route path="/professor" element={<Professor />} />
-            <Route path="/paciente" element={<Paciente />} />
-            <Route path="/agendamento" element={<Agendamento />} />
-            <Route path="/servicos" element={<Servicos />} />
-            <Route path="/projeto" element={<Projeto />} />
-            <Route path="/contato" element={<Contato />} />
-          </Routes>
-        </main>
+          <main>
+            <Routes>
+              <Route path="/" element={<Inicio />} />
+              <Route path="/cadastro" element={<Cadastro />} />
+              <Route path="/estudante" element={<Estudante />} />
+              <Route path="/professor" element={<Professor />} />
+              <Route path="/paciente" element={<Paciente />} />
+              <Route path="/agendamento" element={<Agendamento />} />
+              <Route path="/servicos" element={<Servicos />} />
+              <Route path="/projeto" element={<Projeto />} />
+              <Route path="/contato" element={<Contato />} />
+            </Routes>
+          </main>
 
-        <Footer />
-      </div>
-    </BrowserRouter>
+          <Footer />
+        </div>
+      </BrowserRouter>
+    </AuthProvider>  
   );
 }
 

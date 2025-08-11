@@ -1,16 +1,12 @@
-// Header.jsx
+// Header.jsx (Refatorado)
 import './Header.css';
 import logo from './Imgs/InterSocial.png';
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useAuth } from '../../Contexts/AuthContext';  // Importe nosso hook!
 
 function Header() {
-  const [tipoUsuario, setTipoUsuario] = useState(null);
-
-  useEffect(() => {
-    const dados = JSON.parse(localStorage.getItem("usuario"));
-    if (dados) setTipoUsuario(dados.tipo);
-  }, []);
+  // ADEUS ao useState e useEffect daqui! Agora vem tudo do contexto.
+  const { isAuthenticated, user, logout } = useAuth();
 
   return (
     <header className='meu-cabecalho'>
@@ -24,30 +20,37 @@ function Header() {
       <nav className="menu-navegacao">
         <ul>
           <li><Link to="/">Início</Link></li>
-          <li><Link to="/cadastro">Cadastro</Link></li>
+          {!isAuthenticated && <li><Link to="/cadastro">Cadastro</Link></li>} {/* Mostra só se não estiver logado */}
           <li><Link to="/servicos">Serviços</Link></li>
           <li><Link to="/projeto">O Projeto</Link></li>
           <li><Link to="/contato">Contato</Link></li>
 
-          {tipoUsuario === "aluno" && (
+          {/* Menus que aparecem baseado no `role` do usuário logado */}
+          {isAuthenticated && user.role === 'ALUNO' && (
             <>
               <li><Link to="/agendamento">Agendar Consulta</Link></li>
-              <li><Link to="/historico">Histórico atendimentos</Link></li>
-              <li><Link to="/relatorio">Relatórios dos Atendimentos</Link></li>
+              <li><Link to="/historico">Meu Histórico</Link></li>
             </>
           )}
 
-          {tipoUsuario === "coordenador" && (
+          {isAuthenticated && user.role === 'COORDENADOR' && (
             <>
-              <li><Link to="/gerenciar-alunos">Gerenciar Alunos</Link></li>
-              <li><Link to="/consultas">Consultas Agendadas</Link></li>
+              <li><Link to="/admin/gerenciar-alunos">Gerenciar Alunos</Link></li>
+              <li><Link to="/admin/consultas">Consultas Agendadas</Link></li>
             </>
           )}
         </ul>
       </nav>
 
       <div className="menu-conta">
-        <a href="#login-voluntario">Conta</a>
+        {isAuthenticated ? (
+          <>
+            <span>Olá, {user.nome}</span>
+            <button onClick={logout}>Sair</button> {/* Botão de Logout! */}
+          </>
+        ) : (
+          <Link to="/login">Entrar</Link> // Link para a página de Login
+        )}
       </div>
     </header>
   );
