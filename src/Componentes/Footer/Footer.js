@@ -1,5 +1,5 @@
 import './Footer.css';
-
+import { Link } from 'react-router-dom';
 function Footer(){
     return(
     <footer>
@@ -8,14 +8,12 @@ function Footer(){
         </div>
         
         <div className='denuncia'>
-            <h1 className='denuncia'> Denúncia anonima </h1>
+            <Link to ='/denuncia' className='denuncia'> Denúncia anonima </Link>
         </div>
         
     </footer>
 
 );
-
-
 }
 
 
