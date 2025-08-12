@@ -52,6 +52,7 @@ const handleSubmit = async (event) => {
     <main>
       <img src={logo} alt="Logotipo Inter Social" />
       <h2>Cadastro</h2>
+
       <form className="formulario" onSubmit={handleSubmit}>
         <input 
           type="text" 
@@ -106,6 +107,17 @@ const handleSubmit = async (event) => {
           <option value="Coordenador">Coordenador</option>
           <option value="Paciente">Paciente</option>
           <option value="Recepcionista">Recepcionista</option>
+
+      <form className="formulario">
+        <input type="text" placeholder="Nome" required />
+        <input type="email" placeholder="Email" required />
+        <select required>
+          <option value="">Selecione</option>
+          <option>Estudante</option>
+          <option>Coordenador</option>
+          <option>Paciente</option>
+          <option>Recepcionista</option>
+
         </select>
         
         <button type="submit">Cadastrar</button>

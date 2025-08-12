@@ -26,6 +26,7 @@ const servicesData = [
       description: "Entender seus direitos é o primeiro passo para a cidadania. Oferecemos orientação jurídica clara e acessível para resolver questões do cotidiano.",
       items: ["Orientação em Direito da Família", "Apoio em Direito do Consumidor", "Esclarecimentos sobre contratos", "Mediação de conflitos"]
     },
+
 ];
 
 function Servicos() {
