@@ -1,5 +1,4 @@
 import './Inicio.css';
-import { Link } from 'react-router-dom';
 
 function Inicio(){
 
@@ -10,9 +9,7 @@ function Inicio(){
         <h1> para atendimento gratuito para a comunidade.</h1>
         <p>Unindo estudantes e professores para oferecer o apoio jurídico, psicológico e de saúde que você precisa!</p>
         
-        <Link to="/voluntario">
-            <button>Quero ser voluntário!</button>
-        </Link>
+
 
     </section>
 
