@@ -27,12 +27,7 @@ const servicesData = [
       description: "Entender seus direitos é o primeiro passo para a cidadania. Oferecemos orientação jurídica clara e acessível para resolver questões do cotidiano.",
       items: ["Orientação em Direito da Família", "Apoio em Direito do Consumidor", "Esclarecimentos sobre contratos", "Mediação de conflitos"]
     },
-    {
-      icon: "fa-solid fa-pills",
-      title: "Saúde no Uso de Medicamentos",
-      description: "Um medicamento usado de forma errada pode ser um risco. Nossa equipe oferece orientação para garantir que seu tratamento seja seguro e eficaz.",
-      items: ["Orientação sobre doses e horários", "Esclarecimento de interações", "Instruções de armazenamento", "Aconselhamento sobre uso racional"]
-    }
+   
 ];
 
 function Servicos() {

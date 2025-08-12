@@ -12,8 +12,9 @@ function Cadastro() {
         <select required>
           <option value="">Selecione</option>
           <option>Estudante</option>
-          <option>Professor</option>
+          <option>Coordenador</option>
           <option>Paciente</option>
+          <option>Recepcionista</option>
         </select>
         <button type="submit">Enviar</button>
       </form>
