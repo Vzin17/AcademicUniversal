@@ -23,5 +23,5 @@ api.interceptors.request.use(async (config) => {
 });
 
 
-// 8. Exportamos a instância 'api' configurada para ser usada em outros arquivos.
+
 export default api;

@@ -45,85 +45,73 @@ const handleSubmit = async (event) => {
   }
 };
 
+return(
+  <main>
+    <img src={logo} alt="Logotipo Vincle" />
+    <h2>Cadastro</h2>
 
+    <form className="formulario" onSubmit={handleSubmit}>
+      <input 
+        type="text" 
+        placeholder="Nome" 
+        value={nome}
+        onChange={(e) => setNome(e.target.value)}
+        required 
+      />
+      <input 
+        type="email" 
+        placeholder="Email" 
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        required 
+      />
 
-
-  return (
-    <main>
-      <img src={logo} alt="Logotipo Inter Social" />
-      <h2>Cadastro</h2>
-
-      <form className="formulario" onSubmit={handleSubmit}>
-        <input 
-          type="text" 
-          placeholder="Nome" 
-          value={nome}
-          onChange={(e) => setNome(e.target.value)}
-          required 
-        />
-        <input 
-          type="email" 
-          placeholder="Email" 
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required 
-        />
-
-        {/* Campo de Senha */}
-        <div className="password-container">
-          <input
-            type={showPassword ? 'text' : 'password'}
-            placeholder='Senha'
-            value={senha}
-            onChange={(e) => setSenha(e.target.value)}
-            required
-          />
-          <span className="password-icon" onClick={() => setShowPassword(!showPassword)}>
-            {showPassword ? <FaEye /> : <FaEyeSlash />}
-          </span>
-        </div>
-
-        {/* Campo de Confirmar Senha */}
-        <div className="password-container">
-          <input
-            type={showConfirmPassword ? 'text' : 'password'}
-            placeholder='Confirmar Senha'
-            value={confirmaSenha}
-            onChange={(e) => setConfirmaSenha(e.target.value)}
-            required
-          />
-          <span className="password-icon" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
-            {showConfirmPassword ? <FaEye /> : <FaEyeSlash />}
-          </span>
-        </div>
-
-        <select 
-          value={tipoUsuario}
-          onChange={(e) => setTipoUsuario(e.target.value)}
+      {/* Campo de Senha */}
+      <div className="password-container">
+        <input
+          type={showPassword ? 'text' : 'password'}
+          placeholder='Senha'
+          value={senha}
+          onChange={(e) => setSenha(e.target.value)}
           required
-        >
-          <option value="">Selecione seu perfil</option>
-          <option value="Estudante">Estudante</option>
-          <option value="Coordenador">Coordenador</option>
-          <option value="Paciente">Paciente</option>
-          <option value="Recepcionista">Recepcionista</option>
+        />
+        <span className="password-icon" onClick={() => setShowPassword(!showPassword)}>
+          {showPassword ? <FaEye /> : <FaEyeSlash />}
+        </span>
+      </div>
 
-      <form className="formulario">
-        <input type="text" placeholder="Nome" required />
-        <input type="email" placeholder="Email" required />
-        <select required>
-          <option value="">Selecione</option>
-          <option>Estudante</option>
-          <option>Coordenador</option>
-          <option>Paciente</option>
-          <option>Recepcionista</option>
+      {/* Campo de Confirmar Senha */}
+      <div className="password-container">
+        <input
+          type={showConfirmPassword ? 'text' : 'password'}
+          placeholder='Confirmar Senha'
+          value={confirmaSenha}
+          onChange={(e) => setConfirmaSenha(e.target.value)}
+          required
+        />
+        <span className="password-icon" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
+          {showConfirmPassword ? <FaEye /> : <FaEyeSlash />}
+        </span>
+      </div>
 
-        </select>
-        
-        <button type="submit">Cadastrar</button>
-      </form>
-    </main>
-  );
+      <select 
+        value={tipoUsuario}
+        onChange={(e) => setTipoUsuario(e.target.value)}
+        required
+      >
+        <option value="">Selecione seu perfil</option>
+        <option value="Estudante">Estudante</option>
+        <option value="Coordenador">Coordenador</option>
+        <option value="Paciente">Paciente</option>
+        <option value="Recepcionista">Recepcionista</option>
+      </select>
+      
+      <button type="submit">Cadastrar</button>
+    </form>
+  </main>
+);
+
 };
+
 
 export default Cadastro;

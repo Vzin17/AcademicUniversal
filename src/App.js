@@ -31,7 +31,6 @@ function App() {
         <main>
           <Routes>
             <Route path="/" element={<Inicio />} />
-            <Route path="/voluntario" element={<Voluntario />} />
             <Route path="/cadastro" element={<Cadastro />} />
             <Route path="/estudante" element={<Estudante />} />
             <Route path="/professor" element={<Professor />} />
