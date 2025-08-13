@@ -2,10 +2,10 @@
 import './Header.css';
 import logo from './Imgs/InterSocial.png';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../../Contexts/AuthContext';  // Importe nosso hook!
+import { useAuth } from '../../Contexts/AuthContext';
+import Login from '../../Pages/Login';  // Importe nosso hook!
 
 function Header() {
-  // ADEUS ao useState e useEffect daqui! Agora vem tudo do contexto.
   const { isAuthenticated, user, logout } = useAuth();
 
   return (
@@ -23,7 +23,7 @@ function Header() {
           {!isAuthenticated && <li><Link to="/cadastro">Cadastro</Link></li>} {/* Mostra só se não estiver logado */}
           <li><Link to="/servicos">Serviços</Link></li>
           <li><Link to="/projeto">O Projeto</Link></li>
-          <li><Link to="/contato">Contato</Link></li>
+
 
           {/* Menus que aparecem baseado no `role` do usuário logado */}
           {isAuthenticated && user.role === 'ALUNO' && (
