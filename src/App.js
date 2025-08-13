@@ -15,7 +15,6 @@ import Agendamento from './Pages/Agendamento';
 import Servicos from './Pages/Servicos';
 import Projeto from './Pages/Projeto';
 import Contato from './Pages/Contato';
-import denuncia from './Pages/Denuncia';
 import Denuncia from './Pages/Denuncia';
 
 

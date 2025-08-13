@@ -18,8 +18,8 @@ function Cadastro() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const navigate = useNavigate(); // Hook para redirecionar o usuário
-  
+
+const navigate = useNavigate();
   
   
 const handleSubmit = async (event) => {
@@ -28,10 +28,8 @@ const handleSubmit = async (event) => {
     alert("Erro: As senhas não correspondem!");
     return;
   } 
-  // ... (validação da senha) ...
-  
+
   try {
-    // AGORA SIM! O `api.post` existe e vai funcionar!
     await api.post('/usuarios', {
       nome,
       email,
@@ -39,7 +37,6 @@ const handleSubmit = async (event) => {
       role: tipoUsuario
     });
     alert('Cadastro realizado com sucesso!');
-    // ...
   } catch (error) {
     alert('Erro no cadastro!');
     console.error(error);
@@ -67,7 +64,6 @@ return(
         required 
       />
 
-      {/* Campo de Senha */}
       <div className="password-container">
         <input
           type={showPassword ? 'text' : 'password'}
@@ -81,7 +77,6 @@ return(
         </span>
       </div>
 
-      {/* Campo de Confirmar Senha */}
       <div className="password-container">
         <input
           type={showConfirmPassword ? 'text' : 'password'}
