@@ -18,16 +18,16 @@ function Cadastro() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const navigate = useNavigate();
 
+const navigate = useNavigate();
+  
   
 const handleSubmit = async (event) => {
-  event.preventDefault();
-  
-  if (senha !== confirmaSenha) {
+    event.preventDefault();
+    if (senha !== confirmaSenha) {
     alert("Erro: As senhas não correspondem!");
-    return; 
-  }
+    return;
+  } 
 
   try {
     await api.post('/usuarios', {
