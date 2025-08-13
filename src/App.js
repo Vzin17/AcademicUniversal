@@ -16,6 +16,7 @@ import Servicos from './Pages/Servicos';
 import Projeto from './Pages/Projeto';
 import Contato from './Pages/Contato';
 import Denuncia from './Pages/Denuncia';
+import Login from './Pages/Login';
 
 
 
@@ -39,6 +40,7 @@ function App() {
             <Route path="/projeto" element={<Projeto />} />
             <Route path="/contato" element={<Contato />} />
             <Route path="/denuncia" element={<Denuncia />} />
+            <Route path="/logar" element={Login} />
           </Routes>
         </main>
 

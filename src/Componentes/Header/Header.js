@@ -2,7 +2,8 @@
 import './Header.css';
 import logo from './Imgs/InterSocial.png';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../../Contexts/AuthContext';  // Importe nosso hook!
+import { useAuth } from '../../Contexts/AuthContext';
+import Login from '../../Pages/Login';  // Importe nosso hook!
 
 function Header() {
   const { isAuthenticated, user, logout } = useAuth();

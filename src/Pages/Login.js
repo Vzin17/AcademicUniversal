@@ -1,15 +1,13 @@
 import { useState } from 'react';
-import './CSS_Pgs/Cadastro.css';
+import './CSS_Pgs/Login.css';
 import logo from '../Componentes/IMAGENS/InterSocial.png';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import api from '../services/api';
 import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 
 
-function Cadastro() {
+function Login() {
 
-  const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [confirmaSenha, setConfirmaSenha] = useState('');
@@ -32,7 +30,6 @@ const handleSubmit = async (event) => {
 
   try {
     await api.post('/usuarios', {
-      nome,
       email,
       senha,
       role: tipoUsuario
@@ -50,13 +47,6 @@ return(
     <h2>Cadastro</h2>
 
     <form className="formulario" onSubmit={handleSubmit}>
-      <input 
-        type="text" 
-        placeholder="Nome" 
-        value={nome}
-        onChange={(e) => setNome(e.target.value)}
-        required 
-      />
       <input 
         type="email" 
         placeholder="Email" 
@@ -103,16 +93,12 @@ return(
         <option value="Recepcionista">Recepcionista</option>
       </select>
       
-      <button type="submit">Cadastrar</button>
+      <button type="submit">Entrar</button>
     </form>
-
-    <div className='Entrar'>
-      <Link to = '/logar' className="logar"> Entrar </Link>
-    </div>
   </main>
 );
 
 };
 
 
-export default Cadastro;
+export default Login;
