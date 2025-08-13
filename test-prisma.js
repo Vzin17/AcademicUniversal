@@ -1,31 +1,7 @@
-import reportWebVitals from './reportWebVitals';
-// src/index.js
+// test-prisma.js
 
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-
-
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    {/* 2. Envolva o <App /> com o <BrowserRouter> */}
-     <App />
-  
-  </React.StrictMode>
-);
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
-
-
-
-// Em um arquivo como src/index.js
-
-// O caminho da importação está correto, baseado na sua configuração
-import { PrismaClient } from './generated/prisma/index.js';
+// Note que o caminho para a importação mudou um pouco, pois estamos na raiz do projeto
+import { PrismaClient } from './src/generated/prisma/index.js';
 
 const prisma = new PrismaClient();
 
