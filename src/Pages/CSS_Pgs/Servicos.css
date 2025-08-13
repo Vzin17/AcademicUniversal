@@ -42,8 +42,8 @@
 
 /* Container dos Cards */
 .services-container {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   justify-content: center;
   gap: 2rem;
 }
@@ -55,7 +55,7 @@
   padding: 2.5rem;
   box-shadow: 0 10px 25px var(--cor-sombra);
   flex: 1 1 320px;
-  max-width: 380px;
+  max-width: 850px;
   text-align: left;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -193,4 +193,19 @@
   .cta-section h2 {
     font-size: 1.8rem;
   }
+}
+
+
+/* Container dos Cards */
+.services-container {
+  /* Layout em grade com 2 colunas */
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+
+  /* Controla o tamanho e o alinhamento do conjunto de caixas */
+  max-width: 960px;
+  margin: 0 auto;
+
+  /* Espaçamento entre as caixas */
+  gap: 2rem;
 }

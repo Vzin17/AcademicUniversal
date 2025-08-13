@@ -20,13 +20,14 @@ function Cadastro() {
 
   const navigate = useNavigate(); // Hook para redirecionar o usuário
   
-  if (senha !== confirmaSenha) {
-    alert("Erro: As senhas não correspondem!");
-    return;
-  }
+  
   
 const handleSubmit = async (event) => {
-  event.preventDefault();
+    event.preventDefault();
+    if (senha !== confirmaSenha) {
+    alert("Erro: As senhas não correspondem!");
+    return;
+  } 
   // ... (validação da senha) ...
   
   try {
