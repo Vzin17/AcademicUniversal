@@ -1,104 +1,61 @@
-import { useState } from 'react';
-import './CSS_Pgs/Login.css';
-import logo from '../Componentes/IMAGENS/InterSocial.png';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import api from '../services/api';
-import { useNavigate } from 'react-router-dom';
+// src/pages/Login/index.js
 
+import React, { useState } from 'react';
+import { useAuth } from '../../contexts/AuthContext'; // Verifique se o caminho está certo!
+import { useNavigate, Link } from 'react-router-dom';
 
 function Login() {
-
   const [email, setEmail] = useState('');
-  const [senha, setSenha] = useState('');
-  const [confirmaSenha, setConfirmaSenha] = useState('');
-  const [tipoUsuario, setTipoUsuario] = useState('');
+  const [password, setPassword] = useState('');
 
+  const { login } = useAuth(); // Pegamos a função de login do nosso contexto!
+  const navigate = useNavigate();
 
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  async function handleSubmit(e) {
+    e.preventDefault(); // Impede o recarregamento da página
 
+    try {
+      // Chama a função de login que está no AuthContext
+      await login(email, password);
 
-const navigate = useNavigate();
-  
-  
-const handleSubmit = async (event) => {
-    event.preventDefault();
-    if (senha !== confirmaSenha) {
-    alert("Erro: As senhas não correspondem!");
-    return;
-  } 
+      // Se o login deu certo, navega para a página principal/dashboard
+      navigate('/dashboard'); // Mude '/dashboard' para a sua rota protegida
 
-  try {
-    await api.post('/usuarios', {
-      email,
-      senha,
-      role: tipoUsuario
-    });
-    alert('Cadastro realizado com sucesso!');
-  } catch (error) {
-    alert('Erro no cadastro!');
-    console.error(error);
+    } catch (error) {
+      // O próprio AuthContext já vai mostrar um alerta de erro!
+      console.error("Falha no login", error);
+    }
   }
-};
 
-return(
-  <main>
-    <img src={logo} alt="Logotipo Vincle" />
-    <h2>Cadastro</h2>
-
-    <form className="formulario" onSubmit={handleSubmit}>
-      <input 
-        type="email" 
-        placeholder="Email" 
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        required 
-      />
-
-      <div className="password-container">
+  return (
+    <div>
+      <h2>Entrar</h2>
+      <form onSubmit={handleSubmit}>
+        <label htmlFor="email">Email</label>
         <input
-          type={showPassword ? 'text' : 'password'}
-          placeholder='Senha'
-          value={senha}
-          onChange={(e) => setSenha(e.target.value)}
+          id="email"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           required
         />
-        <span className="password-icon" onClick={() => setShowPassword(!showPassword)}>
-          {showPassword ? <FaEye /> : <FaEyeSlash />}
-        </span>
-      </div>
 
-      <div className="password-container">
+        <label htmlFor="password">Senha</label>
         <input
-          type={showConfirmPassword ? 'text' : 'password'}
-          placeholder='Confirmar Senha'
-          value={confirmaSenha}
-          onChange={(e) => setConfirmaSenha(e.target.value)}
+          id="password"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <span className="password-icon" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
-          {showConfirmPassword ? <FaEye /> : <FaEyeSlash />}
-        </span>
-      </div>
 
-      <select 
-        value={tipoUsuario}
-        onChange={(e) => setTipoUsuario(e.target.value)}
-        required
-      >
-        <option value="">Selecione seu perfil</option>
-        <option value="Estudante">Estudante</option>
-        <option value="Coordenador">Coordenador</option>
-        <option value="Paciente">Paciente</option>
-        <option value="Recepcionista">Recepcionista</option>
-      </select>
-      
-      <button type="submit">Entrar</button>
-    </form>
-  </main>
-);
-
-};
-
+        <button type="submit">Entrar</button>
+      </form>
+      <p>
+        Não tem uma conta? <Link to="/register">Cadastre-se</Link>
+      </p>
+    </div>
+  );
+}
 
 export default Login;
