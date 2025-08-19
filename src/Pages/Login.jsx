@@ -1,7 +1,7 @@
 // src/pages/Login/index.js
 
 import React, { useState } from 'react';
-import { useAuth } from '../../contexts/AuthContext'; // Verifique se o caminho está certo!
+import { useAuth } from '../contexts/AuthContext'; // Verifique se o caminho está certo!
 import { useNavigate, Link } from 'react-router-dom';
 
 function Login() {
@@ -52,7 +52,7 @@ function Login() {
         <button type="submit">Entrar</button>
       </form>
       <p>
-        Não tem uma conta? <Link to="/register">Cadastre-se</Link>
+        Não tem uma conta? <Link to="/cadastro">Cadastre-se</Link>
       </p>
     </div>
   );

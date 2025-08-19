@@ -1,11 +1,11 @@
 import './App.css';
+import React from 'react';
 
 import Header from './Componentes/Header/Header';
 import Footer from './Componentes/Footer/Footer';
 import Inicio from './Pages/Incio/Inicio';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { AuthProvider } from './Contexts/AuthContext';
 
 import Cadastro from './Pages/Cadastro';
 import Estudante from './Pages/Estudante';
@@ -17,7 +17,7 @@ import Projeto from './Pages/Projeto';
 import Contato from './Pages/Contato';
 import Denuncia from './Pages/Denuncia';
 import Login from './Pages/Login'; // Importe o novo componente
-import Register from './pages/Register';
+import Register from './Pages/Register';
 
 
 
@@ -41,7 +41,7 @@ function App() {
             <Route path="/projeto" element={<Projeto />} />
             <Route path="/contato" element={<Contato />} />
             <Route path="/denuncia" element={<Denuncia />} />
-            <Route path="/login" element={Login} />
+            <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
           </Routes>
         </main>

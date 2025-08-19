@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState } from 'react';
 import './CSS_Pgs/Cadastro.css';
 import logo from '../Componentes/IMAGENS/InterSocial.png';
@@ -107,7 +108,7 @@ return(
     </form>
 
     <div className='Entrar'>
-      <Link to = '/logar' className="logar"> Entrar </Link>
+      <Link to = '/login' className="logar"> Entrar </Link>
     </div>
   </main>
 );
