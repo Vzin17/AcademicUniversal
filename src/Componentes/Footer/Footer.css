@@ -1,10 +1,26 @@
-.Rodape {
+
+
+
+footer {
   text-align: center;
   padding: 10px 0;
-  background-color: #9fd4fc;
+  background: linear-gradient(to right, #4da8f8, #005893);
   border-top: 2px solid #535353;
 }
 
-.Rodape h1{
-    font-size: 20px;
+/* Estilo para o texto de Copyright usando a classe que você criou */
+.Copy {
+  font-size: 20px;
+  color: #000000; /* Mudei para branco para ter um bom contraste com o fundo azul */
+  margin: 10px 0; /* Adiciona um espaçamento */
+}
+
+/* Estilo para a parte da "Denúncia anônima" */
+.denuncia h1 {
+  font-size: 16px;
+  color: #000000;
+  font-weight: normal; /* Deixa a fonte mais fina */
+  margin: 5px 0;
+  text-decoration: underline; /* Sugestão: Adicionar um sublinhado se for um link */
+  cursor: pointer;
 }

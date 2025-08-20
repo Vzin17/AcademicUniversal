@@ -6,8 +6,11 @@
   justify-content: center;
   text-align: center;
   padding: 80px 20px;
-  background: linear-gradient(to right, #3fa7ff, #6bc5ff);
+  background: linear-gradient(to right, #4da8f8, #005893);
   color: #fff;
+  width: 100vw;
+  min-height: 65vh;
+  padding-top: 100px;
 }
 
 .hero h1 {
@@ -15,28 +18,16 @@
   margin-bottom: 10px;
   font-weight: bold;
   text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+  margin: 0;
+  padding: 0;
 }
 
 .hero p {
   font-size: 20px;
   margin-bottom: 20px;
   max-width: 600px;
-}
-
-.hero button {
-  background-color: #fff;
-  color: #0078d7;
-  border: none;
-  padding: 12px 24px;
-  font-size: 18px;
-  font-weight: 600;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.hero button:hover {
-  background-color: #f0f0f0;
+  margin: 0;
+  padding: 0;
 }
 
 /* --- Features Section --- */
