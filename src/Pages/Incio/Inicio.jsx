@@ -1,19 +1,16 @@
+import React from 'react';
 import './Inicio.css';
-import { useNavigate } from 'react-router-dom';
 
 function Inicio(){
-  const navigate = useNavigate();
-
-  const handleClick = () => {
-    navigate('/criarConta');
-  };
 
     return(
     <main>
     <section className="hero">
-        <h1>Conectando Universitários e Profissionais, para atendimento gratuito para a comunidade.</h1>
+        <h1>Conectando Universitários e Profissionais,</h1>
+        <h1> para atendimento gratuito para a comunidade.</h1>
         <p>Unindo estudantes e professores para oferecer o apoio jurídico, psicológico e de saúde que você precisa!</p>
-        <button onClick={handleClick}>Saiba como ser atendido</button>
+        
+
 
     </section>
 
@@ -43,7 +40,6 @@ function Inicio(){
 
         </div>
     </section>
-
     </main>
 
     );

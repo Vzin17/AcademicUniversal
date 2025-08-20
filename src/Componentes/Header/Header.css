@@ -1,13 +1,18 @@
 
 .meu-cabecalho {
-  display: flex;
-  flex-direction: row; 
-  justify-content: space-between;
-  align-items: center; 
-  padding: 5px 20px; 
-  background: linear-gradient(to right, #5c84a7, #72daf1);
+  margin: auto;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+
   width: 100%;
-  box-sizing: border-box; 
+  height: 80px; /* define uma altura fixa */
+  background: linear-gradient(to right, #5c84a7, #72daf1);
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
 }
 
 .logo-e-titulo {
