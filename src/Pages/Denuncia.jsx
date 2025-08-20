@@ -13,7 +13,7 @@ function Denuncia() {
 
 export default Denuncia;
 */
-
+import React from 'react';
 import './CSS_Pgs/Denuncia.css';
 
 function Denuncia() {

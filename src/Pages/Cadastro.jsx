@@ -1,9 +1,11 @@
+import React from 'react';
 import { useState } from 'react';
 import './CSS_Pgs/Cadastro.css';
 import logo from '../Componentes/IMAGENS/InterSocial.png';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import api from '../services/api';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 
 function Cadastro() {
@@ -104,6 +106,10 @@ return(
       
       <button type="submit">Cadastrar</button>
     </form>
+
+    <div className='Entrar'>
+      <Link to = '/login' className="logar"> Entrar </Link>
+    </div>
   </main>
 );
 
