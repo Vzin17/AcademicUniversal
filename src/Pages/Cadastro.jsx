@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState } from 'react';
 import './CSS_Pgs/Cadastro.css';
 import logo from '../Componentes/IMAGENS/InterSocial.png';

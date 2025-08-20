@@ -1,4 +1,6 @@
 // Header.jsx (Refatorado)
+import React from 'react';
+
 import './Header.css';
 import logo from './Imgs/InterSocial.png';
 import { Link } from 'react-router-dom';

@@ -1,4 +1,4 @@
-
+import React from 'react';
 import './CSS_Pgs/Servicos.css'; 
 
 const servicesData = [
