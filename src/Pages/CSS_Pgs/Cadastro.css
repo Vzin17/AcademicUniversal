@@ -93,22 +93,31 @@ main h2 {
 }
 
 .password-container {
-  position: relative; 
-  width: 100%; 
+  position: relative;
+  width: 100%;
 }
 
 .password-container input {
   width: 100%;
-  padding-right: 45px;
+  padding: 14px 45px 14px 16px; /* mesmo padding do cadastro + espaço pro ícone */
+  font-size: 1rem;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
   box-sizing: border-box;
 }
 
 .password-icon {
   position: absolute;
   top: 50%;
-  right: 15px;
+  right: 16px; /* mesmo valor do padding lateral */
   transform: translateY(-50%);
   cursor: pointer;
   color: #555;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
+  line-height: 0; /* evita deslocamento vertical */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 20px; /* ajuda no centramento visual */
 }

@@ -1,3 +1,4 @@
+import React from 'react';
 import './CSS_Pgs/Projeto.css';
 
 function Projeto() {
