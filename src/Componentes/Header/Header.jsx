@@ -1,10 +1,10 @@
 // Header.jsx (Refatorado)
 import React from 'react';
-
 import './Header.css';
 import logo from './Imgs/InterSocial.png';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../../Contexts/AuthContext';  // Importe nosso hook!
+import { useAuth } from '../../contexts/AuthContext';
+
 
 function Header() {
   const { isAuthenticated, user, logout } = useAuth();

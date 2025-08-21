@@ -1,0 +1,113 @@
+/* src/pages/Login/style.css */
+
+/* Fundo geral */
+body {
+  background-color: #eaf6ff; /* azul claro */
+  font-family: Arial, sans-serif;
+}
+
+/* Título */
+h2 {
+  text-align: center;
+  color: #003366; /* azul escuro */
+  margin-bottom: 1.5rem;
+}
+
+/* Formulário centralizado */
+form {
+  background: #fff;
+  max-width: 400px;
+  margin: 5% auto;
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Labels */
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #333;
+}
+
+/* Inputs */
+input {
+  width: 100%;
+  padding: 0.8rem;
+  margin-bottom: 1.2rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+input:focus {
+  border-color: #007bff;
+}
+
+/* Botão */
+button {
+  width: 100%;
+  padding: 0.8rem;
+  background-color: #003366;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #00264d;
+}
+
+/* Texto de link */
+p {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.password-container {
+  /* Isso cria um ponto de referência para o ícone */
+  position: relative;
+}
+
+/* Ajuste no input de senha para dar espaço ao ícone */
+.password-container input {
+  /* O padding-right empurra o texto para a esquerda, evitando que fique embaixo do ícone */
+  padding-right: 40px; /* Ajuste este valor conforme o tamanho do ícone */
+}
+
+/* Estilo e posicionamento do ícone */
+.password-icon {
+  /* 'Solta' o ícone para podermos posicioná-lo onde quisermos */
+  position: absolute;
+
+  /* Posiciona o ícone verticalmente no meio */
+  top: 50%;
+
+  /* Distância da borda direita do container */
+  right: 15px;
+
+  /* Truque para centralizar perfeitamente na vertical */
+  transform: translateY(-50%);
+
+  /* Para o mouse virar uma 'mãozinha' ao passar por cima */
+  cursor: pointer;
+
+  /* Uma cor mais sutil para o ícone */
+  color: #888;
+}

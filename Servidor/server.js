@@ -1,19 +1,18 @@
-// ARQUIVO: server.js
 
 import express from 'express';
 import cors from 'cors';
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import 'dotenv/config'; // Garante que as variáveis do .env sejam carregadas
+import 'dotenv/config'; 
 
 const app = express();
-const prisma = new PrismaClient(); // É ISTO que foi gerado! Nosso acesso ao banco.
+const prisma = new PrismaClient(); 
 
 app.use(cors());
 app.use(express.json());
 
-// --- ROTA DE CADASTRO ---
+
 app.post('/register', async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -39,7 +38,6 @@ app.post('/register', async (req, res) => {
   }
 });
 
-// --- ROTA DE LOGIN ---
 app.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
@@ -62,7 +60,7 @@ app.post('/login', async (req, res) => {
       { expiresIn: '7d' }
     );
 
-    // Remove a senha antes de enviar a resposta
+  
     delete user.password;
     res.json({ user, token });
 
