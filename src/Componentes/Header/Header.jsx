@@ -21,7 +21,7 @@ function Header() {
       <nav className="menu-navegacao">
         <ul>
           <li><Link to="/">Início</Link></li>
-          {!isAuthenticated && <li><Link to="/cadastro">Cadastro</Link></li>} {/* Mostra só se não estiver logado */}
+          <li><Link to="/agendamento">Agendamento</Link></li>
           <li><Link to="/servicos">Serviços</Link></li>
           <li><Link to="/projeto">O Projeto</Link></li>
 
