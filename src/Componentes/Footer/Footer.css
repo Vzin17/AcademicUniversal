@@ -18,7 +18,7 @@ footer {
 /* Estilo para a parte da "Denúncia anônima" */
 .denuncia h1 {
   font-size: 16px;
-  color: #000000;
+  color: #008afb;
   font-weight: normal; /* Deixa a fonte mais fina */
   margin: 5px 0;
   text-decoration: underline; /* Sugestão: Adicionar um sublinhado se for um link */
