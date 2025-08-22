@@ -7,7 +7,7 @@ import { useAuth } from '../../contexts/AuthContext';
 
 
 function Header() {
-  const { isAuthenticated, user, logout } = useAuth();
+  const  = useAuth();
 
   return (
     <header className='meu-cabecalho'>
@@ -19,6 +19,7 @@ function Header() {
       </div>
 
       <nav className="menu-navegacao">
+        
         <ul>
           <li><Link to="/">Início</Link></li>
           <li><Link to="/agendamento">Agendamento</Link></li>
@@ -26,7 +27,7 @@ function Header() {
           <li><Link to="/projeto">O Projeto</Link></li>
 
 
-          {/* Menus que aparecem baseado no `role` do usuário logado */}
+          
           {isAuthenticated && user.role === 'ALUNO' && (
             <>
               <li><Link to="/agendamento">Agendar Consulta</Link></li>
