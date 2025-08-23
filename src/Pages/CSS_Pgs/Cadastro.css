@@ -119,5 +119,44 @@ main h2 {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 20px; /* ajuda no centramento visual */
+  height: 20px; 
 }
+
+
+/* Estilos para o seletor de perfil */
+.seletor-perfil p {
+  font-weight: bold;
+  text-align: left;
+  margin-bottom: 10px;
+}
+
+.opcoes-perfil {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+.opcoes-perfil button {
+  flex: 1;
+  background-color: #f0f0f0;
+  color: #555;
+  border: 1px solid #ccc;
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.opcoes-perfil button:hover {
+  background-color: #e0e0e0;
+}
+
+.opcoes-perfil button.ativo {
+  background-color: #0a3d62;
+  color: white;
+  border-color: #0a3d62;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+

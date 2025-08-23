@@ -11,6 +11,7 @@
   width: 100vw;
   min-height: 65vh;
   padding-top: 100px;
+  box-sizing: border-box; 
 }
 
 .hero h1 {

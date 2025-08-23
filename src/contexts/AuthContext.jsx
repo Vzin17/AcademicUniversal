@@ -8,7 +8,6 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    // Carrega os dados do usuário do localStorage se a página for recarregada
     const storagedUser = localStorage.getItem('@Vincle:user');
     const storagedToken = localStorage.getItem('@Vincle:token');
 

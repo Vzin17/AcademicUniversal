@@ -7,7 +7,8 @@ import { useAuth } from '../../contexts/AuthContext';
 
 
 function Header() {
-  const  = useAuth();
+  // CORREÇÃO: Desestruturando o objeto retornado por useAuth()
+  const { isAuthenticated, user, logout } = useAuth();
 
   return (
     <header className='meu-cabecalho'>
@@ -19,33 +20,37 @@ function Header() {
       </div>
 
       <nav className="menu-navegacao">
-        
         <ul>
           <li><Link to="/">Início</Link></li>
+
           <li><Link to="/agendamento">Agendamento</Link></li>
+
           <li><Link to="/servicos">Serviços</Link></li>
+
           <li><Link to="/projeto">O Projeto</Link></li>
 
-
-          
-          {isAuthenticated && user.role === 'ALUNO' && (
+          {isAuthenticated && user && (
             <>
-              <li><Link to="/agendamento">Agendar Consulta</Link></li>
-              <li><Link to="/historico">Meu Histórico</Link></li>
-            </>
-          )}
-
-          {isAuthenticated && user.role === 'COORDENADOR' && (
-            <>
-              <li><Link to="/admin/gerenciar-alunos">Gerenciar Alunos</Link></li>
-              <li><Link to="/admin/consultas">Consultas Agendadas</Link></li>
+              {user.role === 'ALUNO' && (
+                <>
+                  {/* Mantido apenas o link de agendamento principal */}
+                  <li><Link to="/agendamento">Agendar Consulta</Link></li>
+                  <li><Link to="/historico">Meu Histórico</Link></li>
+                </>
+              )}
+              {user.role === 'COORDENADOR' && (
+                <>
+                  <li><Link to="/admin/gerenciar-alunos">Gerenciar Alunos</Link></li>
+                  <li><Link to="/admin/consultas">Consultas Agendadas</Link></li>
+                </>
+              )}
             </>
           )}
         </ul>
       </nav>
 
       <div className="menu-conta">
-        {isAuthenticated ? (
+        {isAuthenticated && user ? (
           <>
             <span>Olá, {user.nome}</span>
             <button onClick={logout}>Sair</button> {/* Botão de Logout! */}
