@@ -1,26 +1,32 @@
 
-
-
+/* Estilo geral do rodapé */
 footer {
   text-align: center;
-  padding: 10px 0;
+  padding: 20px 0; /* Aumentei um pouco o padding para dar mais respiro */
   background: linear-gradient(to right, #4da8f8, #005893);
   border-top: 2px solid #535353;
+  color: white; /* Define branco como a cor padrão para todo o texto dentro do footer */
 }
 
-/* Estilo para o texto de Copyright usando a classe que você criou */
+/* Estilo para o texto de Copyright */
 .Copy {
   font-size: 20px;
-  color: #000000; /* Mudei para branco para ter um bom contraste com o fundo azul */
-  margin: 10px 0; /* Adiciona um espaçamento */
+  color: #000000; /* O texto do Copyright na sua imagem é preto, então mantive */
+  margin-bottom: 15px; /* Adiciona um espaçamento abaixo */
 }
 
-/* Estilo para a parte da "Denúncia anônima" */
-.denuncia h1 {
+/* Estilo para AMBOS os links do rodapé (Contato e Denúncia) */
+.contato, .denuncia {
+  color: #B0E0E6; /* Um azul claro (PowderBlue) para destacar do fundo */
+  text-decoration: none; /* Remove o sublinhado padrão */
   font-size: 16px;
-  color: #000000;
-  font-weight: normal; /* Deixa a fonte mais fina */
-  margin: 5px 0;
-  text-decoration: underline; /* Sugestão: Adicionar um sublinhado se for um link */
-  cursor: pointer;
+  margin: 0 15px; /* Espaçamento entre os links */
+  display: block; /* Faz cada link ocupar uma linha, como na sua imagem */
+  margin-bottom: 8px; /* Espaço entre "Contato" e "Denúncia" */
+}
+
+/* Efeito ao passar o mouse sobre os links */
+.contato:hover, .denuncia:hover {
+  text-decoration: underline; /* Adiciona sublinhado ao passar o mouse */
+  color: #FFFFFF; /* Muda a cor para branco */
 }
