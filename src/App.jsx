@@ -1,7 +1,7 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, BrowserRouter } from 'react-router-dom';
-import { AuthProvider } from './contexts/AuthContext'; // Importe seu provedor de contexto
-import ProtectedRoute from './Componentes/ProtectedRoute'; // Importe seu componente de rota protegida
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
+import ProtectedRoute from './Componentes/ProtectedRoute';
 
 // Importe todos os seus componentes de página
 import Header from './Componentes/Header/Header.jsx';
@@ -16,58 +16,66 @@ import Denuncia from './Pages/Denuncia';
 import Login from './Pages/Login';
 import Register from './Pages/Register';
 
-// Componentes de áreas protegidas
-import Estudante from './Pages/Estudante';
-import Paciente from './Pages/Paciente';
-import Coordenador from './Pages/Coordenador.jsx';
+// Importe todos os seus componentes de Dashboard
+import AlunoDashboard from './Dashboards/AlunoDashboard.jsx';
+import PacienteDashboard from './Dashboards/PacienteDashboard.jsx';
+import CoordenadorDashboard from './Dashboards/CoordenadorDashboard.jsx';
+import RecepcionistaDashboard from './Dashboards/RecepcionistasDashboard.jsx';
 
+// Este componente escolhe qual dashboard mostrar com base na role do usuário
+const DashboardRouter = () => {
+  const { user } = useAuth();
+  switch (user.role) {
+    case 'aluno':
+      return <AlunoDashboard />;
+    case 'paciente':
+      return <PacienteDashboard />;
+    case 'coordenador':
+      return <CoordenadorDashboard />;
+    case 'recepcionista':
+      return <RecepcionistaDashboard />;
+    default:
+      return <div>Acesso negado.</div>;
+  }
+};
 
 
 function App() {
   return (
-    <AuthProvider>
-      <BrowserRouter>
+    <BrowserRouter>
+      <AuthProvider>
         <div className="App">
           <Header />
 
           <main>
             <Routes>
+              {/* Rotas públicas que você tinha */}
               <Route path="/" element={<Inicio />} />
               <Route path="/cadastro" element={<Cadastro />} />
+              <Route path="/agendamento" element={<Agendamento />} />
               <Route path="/servicos" element={<Servicos />} />
               <Route path="/projeto" element={<Projeto />} />
               <Route path="/contato" element={<Contato />} />
               <Route path="/denuncia" element={<Denuncia />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
-              <Route path="/agendamento" element={<Agendamento />} />
               
-
-        
-              <Route element={<ProtectedRoute allowedRoles={['estudante']} />}>
-                <Route path="/estudante" element={<Estudante />} />
-              </Route>
-
-
-
-              
-            
-              <Route element={<ProtectedRoute allowedRoles={['paciente']} />}>
-                <Route path="/paciente" element={<Paciente />} />
-              </Route>
-
-             
-              <Route element={<ProtectedRoute allowedRoles={['coordenador']} />}>
-                <Route path="/coordenador" element={<Coordenador />} />
-              </Route>
-
+              {/* Rota protegida para os dashboards */}
+              <Route
+                path="/dashboard"
+                element={
+                  <ProtectedRoute allowedRoles={['aluno', 'paciente', 'coordenador', 'recepcionista']}>
+                    <DashboardRouter />
+                  </ProtectedRoute>
+                }
+              />
             </Routes>
           </main>
 
           <Footer />
         </div>
-      </BrowserRouter>
-    </AuthProvider>
+      </AuthProvider>
+    </BrowserRouter>
   );
 }
 
