@@ -1,4 +1,4 @@
-/* Estilo geral do rodapé */
+
 footer {
   text-align: center;
   padding: 20px 0; /* Aumentei um pouco o padding para dar mais respiro */
@@ -7,7 +7,7 @@ footer {
   color: white; /* Define branco como a cor padrão para todo o texto dentro do footer */
 }
 
-/* Estilo para o texto de Copyright */
+
 .Copy {
   font-size: 20px;
   color: #000000; /* O texto do Copyright na sua imagem é preto, então mantive */
