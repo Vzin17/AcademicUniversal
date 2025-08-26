@@ -3,7 +3,7 @@ import React from 'react';
 
 import Header from './Componentes/Header/Header';
 import Footer from './Componentes/Footer/Footer';
-import Inicio from './Pages/Incio/Inicio';
+import Inicio from './Pages/Inicio/Inicio';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
