@@ -1,0 +1,221 @@
+/* Container geral */
+.agendamento-container {
+  font-family: 'Segoe UI', sans-serif;
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+  background: linear-gradient(135deg, #e6f0ff, #f5f7ff);
+  border-radius: 12px;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+}
+
+/* Título principal */
+.agendamento-header {
+  text-align: center;
+  font-size: 1.8rem;
+  color: #003366;
+  margin-bottom: 20px;
+}
+
+/* Layout das colunas */
+.agendamento-content {
+  display: flex;
+  gap: 30px;
+}
+
+/* Coluna das áreas */
+.areas-container {
+  flex: 1;
+  border-right: 2px solid #d0e2ff;
+  padding-right: 20px;
+}
+
+.areas-title {
+  margin-top: 0;
+  padding-bottom: 5px;
+  font-size: 1.2rem;
+  border-bottom: 2px solid #4a90e2;
+  color: #002b5c;
+}
+
+.area-item {
+  padding: 12px;
+  margin: 5px 0;
+  border-radius: 6px;
+  cursor: pointer;
+  background-color: transparent;
+  transition: background-color 0.25s, transform 0.15s;
+}
+
+.area-item:hover {
+  background-color: #d0e2ff;
+  transform: translateX(3px);
+}
+
+.area-item.selected {
+  background-color: #4a90e2;
+  color: white;
+  font-weight: bold;
+}
+
+/* Coluna do calendário */
+.calendar-container {
+  flex: 2;
+}
+
+.calendar-title {
+  font-size: 1.2rem;
+  color: #004080;
+  padding-bottom: 5px;
+  border-bottom: 2px solid #7f5af0; /* Roxinho */
+  margin-bottom: 15px;
+}
+
+/* Navegação do mês */
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.calendar-nav-btn {
+  background-color: #7f5af0;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s;
+}
+
+.calendar-nav-btn:hover {
+  background-color: #6c47d8;
+}
+
+/* Grade do calendário */
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  text-align: center;
+}
+
+.calendar-day-header {
+  font-weight: bold;
+  color: #003366;
+}
+
+.calendar-day {
+  padding: 10px;
+  border-radius: 4px;
+  color: #aaa;
+  cursor: default;
+}
+
+.calendar-day.empty {
+  visibility: hidden;
+}
+
+.calendar-day.available {
+  background-color: #cce5ff;
+  color: #004080;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.calendar-day.available:hover {
+  background-color: #99ccff;
+}
+
+.calendar-day.selected {
+  background-color: #7f5af0;
+  color: white;
+  font-weight: bold;
+}
+
+/* Info da seleção */
+.selection-info {
+  text-align: center;
+  margin-top: 15px;
+  color: #333;
+  font-size: 14px;
+  height: 20px;
+}
+
+/* Botão de envio */
+.submit-btn {
+  background-color: #3c59ea;
+  color: white;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 25px;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.submit-btn:hover {
+  background-color: #0008a1;
+  transform: scale(1.03);
+}
+
+.submit-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.agendamento-submit-btn {
+  background-color: #3c59ea;
+  color: white;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 25px;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.agendamento-submit-btn:hover {
+  background-color: #0008a1;
+  transform: scale(1.03);
+}
+
+.agendamento-submit-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+
+.calendar-container {
+  width: 100%;
+  height: 100vh; /* ocupa a altura da tela inteira */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f4f4f4; /* opcional, só pra destaque */
+}
+
+.react-calendar {
+  width: 90%;
+  height: 90%;
+  font-size: 2rem; /* aumenta o tamanho do texto */
+  border: none;
+}
+
+.react-calendar__tile {
+  padding: 2rem !important; /* aumenta cada dia */
+}
+
+.react-calendar__month-view__weekdays {
+  font-size: 1.5rem;
+}
+
+.react-calendar__navigation button {
+  font-size: 2rem;
+  padding: 1rem;
+}
+
