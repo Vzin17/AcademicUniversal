@@ -1,6 +1,7 @@
+
 import React from 'react';
 
-function Professor() {
+function Coordenador() {
   return (
     <main>
       <h2>Área do Professor</h2>
@@ -12,4 +13,4 @@ function Professor() {
   );
 }
 
-export default Professor;
+export default Coordenador;

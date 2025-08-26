@@ -93,22 +93,70 @@ main h2 {
 }
 
 .password-container {
-  position: relative; 
-  width: 100%; 
+  position: relative;
+  width: 100%;
 }
 
 .password-container input {
   width: 100%;
-  padding-right: 45px;
+  padding: 14px 45px 14px 16px; /* mesmo padding do cadastro + espaço pro ícone */
+  font-size: 1rem;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
   box-sizing: border-box;
 }
 
 .password-icon {
   position: absolute;
   top: 50%;
-  right: 15px;
+  right: 16px; /* mesmo valor do padding lateral */
   transform: translateY(-50%);
   cursor: pointer;
   color: #555;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
+  line-height: 0; /* evita deslocamento vertical */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 20px; 
 }
+
+
+/* Estilos para o seletor de perfil */
+.seletor-perfil p {
+  font-weight: bold;
+  text-align: left;
+  margin-bottom: 10px;
+}
+
+.opcoes-perfil {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+.opcoes-perfil button {
+  flex: 1;
+  background-color: #f0f0f0;
+  color: #555;
+  border: 1px solid #ccc;
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.opcoes-perfil button:hover {
+  background-color: #e0e0e0;
+}
+
+.opcoes-perfil button.ativo {
+  background-color: #0a3d62;
+  color: white;
+  border-color: #0a3d62;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
