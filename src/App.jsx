@@ -1,55 +1,82 @@
-import './App.css';
 import React from 'react';
 
-import Header from './Componentes/Header/Header';
-import Footer from './Componentes/Footer/Footer';
-import Inicio from './Pages/Inicio/Inicio';
-
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
+import ProtectedRoute from './Componentes/ProtectedRoute';
 
+// Importe todos os seus componentes de página
+import Header from './Componentes/Header/Header.jsx';
+import Footer from './Componentes/Footer/Footer.jsx';
+import Inicio from './Pages/Inicio/Inicio.jsx';
 import Cadastro from './Pages/Cadastro';
-import Estudante from './Pages/Estudante';
-import Professor from './Pages/Coordenador';
-import Paciente from './Pages/Paciente';
 import Agendamento from './Pages/Agendamento';
 import Servicos from './Pages/Servicos';
 import Projeto from './Pages/Projeto';
 import Contato from './Pages/Contato';
 import Denuncia from './Pages/Denuncia';
-import Login from './Pages/Login'; // Importe o novo componente
+import Login from './Pages/Login';
 import Register from './Pages/Register';
 
+// Importe todos os seus componentes de Dashboard
+import AlunoDashboard from './Dashboards/AlunoDashboard.jsx';
+import PacienteDashboard from './Dashboards/PacienteDashboard.jsx';
+import CoordenadorDashboard from './Dashboards/CoordenadorDashboard.jsx';
+import RecepcionistaDashboard from './Dashboards/RecepcionistasDashboard.jsx';
 
+// Este componente escolhe qual dashboard mostrar com base na role do usuário
+const DashboardRouter = () => {
+  const { user } = useAuth();
+  switch (user.role) {
+    case 'aluno':
+      return <AlunoDashboard />;
+    case 'paciente':
+      return <PacienteDashboard />;
+    case 'coordenador':
+      return <CoordenadorDashboard />;
+    case 'recepcionista':
+      return <RecepcionistaDashboard />;
+    default:
+      return <div>Acesso negado.</div>;
+  }
+};
 
 
 function App() {
   return (
-
     <BrowserRouter>
-      <div className="App">
-        <Header />
+      <AuthProvider>
+        <div className="App">
+          <Header />
 
-        <main>
-          <Routes>
-            <Route path="/" element={<Inicio />} />
-            <Route path="/cadastro" element={<Cadastro />} />
-            <Route path="/estudante" element={<Estudante />} />
-            <Route path="/professor" element={<Professor />} />
-            <Route path="/paciente" element={<Paciente />} />
-            <Route path="/agendamento" element={<Agendamento />} />
-            <Route path="/servicos" element={<Servicos />} />
-            <Route path="/projeto" element={<Projeto />} />
-            <Route path="/contato" element={<Contato />} />
-            <Route path="/denuncia" element={<Denuncia />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-          </Routes>
-        </main>
+          <main>
+            <Routes>
+              {/* Rotas públicas que você tinha */}
+              <Route path="/" element={<Inicio />} />
+              <Route path="/cadastro" element={<Cadastro />} />
+              <Route path="/agendamento" element={<Agendamento />} />
+              <Route path="/servicos" element={<Servicos />} />
+              <Route path="/projeto" element={<Projeto />} />
+              <Route path="/contato" element={<Contato />} />
+              <Route path="/denuncia" element={<Denuncia />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              
+              {/* Rota protegida para os dashboards */}
+              <Route
+                path="/dashboard"
+                element={
+                  <ProtectedRoute allowedRoles={['aluno', 'paciente', 'coordenador', 'recepcionista']}>
+                    <DashboardRouter />
+                  </ProtectedRoute>
+                }
+              />
+            </Routes>
+          </main>
 
-        <Footer />
-      </div>
+          <Footer />
+        </div>
+      </AuthProvider>
     </BrowserRouter>
-
   );
 }
 
