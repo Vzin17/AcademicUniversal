@@ -3,23 +3,18 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css'; // Estilos padrão do calendário
 import './CSS_Pgs/Agendamento.css'; // Seus estilos personalizados
 
-// Lista de áreas de atendimento (continua a mesma)
+// Lista de áreas de atendimento
 const areasDeAtendimento = [
   'Direito', 'Psicologia', 'Fisioterapia', 'Odontologia', 'Farmácia'
 ];
 
 // Componente principal do Agendamento
 function Agendamento() {
-  // Estado para a área selecionada
   const [areaSelecionada, setAreaSelecionada] = useState('');
-  // Estado para a data selecionada (agora guarda um objeto Date)
   const [dataSelecionada, setDataSelecionada] = useState(null);
 
   /**
    * Função para verificar se uma data deve ser desabilitada no calendário.
-   * Esta é a nossa nova "lógica de disponibilidade".
-   * @param {Date} date - A data que o calendário está renderizando.
-   * @returns {boolean} - Retorna 'true' para desabilitar o dia, 'false' para manter habilitado.
    */
   const isDiaDesabilitado = ({ date }) => {
     // Regra 1: Desabilitar Sábados (6) e Domingos (0)
@@ -35,9 +30,7 @@ function Agendamento() {
       return true;
     }
 
-    // Regra 3: Regras específicas para cada área de atendimento
-    // Se nenhuma área foi selecionada, todos os dias (válidos) são selecionáveis.
-    // Assim que uma área é selecionada, aplicamos o filtro.
+    /*
     if (areaSelecionada) {
       switch (areaSelecionada) {
         case 'Direito':
@@ -64,6 +57,9 @@ function Agendamento() {
           break;
       }
     }
+    */
+
+
 
     // Se a data passou por todas as regras, ela não será desabilitada
     return false;
@@ -71,7 +67,6 @@ function Agendamento() {
 
   /**
    * Lida com o clique em uma área de atendimento
-   * @param {string} area - A área que foi clicada
    */
   const handleSelecionarArea = (area) => {
     setAreaSelecionada(area);
@@ -87,7 +82,6 @@ function Agendamento() {
       alert('Por favor, selecione uma área e uma data disponível.');
       return;
     }
-    // Usamos toLocaleDateString para formatar a data para o padrão brasileiro
     alert(`Agendamento para ${areaSelecionada} no dia ${dataSelecionada.toLocaleDateString('pt-BR')} foi enviado!`);
 
     // Limpa os campos após o envio
@@ -95,11 +89,11 @@ function Agendamento() {
     setDataSelecionada(null);
   }
 
+  // O restante do seu código (a parte visual do componente) continua igual.
   return (
     <main className="agendamento-container">
       <h2 className="agendamento-header">Agendamento de Atendimento</h2>
       <div className="agendamento-content">
-        {/* Coluna da Esquerda: Seleção de Área */}
         <div className="areas-container">
           <h3 className="areas-title">1. Selecione a Área</h3>
           {areasDeAtendimento.map((area) => (
@@ -113,17 +107,12 @@ function Agendamento() {
           ))}
         </div>
 
-        {/* Coluna da Direita: Calendário */}
         <div className="calendar-container">
           <h3 className="calendar-title">2. Escolha um Dia Disponível</h3>
           <Calendar
-            // A função `onClickDay` nos dá o objeto Date do dia clicado
             onClickDay={setDataSelecionada}
-            // `value` destaca a data que está no nosso estado 'dataSelecionada'
             value={dataSelecionada}
-            // A prop `tileDisabled` recebe nossa função de lógica para desabilitar os dias
             tileDisabled={isDiaDesabilitado}
-            // Define o idioma para português para os nomes dos meses
             locale="pt-BR"
           />
         </div>
