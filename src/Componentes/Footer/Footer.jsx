@@ -17,7 +17,7 @@ function Footer(){
         </div>
 
         <div className='denuncia'>
-            <Link to ='/denuncia' className='denuncia'> Denúncia anonima </Link>
+            <Link to ='/denuncia' className='denuncia'> Denúncia anônima </Link>
         </div>
 
 
