@@ -3,9 +3,15 @@ import { useState } from 'react';
 import './CSS_Pgs/Cadastro.css';
 import logo from '../Componentes/IMAGENS/InterSocial.png';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import api from '../services/api';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+
+// ADICIONADO: Importa o cliente do Supabase.
+// Verifique se o caminho para o seu arquivo de configuração do Supabase está correto!
+import { supabase } from '../supabaseClient'; 
+
+// REMOVIDO: A importação do 'api' (Axios) não é mais necessária aqui.
+// import api from '../services/api'; 
 
 
 function Cadastro() {
@@ -15,44 +21,52 @@ function Cadastro() {
   const [senha, setSenha] = useState('');
   const [confirmaSenha, setConfirmaSenha] = useState('');
   
-  // Alterado: Novo estado para o tipo de usuário e para o RA
   const [tipoUsuario, setTipoUsuario] = useState(''); 
   const [ra, setRa] = useState('');
-
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-
   const navigate = useNavigate();
   
   
+  // ALTERADO: Esta é a função de envio corrigida para usar o Supabase Auth.
   const handleSubmit = async (event) => {
-      event.preventDefault();
-      if (senha !== confirmaSenha) {
+    event.preventDefault();
+    if (senha !== confirmaSenha) {
       alert("Erro: As senhas não correspondem!");
       return;
-    } 
+    }
 
     try {
-      // Objeto com os dados do usuário
-      const userData = {
-        nome,
-        email,
-        senha,
+      // Objeto com os dados extras que queremos salvar junto com o usuário
+      const metaData = {
+        nome: nome,
         role: tipoUsuario,
+        // Adiciona o RA apenas se for estudante
+        ...(tipoUsuario === 'Estudante' && { ra: ra }),
       };
 
-      // Adiciona o RA se for estudante
-      if (tipoUsuario === 'Estudante') {
-        userData.ra = ra;
+      // Usando a função correta do Supabase para cadastrar um novo usuário
+      const { data, error } = await supabase.auth.signUp({
+        email: email,       // O email para o login
+        password: senha,    // A senha para o login
+        options: {
+          data: metaData // Aqui colocamos os dados extras (nome, role, ra)
+        }
+      });
+
+      // Se o Supabase retornar um erro, ele será capturado aqui
+      if (error) {
+        throw error;
       }
 
-      await api.post('/usuarios', userData);
-      alert('Cadastro realizado com sucesso!');
+      alert('Cadastro realizado com sucesso! Verifique seu e-mail para ativar a conta.');
       navigate('/login'); // Redireciona para o login após o sucesso
+
     } catch (error) {
-      alert('Erro no cadastro!');
+      // Exibe a mensagem de erro específica do Supabase
+      alert(`Erro no cadastro: ${error.message}`);
       console.error(error);
     }
   };
@@ -104,7 +118,6 @@ function Cadastro() {
           </span>
         </div>
         
-        {/* NOVO: Botões de seleção de perfil */}
         <div className="seletor-perfil">
           <p>Selecione seu perfil:</p>
           <div className="opcoes-perfil">
@@ -125,7 +138,6 @@ function Cadastro() {
           </div>
         </div>
 
-        {/* NOVO: Renderização condicional do campo de RA */}
         {tipoUsuario === 'Estudante' && (
           <input 
             type="text" 
