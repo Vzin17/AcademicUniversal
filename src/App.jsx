@@ -31,7 +31,6 @@ const DashboardRouter = () => {
   const { user } = useAuth();
   if (!user) return null;
 
-  // ===== ALTERADO AQUI: Converte a role para minúsculas antes de comparar =====
   const userRole = user.user_metadata?.role?.toLowerCase();
 
   switch (userRole) { // Usa a variável já convertida
