@@ -24,8 +24,6 @@ import PacienteDashboard from './Dashboards/PacienteDashboard.jsx';
 import CoordenadorDashboard from './Dashboards/CoordenadorDashboard.jsx';
 import RecepcionistaDashboard from './Dashboards/RecepcionistasDashboard.jsx';
 
-// ===== ADICIONADO: Importação da nossa função para popular o banco =====
-import { popularBancoComUsuarios } from './seed'; 
 
 
 // Este componente escolhe qual dashboard mostrar com base na role do usuário
