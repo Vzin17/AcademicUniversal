@@ -31,7 +31,7 @@ const DashboardRouter = () => {
   const { user } = useAuth();
   if (!user) return null;
 
-  const userRole = user.user_metadata?.role?.toLowerCase();
+  const userRole = user.funcao.toLowerCase();
 
   switch (userRole) { // Usa a variável já convertida
     case 'aluno':

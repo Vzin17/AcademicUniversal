@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import './CSS_Pgs/Agendamento.css';
-import { supabase } from '../supabaseClient'; // NOVO: Importa o cliente Supabase
+import { useAuth } from '../contexts/AuthContext'
+import { supabase } from '../supabaseClient';
 
 // Lista de áreas de atendimento
 const areasDeAtendimento = [
@@ -15,6 +16,7 @@ const horariosDisponiveis = [
 ];
 
 function Agendamento() {
+    const { user } = useAuth();
   const [areaSelecionada, setAreaSelecionada] = useState('');
   const [dataSelecionada, setDataSelecionada] = useState(null);
   const [horaSelecionada, setHoraSelecionada] = useState(''); // NOVO: Estado para a hora
@@ -44,7 +46,7 @@ function Agendamento() {
   };
 
   // ALTERADO: A função de envio agora é assíncrona e salva no Supabase
-  const handleSubmit = async (e) => {
+const handleSubmit = async (e) => {
     e.preventDefault();
     if (!areaSelecionada || !dataSelecionada || !horaSelecionada) {
       alert('Por favor, selecione uma área, um dia e um horário.');

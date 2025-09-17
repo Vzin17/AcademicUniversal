@@ -10,8 +10,6 @@ import { Link } from 'react-router-dom';
 // Verifique se o caminho para o seu arquivo de configuração do Supabase está correto!
 import { supabase } from '../supabaseClient'; 
 
-// REMOVIDO: A importação do 'api' (Axios) não é mais necessária aqui.
-// import api from '../services/api'; 
 
 
 function Cadastro() {
@@ -31,45 +29,68 @@ function Cadastro() {
   
   
   // ALTERADO: Esta é a função de envio corrigida para usar o Supabase Auth.
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    if (senha !== confirmaSenha) {
-      alert("Erro: As senhas não correspondem!");
-      return;
+  // COLE ESTE CÓDIGO NO LUGAR DA SUA FUNÇÃO handleSubmit INTEIRA
+
+const handleSubmit = async (event) => {
+  event.preventDefault();
+
+  // --- VALIDAÇÕES ---
+  if (senha !== confirmaSenha) {
+    alert("Erro: As senhas não correspondem!");
+    return;
+  }
+  if (!tipoUsuario) {
+    alert("Por favor, selecione um perfil (Estudante ou Paciente).");
+    return;
+  }
+  if (tipoUsuario === 'Estudante' && !ra) {
+    alert('Por favor, preencha seu Registro Acadêmico (RA).');
+    return;
+  }
+
+  try {
+    // --- ETAPA 1: Criar o usuário na autenticação ---
+    // Esta chamada apenas cria o login e dispara o e-mail de confirmação.
+    const { data: authData, error: authError } = await supabase.auth.signUp({
+      email: email,
+      password: senha,
+    });
+
+    if (authError) {
+      throw authError; // Para aqui se o e-mail já existir, etc.
+    }
+    
+    // Se chegou aqui, o usuário foi criado e o e-mail foi disparado.
+
+    // --- ETAPA 2: Criar o perfil na nossa tabela 'perfis' ---
+    const perfilParaSalvar = {
+      id: authData.user.id,
+      nome_completo: nome,
+      email: email,
+      funcao: tipoUsuario === 'Estudante' ? 'aluno' : 'paciente',
+      ...(tipoUsuario === 'Estudante' && { ra: ra }),
+    };
+    
+    const { error: profileError } = await supabase
+      .from('perfis')
+      .insert([perfilParaSalvar]);
+
+    if (profileError) {
+      // Se der erro aqui, o usuário foi criado mas o perfil não.
+      // É importante saber disso.
+      throw profileError;
     }
 
-    try {
-      // Objeto com os dados extras que queremos salvar junto com o usuário
-      const metaData = {
-        nome: nome,
-        role: tipoUsuario,
-        // Adiciona o RA apenas se for estudante
-        ...(tipoUsuario === 'Estudante' && { ra: ra }),
-      };
+    // Se tudo deu certo:
+    alert('Cadastro realizado com sucesso! Verifique seu e-mail para ativar a conta.');
+    navigate('/login');
 
-      // Usando a função correta do Supabase para cadastrar um novo usuário
-      const { data, error } = await supabase.auth.signUp({
-        email: email,       // O email para o login
-        password: senha,    // A senha para o login
-        options: {
-          data: metaData // Aqui colocamos os dados extras (nome, role, ra)
-        }
-      });
-
-      // Se o Supabase retornar um erro, ele será capturado aqui
-      if (error) {
-        throw error;
-      }
-
-      alert('Cadastro realizado com sucesso! Verifique seu e-mail para ativar a conta.');
-      navigate('/login'); // Redireciona para o login após o sucesso
-
-    } catch (error) {
-      // Exibe a mensagem de erro específica do Supabase
-      alert(`Erro no cadastro: ${error.message}`);
-      console.error(error);
-    }
-  };
+  } catch (error) {
+    // Captura e exibe qualquer erro que tenha acontecido.
+    alert(`Erro no cadastro: ${error.message}`);
+    console.error("Detalhes do erro:", error);
+  }
+};
 
   return(
     <main>

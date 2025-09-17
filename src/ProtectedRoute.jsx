@@ -25,7 +25,7 @@
     // 3. Pega o cargo (role) do usuário do lugar certo (user_metadata).
     // O "?." (optional chaining) é uma segurança para evitar erros caso user_metadata não exista.
      // ALTERADO AQUI: Adicionado .toLowerCase() para ignorar maiúsculas/minúsculas
-  const userRole = user.user_metadata?.role?.toLowerCase();
+  const userRole = user.funcao.toLowerCase();
 
     // 4. Verifica se o cargo do usuário está na lista de cargos permitidos.
     if (allowedRoles.includes(userRole)) {
