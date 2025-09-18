@@ -11,4 +11,4 @@ const PacienteDashboard = () => {
   );
 };
 
-export default PacienteDashboard;
+export default PacienteDashboard; 
