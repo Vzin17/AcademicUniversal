@@ -64,10 +64,10 @@ function Servicos() {
         <div className="how-it-works">
             <h2 className="section-title">Como Funciona? É Simples!</h2>
             <ol className="steps-list">
-                <li><span className="step-number">1</span><strong>Faça seu Cadastro:</strong> Crie sua conta em nossa plataforma.</li>
-                <li><span className="step-number">2</span><strong>Escolha o Serviço:</strong> Navegue pelas áreas e escolha o que precisa.</li>
-                <li><span className="step-number">3</span><strong>Agende seu Horário:</strong> Marque sua consulta gratuita.</li>
-                <li><span className="step-number">4</span><strong>Compareça ao Atendimento:</strong> Vá até a clínica no dia e hora marcados.</li>
+                <li><span className="step-number">1</span><strong>Faça seu Cadastro:</strong> &nbsp;Crie sua conta em nossa plataforma.</li>
+                <li><span className="step-number">2</span><strong>Escolha o Serviço:</strong> &nbsp;Navegue pelas áreas e escolha o que precisa.</li>
+                <li><span className="step-number">3</span><strong>Agende seu Horário:</strong> &nbsp;Marque sua consulta gratuita.</li>
+                <li><span className="step-number">4</span><strong>Compareça ao Atendimento:</strong> &nbsp;Vá até a clínica no dia e hora marcados.</li>
             </ol>
         </div>
 
