@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '../../contexts/AuthContext';
-import { supabase } from '../../supabaseClient';
+import { useAuth } from '../contexts/AuthContext';
+import { supabase } from '../supabaseClient';
 
 function PainelAluno() {
   const { user } = useAuth(); // Pega os dados do aluno logado

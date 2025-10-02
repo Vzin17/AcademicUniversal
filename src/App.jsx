@@ -4,6 +4,7 @@ import { AuthProvider, useAuth } from './contexts/AuthContext';
 import ProtectedRoute from './ProtectedRoute';
 
 // Importe todos os seus componentes de página
+import DashboardRouter from './Componentes/DashboardRouter.jsx';
 import Header from './Componentes/Header/Header.jsx';
 import Footer from './Componentes/Footer/Footer.jsx';
 import Inicio from './Pages/Inicio/Inicio.jsx';
@@ -17,14 +18,15 @@ import Login from './Pages/Login';
 import Register from './Pages/Register';
 import MinhaConta from './Pages/MinhaConta'; // <-- 1. IMPORTE A NOVA PÁGINA AQUI
 
-// Importe todos os seus componentes de Dashboard
-import AlunoDashboard from './Dashboards/AlunoDashboard.jsx';
-import PacienteDashboard from './Dashboards/PacienteDashboard.jsx';
-import CoordenadorDashboard from './Dashboards/CoordenadorDashboard.jsx';
-import RecepcionistaDashboard from './Dashboards/RecepcionistasDashboard.jsx';
+
+import PainelAluno from './paineis/PainelAluno.jsx';
+import PainelCoordenador from './paineis/PainelCoordenador.jsx';
+import PainelPaciente from './paineis/PainelPaciente.jsx';
+import PainelRecepcionistas from './paineis/PainelRecepcionistas.jsx';
+
 
 // Este componente escolhe qual dashboard mostrar com base na role do usuário
-const DashboardRouter = () => {
+const paineis = () => {
   const { user } = useAuth();
   if (!user) return null;
 
@@ -32,13 +34,13 @@ const DashboardRouter = () => {
 
   switch (userRole) {
     case 'aluno':
-      return <AlunoDashboard />;
+      return <PainelAluno/>;
     case 'paciente':
-      return <PacienteDashboard />;
+      return <PainelPaciente/>;
     case 'coordenador':
-      return <CoordenadorDashboard />;
+      return <PainelCoordenador />;
     case 'recepcionista':
-      return <RecepcionistaDashboard />;
+      return <PainelRecepcionistas />;
     default:
       return <div>Acesso negado. Cargo de usuário não reconhecido.</div>;
   }
@@ -67,7 +69,7 @@ function App() {
               <Route
                 path="/agendamento"
                 element={
-                  <ProtectedRoute allowedRoles={['aluno', 'paciente', 'coordenador', 'recepcionista']}>
+                  <ProtectedRoute allowedRoles={['aluno', 'paciente', 'coordenador', 'recepcionista', 'professor']}>
                     <Agendamento />
                   </ProtectedRoute>
                 }
@@ -76,7 +78,7 @@ function App() {
               <Route
                 path="/dashboard"
                 element={
-                  <ProtectedRoute allowedRoles={['aluno', 'paciente', 'coordenador', 'recepcionista']}>
+                  <ProtectedRoute allowedRoles={['aluno', 'paciente', 'coordenador', 'recepcionista', 'professor']}>
                     <DashboardRouter />
                   </ProtectedRoute>
                 }
@@ -86,7 +88,7 @@ function App() {
               <Route
                 path="/minha-conta"
                 element={
-                  <ProtectedRoute allowedRoles={['aluno', 'paciente', 'coordenador', 'recepcionista', 'administrador']}>
+                  <ProtectedRoute allowedRoles={['aluno', 'paciente', 'coordenador', 'recepcionista', 'administrador', 'professor']}>
                     <MinhaConta />
                   </ProtectedRoute>
                 }
