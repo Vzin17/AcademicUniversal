@@ -3,9 +3,13 @@ import { useState } from 'react';
 import './CSS_Pgs/Cadastro.css';
 import logo from '../Componentes/IMAGENS/InterSocial.png';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import api from '../services/api';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+
+// ADICIONADO: Importa o cliente do Supabase.
+// Verifique se o caminho para o seu arquivo de configuração do Supabase está correto!
+import { supabase } from '../supabaseClient'; 
+
 
 
 function Cadastro() {
@@ -15,47 +19,78 @@ function Cadastro() {
   const [senha, setSenha] = useState('');
   const [confirmaSenha, setConfirmaSenha] = useState('');
   
-  // Alterado: Novo estado para o tipo de usuário e para o RA
   const [tipoUsuario, setTipoUsuario] = useState(''); 
   const [ra, setRa] = useState('');
-
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-
   const navigate = useNavigate();
   
   
-  const handleSubmit = async (event) => {
-      event.preventDefault();
-      if (senha !== confirmaSenha) {
-      alert("Erro: As senhas não correspondem!");
-      return;
-    } 
+  // ALTERADO: Esta é a função de envio corrigida para usar o Supabase Auth.
+  // COLE ESTE CÓDIGO NO LUGAR DA SUA FUNÇÃO handleSubmit INTEIRA
 
-    try {
-      // Objeto com os dados do usuário
-      const userData = {
-        nome,
-        email,
-        senha,
-        role: tipoUsuario,
-      };
+const handleSubmit = async (event) => {
+  event.preventDefault();
 
-      // Adiciona o RA se for estudante
-      if (tipoUsuario === 'Estudante') {
-        userData.ra = ra;
-      }
+  // --- VALIDAÇÕES ---
+  if (senha !== confirmaSenha) {
+    alert("Erro: As senhas não correspondem!");
+    return;
+  }
+  if (!tipoUsuario) {
+    alert("Por favor, selecione um perfil (Estudante ou Paciente).");
+    return;
+  }
+  if (tipoUsuario === 'Estudante' && !ra) {
+    alert('Por favor, preencha seu Registro Acadêmico (RA).');
+    return;
+  }
 
-      await api.post('/usuarios', userData);
-      alert('Cadastro realizado com sucesso!');
-      navigate('/login'); // Redireciona para o login após o sucesso
-    } catch (error) {
-      alert('Erro no cadastro!');
-      console.error(error);
+  try {
+    // --- ETAPA 1: Criar o usuário na autenticação ---
+    // Esta chamada apenas cria o login e dispara o e-mail de confirmação.
+    const { data: authData, error: authError } = await supabase.auth.signUp({
+      email: email,
+      password: senha,
+    });
+
+    if (authError) {
+      throw authError; // Para aqui se o e-mail já existir, etc.
     }
-  };
+    
+    // Se chegou aqui, o usuário foi criado e o e-mail foi disparado.
+
+    // --- ETAPA 2: Criar o perfil na nossa tabela 'perfis' ---
+    const perfilParaSalvar = {
+      id: authData.user.id,
+      nome_completo: nome,
+      email: email,
+      funcao: tipoUsuario === 'Estudante' ? 'aluno' : 'paciente',
+      ...(tipoUsuario === 'Estudante' && { ra: ra }),
+    };
+    
+    const { error: profileError } = await supabase
+      .from('perfis')
+      .insert([perfilParaSalvar]);
+
+    if (profileError) {
+      // Se der erro aqui, o usuário foi criado mas o perfil não.
+      // É importante saber disso.
+      throw profileError;
+    }
+
+    // Se tudo deu certo:
+    alert('Cadastro realizado com sucesso! Verifique seu e-mail para ativar a conta.');
+    navigate('/login');
+
+  } catch (error) {
+    // Captura e exibe qualquer erro que tenha acontecido.
+    alert(`Erro no cadastro: ${error.message}`);
+    console.error("Detalhes do erro:", error);
+  }
+};
 
   return(
     <main>
@@ -104,7 +139,6 @@ function Cadastro() {
           </span>
         </div>
         
-        {/* NOVO: Botões de seleção de perfil */}
         <div className="seletor-perfil">
           <p>Selecione seu perfil:</p>
           <div className="opcoes-perfil">
@@ -125,7 +159,6 @@ function Cadastro() {
           </div>
         </div>
 
-        {/* NOVO: Renderização condicional do campo de RA */}
         {tipoUsuario === 'Estudante' && (
           <input 
             type="text" 

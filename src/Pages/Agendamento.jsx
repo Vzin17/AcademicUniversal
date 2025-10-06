@@ -1,95 +1,99 @@
 import React, { useState } from 'react';
 import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css'; // Estilos padrão do calendário
-import './CSS_Pgs/Agendamento.css'; // Seus estilos personalizados
+import 'react-calendar/dist/Calendar.css';
+import './CSS_Pgs/Agendamento.css';
+import { useAuth } from '../contexts/AuthContext'
+import { supabase } from '../supabaseClient';
 
 // Lista de áreas de atendimento
 const areasDeAtendimento = [
   'Direito', 'Psicologia', 'Fisioterapia', 'Odontologia', 'Farmácia'
 ];
 
-// Componente principal do Agendamento
+// NOVO: Lista de horários disponíveis
+const horariosDisponiveis = [
+  '09:00', '10:00', '11:00', '14:00', '15:00', '16:00'
+];
+
 function Agendamento() {
+    const { user } = useAuth();
   const [areaSelecionada, setAreaSelecionada] = useState('');
   const [dataSelecionada, setDataSelecionada] = useState(null);
+  const [horaSelecionada, setHoraSelecionada] = useState(''); // NOVO: Estado para a hora
 
-  /**
-   * Função para verificar se uma data deve ser desabilitada no calendário.
-   */
   const isDiaDesabilitado = ({ date }) => {
-    // Regra 1: Desabilitar Sábados (6) e Domingos (0)
     const diaDaSemana = date.getDay();
     if (diaDaSemana === 0 || diaDaSemana === 6) {
       return true;
     }
-
-    // Regra 2: Desabilitar datas anteriores ao dia de hoje
     const hoje = new Date();
-    hoje.setHours(0, 0, 0, 0); // Zera o tempo para comparar apenas a data
+    hoje.setHours(0, 0, 0, 0);
     if (date < hoje) {
       return true;
     }
-
-    /*
-    if (areaSelecionada) {
-      switch (areaSelecionada) {
-        case 'Direito':
-          // Direito atende apenas às Segundas (1) e Quartas (3)
-          if (diaDaSemana !== 1 && diaDaSemana !== 3) {
-            return true;
-          }
-          break;
-        case 'Psicologia':
-          // Psicologia atende apenas às Terças (2) e Quintas (4)
-          if (diaDaSemana !== 2 && diaDaSemana !== 4) {
-            return true;
-          }
-          break;
-        case 'Fisioterapia':
-          // Fisioterapia atende apenas às Sextas (5)
-          if (diaDaSemana !== 5) {
-            return true;
-          }
-          break;
-        // Para 'Odontologia' e 'Farmácia', não há regra específica,
-        // então eles atendem em qualquer dia de semana (já filtrado acima).
-        default:
-          break;
-      }
-    }
-    */
-
-
-
-    // Se a data passou por todas as regras, ela não será desabilitada
     return false;
   };
 
-  /**
-   * Lida com o clique em uma área de atendimento
-   */
   const handleSelecionarArea = (area) => {
     setAreaSelecionada(area);
-    setDataSelecionada(null); // Limpa a data selecionada ao trocar de área
+    setDataSelecionada(null);
+    setHoraSelecionada(''); // NOVO: Limpa a hora ao trocar de área
   };
-  
-  /**
-   * Lida com o envio do formulário de agendamento.
-   */
-  function handleSubmit(e) {
+
+  const handleSelecionarData = (data) => {
+    setDataSelecionada(data);
+    setHoraSelecionada(''); // NOVO: Limpa a hora ao escolher um novo dia
+  };
+
+  // ALTERADO: A função de envio agora é assíncrona e salva no Supabase
+const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!areaSelecionada || !dataSelecionada) {
-      alert('Por favor, selecione uma área e uma data disponível.');
+    if (!areaSelecionada || !dataSelecionada || !horaSelecionada) {
+      alert('Por favor, selecione uma área, um dia e um horário.');
       return;
     }
-    alert(`Agendamento para ${areaSelecionada} no dia ${dataSelecionada.toLocaleDateString('pt-BR')} foi enviado!`);
 
-    // Limpa os campos após o envio
-    setAreaSelecionada('');
-    setDataSelecionada(null);
-  }
+    try {
+      // 1. Pega o usuário que está logado no momento
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        alert("Erro: Você precisa estar logado para fazer um agendamento.");
+        return;
+      }
 
-  // O restante do seu código (a parte visual do componente) continua igual.
+      // 2. Combina a data e a hora selecionadas em um único objeto Date
+      const [horas, minutos] = horaSelecionada.split(':');
+      const dataConsultaFinal = new Date(dataSelecionada);
+      dataConsultaFinal.setHours(parseInt(horas), parseInt(minutos), 0, 0);
+
+      // 3. Insere os dados na tabela 'agendamentos' do Supabase
+      const { data, error } = await supabase
+        .from('agendamentos')
+        .insert([
+          { 
+            area_especialidade: areaSelecionada,
+            data_consulta: dataConsultaFinal.toISOString(),
+            usuario_id: user.id
+          },
+        ]);
+
+      if (error) {
+        throw error; // Joga o erro para o bloco catch
+      }
+
+      alert(`Agendamento confirmado para ${areaSelecionada} no dia ${dataConsultaFinal.toLocaleString('pt-BR')}!`);
+
+      // Limpa os campos após o sucesso
+      setAreaSelecionada('');
+      setDataSelecionada(null);
+      setHoraSelecionada('');
+
+    } catch (error) {
+      console.error('Erro ao criar agendamento:', error);
+      alert(`Ocorreu um erro ao agendar: ${error.message}`);
+    }
+  };
+
   return (
     <main className="agendamento-container">
       <h2 className="agendamento-header">Agendamento de Atendimento</h2>
@@ -110,17 +114,35 @@ function Agendamento() {
         <div className="calendar-container">
           <h3 className="calendar-title">2. Escolha um Dia Disponível</h3>
           <Calendar
-            onClickDay={setDataSelecionada}
+            onClickDay={handleSelecionarData}
             value={dataSelecionada}
             tileDisabled={isDiaDesabilitado}
             locale="pt-BR"
           />
         </div>
+
+        {/* NOVO: Seção para escolher o horário, só aparece se um dia for selecionado */}
+        {dataSelecionada && (
+          <div className="horarios-container">
+            <h3 className="horarios-title">3. Escolha um Horário</h3>
+            <div className="horarios-grid">
+              {horariosDisponiveis.map((horario) => (
+                <div
+                  key={horario}
+                  className={`horario-item ${horario === horaSelecionada ? 'selected' : ''}`}
+                  onClick={() => setHoraSelecionada(horario)}
+                >
+                  {horario}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="selection-info">
-        {areaSelecionada && dataSelecionada
-          ? `Seleção: ${areaSelecionada} em ${dataSelecionada.toLocaleDateString('pt-BR')}`
+        {areaSelecionada && dataSelecionada && horaSelecionada
+          ? `Seleção: ${areaSelecionada} em ${dataSelecionada.toLocaleDateString('pt-BR')} às ${horaSelecionada}`
           : 'Aguardando seleção...'}
       </div>
 
@@ -128,7 +150,7 @@ function Agendamento() {
         <button
           type="submit"
           className="agendamento-submit-btn"
-          disabled={!areaSelecionada || !dataSelecionada}
+          disabled={!areaSelecionada || !dataSelecionada || !horaSelecionada}
         >
           Confirmar Agendamento
         </button>
