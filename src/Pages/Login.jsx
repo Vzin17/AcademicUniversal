@@ -1,35 +1,42 @@
-// src/pages/Login/index.js
+// src/Pages/Login/index.jsx - VERSÃO CORRIGIDA E SIMPLIFICADA
+
 import React, { useState } from 'react';
-import { useAuth } from '../contexts/AuthContext';
 import { useNavigate, Link } from 'react-router-dom';
+import { supabase } from '../supabaseClient'; // Importa o supabase diretamente
 import './CSS_Pgs/Login.css';
 import logo from '../Componentes/IMAGENS/InterSocial.png';
-import api from '../services/api';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
-
-  const { login } = useAuth();
-  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-  
-  
+  const navigate = useNavigate();
 
+  // ALTERADO: A função agora usa o supabase diretamente e NÃO faz o redirecionamento.
+  async function handleSubmit(e) {
+    e.preventDefault();
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email: email,
+        password: senha,
+      });
 
-async function handleSubmit(e) {
-  e.preventDefault();
-  try {
-    // Use a variável 'senha' que vem do seu estado (useState)
-    await login(email, senha); // <-- Trocar 'password' por 'senha'
-    navigate('/dashboard'); 
-  } catch (error) {
-    console.error("Falha no login", error);
-    // Adicionar um feedback para o usuário aqui seria uma boa prática!
-    // Ex: alert('Email ou senha incorretos!');
+      if (error) {
+        throw error; // Joga o erro para o catch
+      }
+      
+      // A NAVEGAÇÃO FOI REMOVIDA DAQUI!
+      // O AuthContext vai detectar o login e o App.jsx vai te redirecionar
+      // para a página correta (dashboard ou agendamento) automaticamente.
+      // Você pode redirecionar para o dashboard principal se quiser.
+      navigate('/dashboard'); // Opcional: redireciona para a página principal pós-login.
+
+    } catch (error) {
+      console.error("Falha no login", error);
+      alert('Email ou senha incorretos!');
+    }
   }
-}
 
   return (
     <main>
@@ -44,21 +51,18 @@ async function handleSubmit(e) {
           onChange={(e) => setEmail(e.target.value)}
           required
         />
-
-        
-      <div className="password-container">
-        <input
-          type={showPassword ? 'text' : 'password'}
-          placeholder="Senha"
-          value={senha}
-          onChange={(e) => setSenha(e.target.value)}
-          required
-        />
-        <span className="password-icon" onClick={() => setShowPassword(!showPassword)}>
-          {showPassword ? <FaEye /> : <FaEyeSlash />}
-        </span>
-      </div>
-
+        <div className="password-container">
+          <input
+            type={showPassword ? 'text' : 'password'}
+            placeholder="Senha"
+            value={senha}
+            onChange={(e) => setSenha(e.target.value)}
+            required
+          />
+          <span className="password-icon" onClick={() => setShowPassword(!showPassword)}>
+            {showPassword ? <FaEye /> : <FaEyeSlash />}
+          </span>
+        </div>
         <button type="submit">Entrar</button>
       </form>
       <p>
