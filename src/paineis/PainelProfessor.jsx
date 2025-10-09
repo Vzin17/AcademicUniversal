@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../supabaseClient';
-import "./PainelCoordenador.css";
+import './PainelProfessor.css'; // Importa o SEU PRÓPRIO CSS
 
 function PainelProfessor() {
   const [agendamentos, setAgendamentos] = useState([]);

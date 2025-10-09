@@ -1,15 +1,17 @@
-.painel-coordenador-container {
+/* Conteúdo para: src/paineis/PainelProfessor.css */
+
+.painel-professor-container {
   padding: 2rem;
   max-width: 1200px;
   margin: 0 auto;
 }
 
-.painel-coordenador-container h2 {
+.painel-professor-container h2 {
   font-size: 2rem;
   color: #333;
 }
 
-.painel-coordenador-container h3 {
+.painel-professor-container h3 {
   border-bottom: 2px solid #e0e0e0;
   padding-bottom: 1rem;
   margin-top: 2rem;

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../supabaseClient';
-import "./PainelCoordenador.css";
 
-function PainelProfessor() {
+
+function AgendaArea() {
   const [agendamentos, setAgendamentos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -10,7 +10,7 @@ function PainelProfessor() {
   useEffect(() => {
     fetchAgendamentos();
   }, []);
-
+  
   async function fetchAgendamentos() {
     setLoading(true);
     const { data, error } = await supabase
@@ -48,19 +48,17 @@ function PainelProfessor() {
       );
     }
   };
-
+  
   if (loading) return <div>A carregar agendamentos...</div>;
   if (error) return <div>Erro: {error}</div>;
 
   return (
-    <div className="painel-professor-container">
-      <h2>Painel do Professor</h2>
-      
+    <div className="agenda-area-container">
       <h3>Agendamentos da sua Área</h3>
       {agendamentos.length === 0 ? (
         <p>Nenhum agendamento encontrado.</p>
       ) : (
-        <table className="agendamentos-table">
+        <table className="agenda-table">
           <thead>
             <tr>
               <th>Data</th>
@@ -100,4 +98,4 @@ function PainelProfessor() {
   );
 }
 
-export default PainelProfessor;
+export default AgendaArea;
