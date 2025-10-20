@@ -23,3 +23,6 @@ yarn-debug.log*
 yarn-error.log*
 
 /src/generated/prisma
+
+# Ignorar dependências
+/Servidor/node_modules
