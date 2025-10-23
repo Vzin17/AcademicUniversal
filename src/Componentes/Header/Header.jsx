@@ -13,7 +13,8 @@ function Header() {
     navigate('/');
   };
 
-  const podeCriarProntuario = user && (
+  // Esta lógica ainda é útil! Define quem pode acessar a seção de pacientes.
+  const podeAcessarPacientes = user && (
     user.funcao === 'professor' ||
     user.funcao === 'coordenador' ||
     user.funcao === 'recepcionista' ||
@@ -33,17 +34,29 @@ function Header() {
 
       <nav className="menu-navegacao">
         <ul>
-          <li><Link to="/">Início</Link></li>
-          <li><Link to="/agendamento">Agendamento</Link></li>
-          <li><Link to="/servicos">Serviços</Link></li>
-          <li><Link to="/projeto">O Projeto</Link></li>
+          {/* O link "Início" foi removido. */}
           
+          <li><Link to="/agendamento">Agendamento</Link></li>
+
+          {/* Links que só aparecem se NÃO estiver logado */}
+          {!user && (
+            <>
+              <li><Link to="/servicos">Serviços</Link></li>
+              <li><Link to="/projeto">O Projeto</Link></li>
+            </>
+          )}
+          
+          {/* Links que só aparecem se ESTIVER logado */}
           {user && (
             <li><Link to="/minha-conta">Minha Conta</Link></li>
           )}
 
-          {podeCriarProntuario && (
-            <li><Link to="/criar-prontuario">Criar Prontuário</Link></li>
+          {/* MUDANÇA AQUI:
+            Trocamos "Criar Prontuário" por "Pacientes".
+            Esta página /pacientes será uma tela de busca.
+          */}
+          {podeAcessarPacientes && (
+            <li><Link to="/pacientes">Pacientes</Link></li>
           )}
         </ul>
       </nav>

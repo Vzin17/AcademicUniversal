@@ -144,7 +144,7 @@
 /* Dia de hoje */
 .react-calendar__tile--now {
   background: #f0f4ff;
-  border: 2px solid #4a90e2; /* <-- CORRIGIDO: Borda azul para destaque */
+  border: 2px solid #4a90e2; 
   font-weight: bold;
 }
 
@@ -179,7 +179,7 @@
 }
 
 
-/* Info da seleção */
+
 .selection-info {
   text-align: center;
   margin-top: 25px;
@@ -189,7 +189,7 @@
   height: 25px;
 }
 
-/* Formulário e Botão de envio */
+
 .agendamento-form {
   display: flex;
   justify-content: center;

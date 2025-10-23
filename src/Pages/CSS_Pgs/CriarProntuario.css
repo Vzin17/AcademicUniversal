@@ -9,7 +9,7 @@
 .prontuario-form {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem; /* Aumenta o espaçamento entre os campos */
+  gap: 1.5rem; 
 }
 
 .prontuario-form div {
@@ -38,7 +38,7 @@
   font-size: 1.1rem;
   font-weight: bold;
   color: white;
-  background-color: #007bff; /* Um azul como exemplo */
+  background-color: #007bff; 
   border: none;
   border-radius: 4px;
   cursor: pointer;

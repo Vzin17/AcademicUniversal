@@ -99,7 +99,7 @@ main h2 {
 
 .password-container input {
   width: 100%;
-  padding: 14px 45px 14px 16px; /* mesmo padding do cadastro + espaço pro ícone */
+  padding: 14px 45px 14px 16px; 
   font-size: 1rem;
   background-color: #f9f9f9;
   border: 1px solid #ddd;
@@ -110,12 +110,12 @@ main h2 {
 .password-icon {
   position: absolute;
   top: 50%;
-  right: 16px; /* mesmo valor do padding lateral */
+  right: 16px; 
   transform: translateY(-50%);
   cursor: pointer;
   color: #555;
   font-size: 1.2rem;
-  line-height: 0; /* evita deslocamento vertical */
+  line-height: 0; 
   display: flex;
   align-items: center;
   justify-content: center;
@@ -123,7 +123,7 @@ main h2 {
 }
 
 
-/* Estilos para o seletor de perfil */
+
 .seletor-perfil p {
   font-weight: bold;
   text-align: left;
