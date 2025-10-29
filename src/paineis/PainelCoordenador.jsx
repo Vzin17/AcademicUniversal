@@ -12,13 +12,14 @@ function PainelCoordenador() {
         return <div>Carregando informações...</div>;
     }
 
+    console.log('### ESTOU NO COMPONENTE CORRETO ###');
+
     return (
         <div className="painel-coordenador-container">
             
             <h2>Bem-vindo, {user.nome_completo}!</h2>
             <p>Painel do Coordenador - Acompanhe os prontuários da especialidade</p>
 
-            {/* Container dos cards superiores */}
             <div className="cards-painel-superior">
                 
                 <Link to="/prontuarios" className="card-painel">

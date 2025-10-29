@@ -9,50 +9,84 @@ export const AuthProvider = ({ children }) => {
  const [loading, setLoading] = useState(true);
 
  useEffect(() => {
-  const fetchUserProfile = async (authUser) => {
-   if (!authUser) return;
-      console.log("[AuthContext] PASSO 1: A buscar perfil...");
+   // ### INÍCIO DA CORREÇÃO ###
+   const fetchUserProfile = async (authUser) => {
+     if (!authUser) return;
+     console.log("[AuthContext] PASSO 1: A buscar perfil...");
 
-   const { data: profileData, error } = await supabase
-    .from('perfis') 
+     // 1. Busca o perfil (sem tentar o join)
+     const { data: profileData, error: profileError } = await supabase
+       .from('perfis')
+       .select('*') // Só o perfil, por enquanto
+       .eq('id', authUser.id)
+       .single();
 
-    .select('*, areas!perfis_especialidade_id_fkey(name)') 
-    .eq('id', authUser.id) 
-    .single(); 
+     if (profileError) {
+       console.error("[AuthContext] PASSO 2: FALHA AO BUSCAR PERFIL!", profileError);
+       setUser(authUser); // Define o usuário só com os dados básicos
+       return; // Sai da função
+     }
+
+     console.log("[AuthContext] PASSO 2: SUCESSO AO BUSCAR PERFIL!", profileData);
+
+     // 2. Se o perfil tem uma especialidade_id, busca o nome
+     if (profileData && profileData.especialidade_id) {
+       console.log(`[AuthContext] PASSO 3: Buscando nome da especialidade com ID: ${profileData.especialidade_id}`);
+       
+       const { data: areaData, error: areaError } = await supabase
+         .from('areas')
+         .select('name')
+         .eq('id', profileData.especialidade_id)
+         .single();
+
+       if (areaError) {
+         console.error("[AuthContext] PASSO 4: FALHA AO BUSCAR NOME DA ÁREA", areaError);
+         // Define o usuário sem a área, mas com o resto
+         setUser({
+           ...authUser,
+           ...profileData,
+           areas: null // Falhou, então fica null
+         });
+       } else {
+         console.log("[AuthContext] PASSO 4: SUCESSO AO BUSCAR NOME DA ÁREA", areaData);
+         // SUCESSO! Combina tudo
+         setUser({
+           ...authUser,
+           ...profileData,
+           areas: areaData // areaData aqui será { name: "Fisioterapia" }
+         });
+       }
+     } else {
+       // O usuário não tem especialidade_id, define o usuário sem a área
+       setUser({
+         ...authUser,
+         ...profileData,
+       });
+     }
+   };
+   // ### FIM DA CORREÇÃO ###
 
 
-   if (error) {
-    console.error("[AuthContext] PASSO 2: FALHA AO BUSCAR PERFIL!", error);
-   } else {
-    console.log("[AuthContext] PASSO 2: SUCESSO AO BUSCAR PERFIL!", profileData);
-   }
-   
-   setUser({
-    ...authUser,
-    ...profileData, 
+   supabase.auth.getSession().then(({ data: { session } }) => {
+     setSession(session);
+     fetchUserProfile(session?.user); 
+     setLoading(false);
    });
-  };
 
-  supabase.auth.getSession().then(({ data: { session } }) => {
-   setSession(session);
-   fetchUserProfile(session?.user); 
-   setLoading(false);
-  });
+   const { data: { subscription } } = supabase.auth.onAuthStateChange(
+     (_event, session) => {
+       setSession(session);
+       if (session?.user) {
+         fetchUserProfile(session.user);
+       } else {
+         setUser(null);
+       }
+     }
+   );
 
-  const { data: { subscription } } = supabase.auth.onAuthStateChange(
-   (_event, session) => {
-    setSession(session);
-    if (session?.user) {
-     fetchUserProfile(session.user);
-    } else {
-     setUser(null);
-    }
-   }
-  );
-
-  return () => {
-   subscription.unsubscribe();
-  };
+   return () => {
+     subscription.unsubscribe();
+   };
  }, []);
 
  const value = {
