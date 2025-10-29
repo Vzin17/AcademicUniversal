@@ -1,5 +1,5 @@
 import React from 'react';
-import { useAuth } from '../Contexts/AuthContext'; 
+import { useAuth } from './Contexts/AuthContext.jsx'; 
 import "./PainelCoordenador.css";
 import { Link } from 'react-router-dom'; 
 

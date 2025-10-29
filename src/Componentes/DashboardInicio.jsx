@@ -1,5 +1,5 @@
 import React from 'react';
-import { useAuth } from './contexts/AuthContext';
+import { useAuth } from '../contexts/AuthContext';
 import { Link } from 'react-router-dom';
 import NotificacoesProntuarios from '../Componentes/NotificacoesProntuarios';
 import '../Pages/CSS_Pgs/Dashboard.css';
@@ -43,18 +43,18 @@ function DashboardInicio() {
 
         <div className="dashboard-actions">
           <h3>Ações Rápidas</h3>
-          <div className="botoes-acao-container">
-            <Link to="/" className="botao-acao">
+          <div className="action-buttons">
+            <Link to="/" className="action-btn primary">
               Início
             </Link>
-            <Link to="/pacientes" className="botao-acao">
+            <Link to="/pacientes" className="action-btn secondary">
               Buscar Pacientes
             </Link>
-            <Link to="/agendamento" className="botao-acao">
+            <Link to="/agendamento" className="action-btn tertiary">
               Ver Agendamentos
             </Link>
             {user.funcao === 'coordenador' && (
-              <Link to="/admin" className="botao-acao">
+              <Link to="/admin" className="action-btn tertiary">
                 Painel Administrativo
               </Link>
             )}

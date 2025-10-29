@@ -2,7 +2,8 @@ import React from 'react';
 import './Header.css';
 import logo from './Imgs/InterSocial.png';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from './../contexts/AuthContext';
+// Corrigindo o caminho de importação
+import { useAuth } from '../../Contexts/AuthContext';
 
 function Header() {
   const { user, logout } = useAuth();
