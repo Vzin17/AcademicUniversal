@@ -1,10 +1,7 @@
 import React from 'react';
-// Verifique se este caminho está correto para o seu projeto
-import { useAuth } from '../Contexts/AuthContext.jsx'; 
+import { useAuth } from '../../Contexts/AuthContext.jsx'; 
 
-// Verifique se este caminho está correto
-// Remova o ../ do início
-import "./CSS_Pgs/PainelCoordenador.css";
+import "../CSS_Pgs/PainelCoordenador.css";
 
 import { Link } from 'react-router-dom'; 
 
