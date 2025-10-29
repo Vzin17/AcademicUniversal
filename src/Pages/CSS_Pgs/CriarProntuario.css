@@ -1,0 +1,49 @@
+
+
+.prontuario-container {
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.prontuario-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; 
+}
+
+.prontuario-form div {
+  display: flex;
+  flex-direction: column;
+}
+
+.prontuario-form label {
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.prontuario-form input,
+.prontuario-form select,
+.prontuario-form textarea {
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.prontuario-form button {
+  margin-top: 1rem;
+  padding: 0.85rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: white;
+  background-color: #007bff; 
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.prontuario-form button:hover {
+  background-color: #0056b3;
+}

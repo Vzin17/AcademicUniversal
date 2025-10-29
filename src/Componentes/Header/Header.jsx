@@ -1,20 +1,25 @@
 import React from 'react';
 import './Header.css';
-import logo from './Imgs/InterSocial.png'; // Verifique se o caminho para a logo está correto
+import logo from './Imgs/InterSocial.png';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../contexts/AuthContext'; // Verifique se o caminho para o context está correto
+// Corrigindo o caminho de importação
+import { useAuth } from '../../Contexts/AuthContext.jsx';
 
 function Header() {
-  // Pega o usuário e a função de logout do nosso contexto global.
-  // Se 'user' for null, ninguém está logado.
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
     await logout();
-    // Após o logout, redireciona o usuário para a página inicial.
     navigate('/');
   };
+
+  const podeAcessarPacientes = user && (
+    user.funcao === 'professor' ||
+    user.funcao === 'coordenador' ||
+    user.funcao === 'recepcionista' ||
+    (user.funcao === 'aluno' && user.especialidade_id != null)
+  );
 
   return (
     <header className='meu-cabecalho'>
@@ -29,29 +34,38 @@ function Header() {
 
       <nav className="menu-navegacao">
         <ul>
-          <li><Link to="/">Início</Link></li>
-          <li><Link to="/agendamento">Agendamento</Link></li>
-          <li><Link to="/servicos">Serviços</Link></li>
-          <li><Link to="/projeto">O Projeto</Link></li>
+         
+          {!user && (
+            <>
+              <li><Link to="/">Início</Link></li>
+              <li><Link to="/agendamento">Agendamentos</Link></li>
+              <li><Link to="/servicos">Serviços</Link></li>
+              <li><Link to="/projeto">O Projeto</Link></li>
+            </>
+          )}
           
-          {/* Mostra o link para a 'Minha Conta' apenas se o usuário estiver logado */}
+          
           {user && (
-            <li><Link to="/minha-conta">Minha Conta</Link></li>
+            <>
+              <li><Link to="/">Início</Link></li>
+              <li><Link to="/minha-conta">Minha Conta</Link></li>
+            </>
+          )}
+
+        
+          {podeAcessarPacientes && (
+            <li><Link to="/pacientes">Pacientes</Link></li>
           )}
         </ul>
       </nav>
 
       <div className="menu-conta">
-        {/* Lógica para mostrar os botões corretos */}
         {user ? (
-          // Se EXISTE um usuário logado:
           <>
-            {/* O '?.' é uma segurança para não quebrar se o nome ainda não carregou */}
             <span className="saudacao-usuario">Olá, {user?.nome_completo}</span>
             <button onClick={handleLogout} className="botao-sair">Sair</button>
           </>
         ) : (
-          // Se NÃO existe um usuário logado:
           <Link to="/login" className="botao-entrar">Entrar</Link>
         )}
       </div>

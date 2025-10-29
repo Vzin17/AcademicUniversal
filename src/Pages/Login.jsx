@@ -26,11 +26,7 @@ function Login() {
         throw error; // Joga o erro para o catch
       }
       
-      // A NAVEGAÇÃO FOI REMOVIDA DAQUI!
-      // O AuthContext vai detectar o login e o App.jsx vai te redirecionar
-      // para a página correta (dashboard ou agendamento) automaticamente.
-      // Você pode redirecionar para o dashboard principal se quiser.
-      navigate('/dashboard'); // Opcional: redireciona para a página principal pós-login.
+      navigate('/'); 
 
     } catch (error) {
       console.error("Falha no login", error);

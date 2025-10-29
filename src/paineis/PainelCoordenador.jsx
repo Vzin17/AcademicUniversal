@@ -1,70 +1,56 @@
-import React, { useState, useEffect } from 'react';
-import { supabase } from '../supabaseClient';
-import './PainelCoordenador.css';
+import React from 'react';
+import { useAuth } from '../../Contexts/AuthContext.jsx'; 
+
+import "../CSS_Pgs/PainelCoordenador.css";
+
+import { Link } from 'react-router-dom'; 
 
 function PainelCoordenador() {
-  const [agendamentos, setAgendamentos] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function fetchAgendamentos() {
-      setLoading(true);
-      const { data, error } = await supabase
-        .from('agendamentos')
-        .select('*, perfis(nome_completo)') // <-- ALTERAÇÃO 1
-        .order('data_consulta', { ascending: true });
-
-      if (error) {
-        console.error('Erro ao buscar agendamentos:', error);
-      } else {
-        setAgendamentos(data);
-      }
-      setLoading(false);
+    const { user } = useAuth();
+    
+    if (!user) {
+        return <div>Carregando informações...</div>;
     }
 
-    fetchAgendamentos();
-  }, []);
+    console.log('### ESTOU NO COMPONENTE CORRETO ###');
 
-  if (loading) {
-    return <div>A carregar agendamentos...</div>;
-  }
+    return (
+        <div className="painel-coordenador-container">
+            
+            <h2>Bem-vindo, {user.nome_completo}!</h2>
+            <p>Painel do Coordenador - Acompanhe os prontuários da especialidade</p>
 
-  return (
-    <div className="painel-coordenador-container">
-      <h2>Painel do Coordenador</h2>
-      <h3>Agendamentos da sua Área</h3>
+            <div className="cards-painel-superior">
+                
+                <Link to="/prontuarios" className="card-painel">
+                    <h3>Prontuários Recentes</h3>
+                    <p>Últimos prontuários criados pelos alunos</p>
+                </Link>
 
-      {agendamentos.length === 0 ? (
-        <p>Nenhum agendamento encontrado para a sua área.</p>
-      ) : (
-        <table className="agendamentos-table">
-          <thead>
-            <tr>
-              <th>Data</th>
-              <th>Hora</th>
-              <th>Paciente</th>
-              <th>Status</th>
-              <th>Ações</th>
-            </tr>
-          </thead>
-          <tbody>
-            {agendamentos.map((agendamento) => (
-              <tr key={agendamento.id}>
-                <td>{new Date(agendamento.data_consulta).toLocaleDateString()}</td>
-                <td>{new Date(agendamento.data_consulta).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
-                {/* ALTERAÇÃO 2 ↓ */}
-                <td>{agendamento.perfis ? agendamento.perfis.nome_completo : 'Nome não encontrado'}</td>
-                <td>{agendamento.status || 'Confirmado'}</td>
-                <td>
-                  {/* Espaço para o nosso futuro botão de Cancelar */}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
-    </div>
-  );
+                <div className="card-painel">
+                    <h3>Especialidade</h3>
+                    <p>{user.areas?.name || 'Não definida'}</p>
+                </div>
+
+            </div>
+
+            <div className="notificacoes-container">
+                 <p>Nenhuma notificação encontrada.</p>
+            </div>
+
+            {/* Seção de Ações Rápidas */}
+            <div className="acoes-rapidas-section">
+                <h3>Ações Rápidas</h3>
+                <div className="acoes-rapidas-container">
+                    <Link to="/" className="botao-acao">Início</Link>
+                    <Link to="/pacientes" className="botao-acao">Buscar Pacientes</Link>
+                    <Link to="/agendamento" className="botao-acao">Ver Agendamentos</Link>
+                    <Link to="/admin" className="botao-acao">Painel Administrativo</Link>
+                </div>
+            </div>
+
+        </div>
+    );
 }
 
 export default PainelCoordenador;

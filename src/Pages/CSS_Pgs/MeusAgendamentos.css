@@ -1,0 +1,36 @@
+.meus-agendamentos-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.agendamento-item-card {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 15px;
+    background-color: #f8f9fa;
+    padding: 12px 15px;
+    border-radius: 8px;
+    border-left: 4px solid #4a90e2;
+}
+
+.agendamento-data {
+    font-weight: 600;
+    color: #1c3d5a;
+}
+
+.agendamento-hora {
+    color: #5a7b9c;
+}
+
+.agendamento-area {
+    font-weight: 500;
+    color: #334e68;
+}
+
+.sem-agendamentos {
+    color: #5a7b9c;
+    text-align: center;
+    padding: 20px 0;
+}

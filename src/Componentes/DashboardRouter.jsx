@@ -2,10 +2,11 @@
 
 import React from 'react';
 import { useAuth } from '../contexts/AuthContext'; 
-import PainelAluno from '../paineis/PainelAluno.jsx';
+import DashboardInicio from './DashboardInicio.jsx';
+import AlunoDashboard from './AlunoDashboard.jsx'; // 1. Importamos o painel correto do aluno
 import PainelPaciente from '../paineis/PainelPaciente.jsx';
-import PainelCoordenador from '../paineis/PainelCoordenador.jsx';
-import PainelRecepcionistas from '../paineis/PainelRecepcionistas.jsx';
+import PainelRecepcionistas from '../paineis/PainelRecepcionista.jsx';
+
 
 const DashboardRouter = () => {
   const { user } = useAuth();
@@ -18,14 +19,16 @@ const DashboardRouter = () => {
   const userRole = user.funcao;
 
   switch (userRole) {
-    case 'aluno':
-      return <PainelAluno />;
+     case 'aluno':
+      return <AlunoDashboard />; // 2. Usamos o painel correto
     case 'paciente':
       return <PainelPaciente />;
-    case 'coordenador':
-      return <PainelCoordenador />;
+    // 2. Coordenadores e Professores agora veem o DashboardInicio
+    case 'coordenador': 
+    case 'professor': 
+      return <DashboardInicio />;
     case 'recepcionista':
-      return <PainelRecepcionistas />;
+      return <PainelRecepcionista />;
     default:
       return <div>Acesso negado. Cargo de usuário não reconhecido.</div>;
   }
