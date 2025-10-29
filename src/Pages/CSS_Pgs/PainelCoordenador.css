@@ -1,16 +1,8 @@
 .painel-coordenador-container {
-  background-color: red !important;
-}
-
-
-
-
-
-.painel-coordenador-container {
   padding: 2rem;
   max-width: 1200px;
   margin: 0 auto;
-  font-family: Arial, sans-serif; /* Adiciona uma fonte mais padrão */
+  font-family: Arial, sans-serif;
 }
 
 /* Título de boas-vindas */
@@ -30,14 +22,18 @@
 /* Estilo individual de cada card superior */
 .card-painel {
   flex: 1; /* Faz com que os dois cards ocupem o espaço igualmente */
-  background-color: #7B1FA2; /* Cor roxa (similar à Foto 2) */
+  background-color: #6d44b8; /* Cor roxa (similar à Foto 2) */
   color: white;
   padding: 1.5rem 2rem;
-  border-radius: 8px;
+  border-radius: 12px; /* Cantos arredondados */
   text-decoration: none; /* Remove o sublinhado do link */
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s, box-shadow 0.2s;
-  text-align: center;
+  
+  /* Adicionado para alinhar o texto como na Imagem 2 */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .card-painel:hover {
@@ -46,10 +42,10 @@
 }
 
 .card-painel h3 {
-  border-bottom: none; /* Remove a borda padrão que você tinha */
+  border-bottom: none; /* Remove a borda padrão */
   padding-bottom: 0;
   margin: 0 0 0.5rem 0; /* Ajusta margens */
-  font-size: 1.25rem;
+  font-size: 1.3rem; 
 }
 
 .card-painel p {
@@ -71,77 +67,56 @@
 }
 
 /* Título "Ações Rápidas" */
-.acoes-rapidas h3 {
+.acoes-rapidas-section h3 {
   font-size: 1.5rem;
   color: #333;
-  border-bottom: 2px solid #e0e0e0;
   padding-bottom: 1rem;
   margin-top: 2rem;
   margin-bottom: 1.5rem;
 }
 
 /* Container dos botões de Ações Rápidas */
-.acoes-rapidas {
+.acoes-rapidas-container {
   display: flex;
-  flex-wrap: wrap; /* Permite que os botões quebrem a linha em telas menores */
+  flex-wrap: wrap; /* Permite que os botões quebrem a linha */
   gap: 1rem; /* Espaçamento entre os botões */
 }
 
 /* Estilo individual dos botões de Ação Rápida */
 .botao-acao {
   padding: 0.75rem 1.5rem;
-  border-radius: 5px;
+  border-radius: 8px; /* Cantos mais arredondados */
   text-decoration: none;
   color: white;
   font-weight: bold;
   text-align: center;
   transition: opacity 0.2s;
+  border: none;
+  cursor: pointer;
 }
 
 .botao-acao:hover {
   opacity: 0.85;
 }
 
-/* Cores específicas para cada botão (baseado na Foto 2) */
+
 
 /* Botão 1: Início */
 .botao-acao:nth-of-type(1) {
-  background-color: #007BFF; /* Azul */
+  background-color: #1e73be; /* Azul */
 }
 
 /* Botão 2: Buscar Pacientes */
 .botao-acao:nth-of-type(2) {
-  background-color: #007BFF; /* Azul */
+  background-color: #1e73be; /* Azul */
 }
 
 /* Botão 3: Ver Agendamentos */
 .botao-acao:nth-of-type(3) {
-  background-color: #28a745; /* Verde */
+  background-color: #4caf50; /* Verde */
 }
 
 /* Botão 4: Painel Administrativo */
 .botao-acao:nth-of-type(4) {
   background-color: #6c757d; /* Cinza */
-}
-
-
-/* --- Estilos da tabela (do seu código original) --- */
-.agendamentos-table {
- width: 100%;
- border-collapse: collapse;
-}
-
-.agendamentos-table th {
- padding: 8px 12px;
- text-align: left;
- font-weight: bold;
- border-bottom: 2px solid black;
-}
-
-.agendamentos-table tbody tr {
- border-bottom: 1px solid #ccc;
-}
-
-.agendamentos-table td {
- padding: 8px 12px;
 }

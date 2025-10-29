@@ -1,6 +1,11 @@
 import React from 'react';
-import { useAuth } from './Contexts/AuthContext.jsx'; 
-import "./PainelCoordenador.css";
+// Verifique se este caminho está correto para o seu projeto
+import { useAuth } from '../Contexts/AuthContext.jsx'; 
+
+// Verifique se este caminho está correto
+// Remova o ../ do início
+import "./CSS_Pgs/PainelCoordenador.css";
+
 import { Link } from 'react-router-dom'; 
 
 function PainelCoordenador() {
@@ -16,6 +21,7 @@ function PainelCoordenador() {
             <h2>Bem-vindo, {user.nome_completo}!</h2>
             <p>Painel do Coordenador - Acompanhe os prontuários da especialidade</p>
 
+            {/* Container dos cards superiores */}
             <div className="cards-painel-superior">
                 
                 <Link to="/prontuarios" className="card-painel">
@@ -34,12 +40,15 @@ function PainelCoordenador() {
                  <p>Nenhuma notificação encontrada.</p>
             </div>
 
-            <div className="acoes-rapidas">
+            {/* Seção de Ações Rápidas */}
+            <div className="acoes-rapidas-section">
                 <h3>Ações Rápidas</h3>
-                <Link to="/" className="botao-acao">Início</Link>
-                <Link to="/pacientes" className="botao-acao">Buscar Pacientes</Link>
-                <Link to="/agendamento" className="botao-acao">Ver Agendamentos</Link>
-                <Link to="/admin" className="botao-acao">Painel Administrativo</Link>
+                <div className="acoes-rapidas-container">
+                    <Link to="/" className="botao-acao">Início</Link>
+                    <Link to="/pacientes" className="botao-acao">Buscar Pacientes</Link>
+                    <Link to="/agendamento" className="botao-acao">Ver Agendamentos</Link>
+                    <Link to="/admin" className="botao-acao">Painel Administrativo</Link>
+                </div>
             </div>
 
         </div>
