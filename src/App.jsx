@@ -55,16 +55,7 @@ function App() {
               />
               
               <Route
-                path="/dashboard"
-                element={
-                  <ProtectedRoute>
-                    <DashboardRouter />
-                  </ProtectedRoute>
-                }
-              />
-
-              <Route
-                path="/minha-conta"
+                path="/minha-conta/*"
                 element={
                   <ProtectedRoute>
                     <MinhaConta />

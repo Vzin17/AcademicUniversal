@@ -2,7 +2,7 @@ import React from 'react';
 import './Header.css';
 import logo from './Imgs/InterSocial.png';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../contexts/AuthContext';
+import { useAuth } from './../contexts/AuthContext';
 
 function Header() {
   const { user, logout } = useAuth();
@@ -34,11 +34,7 @@ function Header() {
 
       <nav className="menu-navegacao">
         <ul>
-          {/* O link "Início" foi removido. */}
-          
-          <li><Link to="/agendamento">Agendamento</Link></li>
-
-          {/* Links que só aparecem se NÃO estiver logado */}
+         
           {!user && (
             <>
               <li><Link to="/servicos">Serviços</Link></li>
@@ -48,7 +44,10 @@ function Header() {
           
           {/* Links que só aparecem se ESTIVER logado */}
           {user && (
-            <li><Link to="/minha-conta">Minha Conta</Link></li>
+            <>
+              <li><Link to="/">Início</Link></li>
+              <li><Link to="/minha-conta">Minha Conta</Link></li>
+            </>
           )}
 
           {/* MUDANÇA AQUI:

@@ -1,5 +1,6 @@
 import React from 'react';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from './contexts/AuthContext';
+import { Link } from 'react-router-dom';
 import NotificacoesProntuarios from '../Componentes/NotificacoesProntuarios';
 import '../Pages/CSS_Pgs/Dashboard.css';
 
@@ -23,15 +24,16 @@ function DashboardInicio() {
       </div>
 
       <div className="dashboard-content">
-        <div className="dashboard-stats">
-          <div className="stat-card">
+        <div className="cards-painel-superior">
+          <Link to="/pacientes" className="card-painel">
             <h3>Prontuários Recentes</h3>
             <p>Últimos prontuários criados pelos alunos</p>
-          </div>
+          </Link>
           
-          <div className="stat-card">
+          <div className="card-painel">
             <h3>Especialidade</h3>
-            <p>{user.especialidade_id || 'Não definida'}</p>
+            {/* CORREÇÃO: Exibe o nome da especialidade vindo de 'areas.name' */}
+            <p>{user.areas?.name || 'Não definida'}</p>
           </div>
         </div>
 
@@ -41,17 +43,20 @@ function DashboardInicio() {
 
         <div className="dashboard-actions">
           <h3>Ações Rápidas</h3>
-          <div className="action-buttons">
-            <a href="/pacientes" className="action-btn primary">
+          <div className="botoes-acao-container">
+            <Link to="/" className="botao-acao">
+              Início
+            </Link>
+            <Link to="/pacientes" className="botao-acao">
               Buscar Pacientes
-            </a>
-            <a href="/agendamento" className="action-btn secondary">
+            </Link>
+            <Link to="/agendamento" className="botao-acao">
               Ver Agendamentos
-            </a>
+            </Link>
             {user.funcao === 'coordenador' && (
-              <a href="/dashboard" className="action-btn tertiary">
+              <Link to="/admin" className="botao-acao">
                 Painel Administrativo
-              </a>
+              </Link>
             )}
           </div>
         </div>

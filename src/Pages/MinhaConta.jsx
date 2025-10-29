@@ -1,94 +1,86 @@
-import React, { useState, useEffect } from 'react';
-import { useAuth } from '../contexts/AuthContext';
-import { supabase } from '../supabaseClient';
-import './CSS_Pgs/MinhaConta.css'; // Crie um CSS para estilizar
+import React from 'react';
+import { useAuth } from '../Contexts/AuthContext';
+import './MinhaConta.css'; // Usaremos um novo CSS para esta página
+import Seguranca from './Seguranca'; // Importando o componente de segurança
+import MeusAgendamentos from './MeusAgendamentos'; // Importando o componente de agendamentos
+import { Link } from 'react-router-dom';
 
 function MinhaConta() {
-  const { user } = useAuth(); // Pega os dados do usuário do nosso contexto
-
-  const [agendamentos, setAgendamentos] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchAgendamentos = async () => {
-      if (!user) return; // Garante que o usuário existe antes de buscar
-
-      try {
-        const { data, error } = await supabase
-          .from('agendamentos')
-          .select('*') // Pega todos os dados do agendamento
-          .eq('usuario_id', user.id) // Onde o usuario_id seja o do usuário logado
-          .order('data_consulta', { ascending: false }); // Ordena pelos mais recentes
-
-        if (error) {
-          throw error;
-        }
-        setAgendamentos(data);
-      } catch (err) {
-        setError(err.message);
-        console.error("Erro ao buscar agendamentos:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchAgendamentos();
-  }, [user]); // Roda o efeito sempre que o objeto 'user' mudar
-
-  // Separa os agendamentos em próximos e passados
-  const hoje = new Date();
-  const proximosAgendamentos = agendamentos.filter(ag => new Date(ag.data_consulta) >= hoje);
-  const historicoAgendamentos = agendamentos.filter(ag => new Date(ag.data_consulta) < hoje);
+  const { user, loading } = useAuth();
 
   if (loading) {
     return <div>Carregando informações da conta...</div>;
   }
-  
-  if (error) {
-    return <div className="error-message">Ocorreu um erro: {error}</div>;
+
+  if (!user) {
+    return <div>Não foi possível carregar as informações do usuário.</div>;
   }
 
   return (
-    <div className="minha-conta-container">
-      <h1>Minha Conta</h1>
+    <div className="minha-conta-wrapper">
+      <div className="minha-conta-container">
+        <div className="minha-conta-header">
+          <h1 className="minha-conta-title">Minha Conta</h1>
+          <p className="minha-conta-subtitle">Gerencie suas informações, agendamentos e segurança.</p>
+        </div>
 
-      <section className="dados-pessoais-section">
-        <h2>Meus Dados</h2>
-        <p><strong>Nome:</strong> {user?.nome_completo}</p>
-        <p><strong>Email:</strong> {user?.email}</p>
-        <p><strong>Função:</strong> {user?.funcao}</p>
-        {user?.ra && <p><strong>RA:</strong> {user.ra}</p>}
-      </section>
-
-      <section className="agendamentos-section">
-        <h2>Próximos Agendamentos</h2>
-        {proximosAgendamentos.length > 0 ? (
-          proximosAgendamentos.map(ag => (
-            <div key={ag.id} className="agendamento-card">
-              <p><strong>Área:</strong> {ag.area_especialidade}</p>
-              <p><strong>Data:</strong> {new Date(ag.data_consulta).toLocaleString('pt-BR')}</p>
-              {/* Você pode adicionar mais detalhes aqui */}
+        <div className="minha-conta-grid">
+          {/* Coluna da Esquerda */}
+          <div className="coluna-principal">
+            <div className="conta-card">
+              <h2 className="card-title">Meus Dados</h2>
+              <div className="dados-pessoais">
+                <div className="dado-item">
+                  <strong>Nome:</strong>
+                  <span>{user.nome_completo || 'Não informado'}</span>
+                </div>
+                <div className="dado-item">
+                  <strong>E-mail:</strong>
+                  <span>{user.email || 'Não informado'}</span>
+                </div>
+                <div className="dado-item">
+                  <strong>Função:</strong>
+                  <span className="funcao-tag">{user.funcao || 'Não informada'}</span>
+                </div>
+                {user.ra && (
+                  <div className="dado-item">
+                    <strong>RA:</strong>
+                    <span>{user.ra}</span>
+                  </div>
+                )}
+                {user.areas?.name && (
+                  <div className="dado-item">
+                    <strong>Especialidade:</strong>
+                    <span>{user.areas.name}</span>
+                  </div>
+                )}
+              </div>
             </div>
-          ))
-        ) : (
-          <p>Você não tem nenhum agendamento futuro.</p>
-        )}
-      </section>
 
-      <section className="agendamentos-section">
-        <h2>Histórico de Agendamentos</h2>
-        {historicoAgendamentos.length > 0 ? (
-          historicoAgendamentos.map(ag => (
-            <div key={ag.id} className="agendamento-card historico">
-              <p><strong>Área:</strong> {ag.area_especialidade}</p>
-              <p><strong>Data:</strong> {new Date(ag.data_consulta).toLocaleString('pt-BR')}</p>
+            <div className="conta-card">
+              <h2 className="card-title">Segurança</h2>
+              <Seguranca />
             </div>
-          ))
-        ) : (
-          <p>Você ainda não completou nenhum agendamento.</p>
-        )}
-      </section>
+          </div>
+
+          {/* Coluna da Direita */}
+          <div className="coluna-lateral">
+            <div className="conta-card">
+              <h2 className="card-title">Ações Rápidas</h2>
+              <div className="acoes-rapidas-conta">
+                <Link to="/agendamento" className="acao-item">Novo Agendamento</Link>
+                <Link to="/servicos" className="acao-item">Ver Serviços</Link>
+                {/* Adicione outras ações conforme necessário */}
+              </div>
+            </div>
+
+            <div className="conta-card">
+              <h2 className="card-title">Meus Agendamentos</h2>
+              <MeusAgendamentos />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

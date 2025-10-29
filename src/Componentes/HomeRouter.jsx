@@ -6,11 +6,16 @@ import Inicio from '../Pages/Inicio/Inicio.jsx';
 import DashboardRouter from './DashboardRouter.jsx';
 
 const HomeRouter = () => {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
 
-  // Esta é a lógica "inteligente":
-  // Se houver um 'user' (usuário logado), renderiza o DashboardRouter.
-  // Se não, renderiza a página de 'Inicio' (Landing Page).
+  // Se ainda estiver carregando os dados do usuário, exibe uma mensagem.
+  if (loading) {
+    return <div>Carregando...</div>;
+  }
+
+  // Após o carregamento:
+  // Se 'user' existir, o DashboardRouter (que agora tem user.funcao) decide qual painel mostrar.
+  // Caso contrário, mostra a página inicial para visitantes.
   return user ? <DashboardRouter /> : <Inicio />;
 };
 

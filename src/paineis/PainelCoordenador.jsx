@@ -1,103 +1,51 @@
-import React, { useState, useEffect } from 'react';
-import { supabase } from '../supabaseClient';
+import React from 'react';
+import { useAuth } from '../Contexts/AuthContext'; 
 import "./PainelCoordenador.css";
+import { Link } from 'react-router-dom'; 
 
-function PainelProfessor() {
-  const [agendamentos, setAgendamentos] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    fetchAgendamentos();
-  }, []);
-
-  async function fetchAgendamentos() {
-    setLoading(true);
-    const { data, error } = await supabase
-      .from('agendamentos')
-      .select('*, perfis(nome_completo)')
-      .order('data_consulta', { ascending: true });
-
-    if (error) {
-      console.error('Erro ao buscar agendamentos:', error);
-      setError('Não foi possível carregar os agendamentos.');
-    } else {
-      setAgendamentos(data);
+function PainelCoordenador() {
+    const { user } = useAuth();
+    
+    if (!user) {
+        return <div>Carregando informações...</div>;
     }
-    setLoading(false);
-  }
 
-  const handleUpdateStatus = async (agendamentoId, novoStatus) => {
-    const acao = novoStatus === 'Cancelado' ? 'cancelar' : 'reativar';
-    const confirmacao = window.confirm(`Tem a certeza de que deseja ${acao} este agendamento?`);
-    if (!confirmacao) return;
+    return (
+        <div className="painel-coordenador-container">
+            
+            <h2>Bem-vindo, {user.nome_completo}!</h2>
+            <p>Painel do Coordenador - Acompanhe os prontuários da especialidade</p>
 
-    const { error } = await supabase
-      .from('agendamentos')
-      .update({ status: novoStatus })
-      .eq('id', agendamentoId);
+            <div className="cards-painel-superior">
+                
+                <Link to="/prontuarios" className="card-painel">
+                    <h3>Prontuários Recentes</h3>
+                    <p>Últimos prontuários criados pelos alunos</p>
+                </Link>
 
-    if (error) {
-      alert(`Não foi possível ${acao} o agendamento.`);
-      console.error(`Erro ao ${acao}:`, error);
-    } else {
-      setAgendamentos(listaAtual =>
-        listaAtual.map(ag =>
-          ag.id === agendamentoId ? { ...ag, status: novoStatus } : ag
-        )
-      );
-    }
-  };
+                <div className="card-painel">
+                    <h3>Especialidade</h3>
+                    {/* Agora user.areas (do AuthContext) deve vir preenchido */}
+                    <p>{user.areas?.name || 'Não definida'}</p>
+                </div>
 
-  if (loading) return <div>A carregar agendamentos...</div>;
-  if (error) return <div>Erro: {error}</div>;
+            </div>
 
-  return (
-    <div className="painel-professor-container">
-      <h2>Painel do Professor</h2>
-      
-      <h3>Agendamentos da sua Área</h3>
-      {agendamentos.length === 0 ? (
-        <p>Nenhum agendamento encontrado.</p>
-      ) : (
-        <table className="agendamentos-table">
-          <thead>
-            <tr>
-              <th>Data</th>
-              <th>Hora</th>
-              <th>Paciente</th>
-              <th>Status</th>
-              <th>Ações</th>
-            </tr>
-          </thead>
-          <tbody>
-            {agendamentos.map((agendamento) => {
-              const statusLimpo = (agendamento.status || 'Confirmado').replace(/'/g, '');
-              return (
-                <tr key={agendamento.id}>
-                  <td>{new Date(agendamento.data_consulta).toLocaleDateString()}</td>
-                  <td>{new Date(agendamento.data_consulta).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
-                  <td>{agendamento.perfis ? agendamento.perfis.nome_completo : 'Nome não encontrado'}</td>
-                  <td>{statusLimpo}</td>
-                  <td>
-                    {statusLimpo === 'Cancelado' ? (
-                      <button onClick={() => handleUpdateStatus(agendamento.id, 'Confirmado')}>
-                        Reverter
-                      </button>
-                    ) : (
-                      <button onClick={() => handleUpdateStatus(agendamento.id, 'Cancelado')}>
-                        Cancelar
-                      </button>
-                    )}
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      )}
-    </div>
-  );
+            <div className="notificacoes-container">
+                 {/* <NotificacoesProntuarios />  Podes descomentar isto se quiseres */}
+                 <p>Nenhuma notificação encontrada.</p>
+            </div>
+
+            <div className="acoes-rapidas">
+                <h3>Ações Rápidas</h3>
+                <Link to="/" className="botao-acao">Início</Link>
+                <Link to="/pacientes" className="botao-acao">Buscar Pacientes</Link>
+                <Link to="/agendamento" className="botao-acao">Ver Agendamentos</Link>
+                <Link to="/admin" className="botao-acao">Painel Administrativo</Link>
+            </div>
+
+        </div>
+    );
 }
 
-export default PainelProfessor;
+export default PainelCoordenador;

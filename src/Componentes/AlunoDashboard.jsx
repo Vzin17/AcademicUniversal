@@ -15,6 +15,9 @@ function AlunoDashboard() {
       <p>Bem-vindo ao sistema de prontuários acadêmicos.</p>
       
       <div className="aluno-actions">
+        <a href="/" className="action-btn primary">
+          Início
+        </a>
         <a href="/pacientes" className="action-btn primary">
           Buscar Pacientes
         </a>
