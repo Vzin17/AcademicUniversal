@@ -1,39 +1,36 @@
 import React, { useState, useEffect } from 'react';
-import { supabase } from '../supabaseClient'; // Garante que o caminho está correto
-import { useAuth } from '../Contexts/AuthContext.jsx'; // Garante que o caminho está correto
-import '../Pages/CSS_Pgs/Notificacoes.css'; // Garante que o caminho está correto
+import { supabase } from '../supabaseClient'; 
+import { useAuth } from '../Contexts/AuthContext.jsx'; 
+import '../Pages/CSS_Pgs/Notificacoes.css'; 
 
 function NotificacoesProntuarios() {
-  const { user } = useAuth();
-  const [notificacoes, setNotificacoes] = useState([]);
-  const [carregando, setCarregando] = useState(true);
+ const { user } = useAuth();
+ const [notificacoes, setNotificacoes] = useState([]);
+ const [carregando, setCarregando] = useState(true);
 
-  useEffect(() => {
-    if (!user) return;
+ useEffect(() => {
+  if (!user) return;
 
-    const carregarNotificacoes = async () => {
+  const carregarNotificacoes = async () => {
       setCarregando(true);
-      try {
-        let query = supabase
-          .from('prontuarios')
-          .select(`
-            *,
-            paciente:perfis!prontuarios_paciente_id_fkey(nome_completo),
-            aluno:perfis!prontuarios_aluno_id_fkey(nome_completo, especialidade_id)
-          `)
-          .order('created_at', { ascending: false })
-          .limit(10);
+   try {
+    let query = supabase
+     .from('prontuarios')
+     .select(`
+      *,
+      paciente:perfis!prontuarios_paciente_id_fkey(nome_completo),
+      aluno:perfis!prontuarios_aluno_id_fkey(nome_completo, especialidade_id)
+     `)
+     .order('created_at', { ascending: false })
+     .limit(10);
 
         if (user.funcao === 'professor') {
           query = query.ilike('supervisor_nome', `%${user.nome_completo}%`);
         
         } else if (user.funcao === 'coordenador') {
-          // ----- CORREÇÃO IMPORTANTE AQUI -----
-          // Nós alteramos o SELECT acima para incluir 'especialidade_id' dentro do 'aluno'
-          // Agora, usamos .eq() para filtrar na tabela 'aluno' (que é 'perfis')
-          // A sintaxe correta é 'tabela_estrangeira!coluna_chave.coluna_desejada'
+      
           query = query.eq('aluno.especialidade_id', user.especialidade_id);
-          // ----- FIM DA CORREÇÃO -----
+          
 
         } else {
           query = query.eq('aluno_id', user.id);
@@ -42,11 +39,11 @@ function NotificacoesProntuarios() {
         const { data, error } = await query;
 
         if (error) {
-          // Adicionamos um log mais detalhado
+          
           console.error('Erro ao carregar notificações (Query Falhou):', error.message);
           setNotificacoes([]);
         } else {
-          // O Supabase v7+ retorna os dados filtrados em 'data', não precisamos filtrar de novo
+          
           setNotificacoes(data || []);
         }
       } catch (error) {

@@ -3,7 +3,7 @@ import './Header.css';
 import logo from './Imgs/InterSocial.png';
 import { Link, useNavigate } from 'react-router-dom';
 // Corrigindo o caminho de importação
-import { useAuth } from '../../Contexts/AuthContext';
+import { useAuth } from '../../Contexts/AuthContext.jsx';
 
 function Header() {
   const { user, logout } = useAuth();
@@ -14,7 +14,6 @@ function Header() {
     navigate('/');
   };
 
-  // Esta lógica ainda é útil! Define quem pode acessar a seção de pacientes.
   const podeAcessarPacientes = user && (
     user.funcao === 'professor' ||
     user.funcao === 'coordenador' ||
@@ -38,12 +37,14 @@ function Header() {
          
           {!user && (
             <>
+              <li><Link to="/">Início</Link></li>
+              <li><Link to="/agendamento">Agendamentos</Link></li>
               <li><Link to="/servicos">Serviços</Link></li>
               <li><Link to="/projeto">O Projeto</Link></li>
             </>
           )}
           
-          {/* Links que só aparecem se ESTIVER logado */}
+          
           {user && (
             <>
               <li><Link to="/">Início</Link></li>
@@ -51,10 +52,7 @@ function Header() {
             </>
           )}
 
-          {/* MUDANÇA AQUI:
-            Trocamos "Criar Prontuário" por "Pacientes".
-            Esta página /pacientes será uma tela de busca.
-          */}
+        
           {podeAcessarPacientes && (
             <li><Link to="/pacientes">Pacientes</Link></li>
           )}

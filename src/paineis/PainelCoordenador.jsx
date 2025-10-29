@@ -25,14 +25,12 @@ function PainelCoordenador() {
 
                 <div className="card-painel">
                     <h3>Especialidade</h3>
-                    {/* Agora user.areas (do AuthContext) deve vir preenchido */}
                     <p>{user.areas?.name || 'Não definida'}</p>
                 </div>
 
             </div>
 
             <div className="notificacoes-container">
-                 {/* <NotificacoesProntuarios />  Podes descomentar isto se quiseres */}
                  <p>Nenhuma notificação encontrada.</p>
             </div>
 

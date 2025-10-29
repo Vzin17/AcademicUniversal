@@ -32,7 +32,7 @@ function DashboardInicio() {
           
           <div className="card-painel">
             <h3>Especialidade</h3>
-            {/* CORREÇÃO: Exibe o nome da especialidade vindo de 'areas.name' */}
+            
             <p>{user.areas?.name || 'Não definida'}</p>
           </div>
         </div>
