@@ -1,5 +1,6 @@
 import React from 'react';
 import { useAuth } from '../contexts/AuthContext';
+import { Link } from 'react-router-dom'; // Adicionado o Link
 import '../Pages/CSS_Pgs/Dashboard.css';
 
 function AlunoDashboard() {
@@ -15,18 +16,15 @@ function AlunoDashboard() {
       <p>Bem-vindo ao sistema de prontuários acadêmicos.</p>
       
       <div className="aluno-actions">
-        <a href="/" className="action-btn primary">
-          Início
-        </a>
-        <a href="/pacientes" className="action-btn primary">
+        <Link to="/pacientes" className="action-btn primary">
           Buscar Pacientes
-        </a>
-        <a href="/agendamento" className="action-btn secondary">
+        </Link>
+        <Link to="/agendamento" className="action-btn secondary">
           Fazer Agendamento
-        </a>
-        <a href="/minha-conta" className="action-btn tertiary">
+        </Link>
+        <Link to="/minha-conta" className="action-btn tertiary">
           Minha Conta
-        </a>
+        </Link>
       </div>
     </div>
   );

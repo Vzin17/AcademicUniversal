@@ -1,49 +1,108 @@
 
+/* --- ESTILOS MODERNIZADOS PARA A PÁGINA DE CRIAR PRONTUÁRIO --- */
 
 .prontuario-container {
-  padding: 2rem;
-  max-width: 800px;
-  margin: 0 auto;
+  font-family: 'Segoe UI', sans-serif;
+  max-width: 1100px; /* Aumentado significativamente */
+  margin: 40px auto;
+  padding: 35px 40px;
+  background-color: #f8faff;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(100, 120, 150, 0.15);
+}
+
+.prontuario-container h1 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #003366;
+  margin-bottom: 25px;
+  text-align: center;
 }
 
 .prontuario-form {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem; 
+  gap: 20px;
 }
 
-.prontuario-form div {
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px 30px;
+}
+
+.form-group {
   display: flex;
   flex-direction: column;
 }
 
+.form-group.full-width {
+  grid-column: 1 / -1;
+}
+
 .prontuario-form label {
-  margin-bottom: 0.5rem;
-  font-weight: bold;
-  color: #333;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #5a6e8a;
 }
 
 .prontuario-form input,
 .prontuario-form select,
 .prontuario-form textarea {
-  padding: 0.75rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #d1d9e6;
+  border-radius: 6px;
   font-size: 1rem;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #ffffff !important; /* Fundo branco (forçado) */
+  color: #334e68 !important; /* Cor do texto escura (forçada) */
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+
+.prontuario-form input:focus,
+.prontuario-form select:focus,
+.prontuario-form textarea:focus {
+  outline: none;
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+}
+
+.prontuario-form textarea {
+  resize: vertical;
+  min-height: 120px;
 }
 
 .prontuario-form button {
-  margin-top: 1rem;
-  padding: 0.85rem;
-  font-size: 1.1rem;
-  font-weight: bold;
-  color: white;
-  background-color: #007bff; 
+  margin-top: 20px;
+  padding: 14px 30px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #4a90e2;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
+  align-self: flex-end; /* Alinha o botão à direita */
+  transition: all 0.2s ease;
 }
 
 .prontuario-form button:hover {
-  background-color: #0056b3;
+  background-color: #3c7ddc;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* --- Estilos para o grupo de checkboxes --- */
+.checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+}
+
+.checkbox-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }

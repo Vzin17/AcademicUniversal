@@ -5,7 +5,7 @@ import { useAuth } from '../contexts/AuthContext';
 import DashboardInicio from './DashboardInicio.jsx';
 import AlunoDashboard from './AlunoDashboard.jsx'; // 1. Importamos o painel correto do aluno
 import PainelPaciente from '../paineis/PainelPaciente.jsx';
-import PainelRecepcionistas from '../paineis/PainelRecepcionista.jsx';
+import PainelRecepcionista from '../paineis/PainelRecepcionista.jsx'; // Corrigido o caminho
 
 
 const DashboardRouter = () => {

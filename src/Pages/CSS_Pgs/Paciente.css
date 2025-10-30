@@ -1,8 +1,9 @@
+/* --- ESTILOS GERAIS DA PÁGINA --- */
 .ficha-paciente-container {
   max-width: 1000px;
   margin: 0 auto;
   padding: 20px;
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', sans-serif;
 }
 
 .ficha-header {
@@ -10,11 +11,10 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 30px;
-  padding-bottom: 20px;
-  border-bottom: 2px solid #e0e0e0;
 }
 
 .ficha-header h2 {
+  font-size: 1.8rem;
   color: #333;
   margin: 0;
 }
@@ -26,10 +26,12 @@
 
 .btn-voltar, .btn-prontuario {
   padding: 10px 20px;
+  border: none;
   text-decoration: none;
   border-radius: 4px;
-  font-weight: 500;
-  transition: background-color 0.3s;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  cursor: pointer;
 }
 
 .btn-voltar {
@@ -39,6 +41,7 @@
 
 .btn-voltar:hover {
   background-color: #545b62;
+  transform: translateY(-1px);
 }
 
 .btn-prontuario {
@@ -48,6 +51,7 @@
 
 .btn-prontuario:hover {
   background-color: #218838;
+  transform: translateY(-1px);
 }
 
 .ficha-dados {
@@ -55,6 +59,7 @@
   gap: 30px;
 }
 
+/* --- DADOS DO PACIENTE --- */
 .dados-pessoais {
   background-color: #f8f9fa;
   padding: 25px;
@@ -87,6 +92,7 @@
   flex: 1;
 }
 
+/* --- OBSERVAÇÕES --- */
 .observacoes {
   background-color: #fff3cd;
   padding: 25px;
@@ -125,7 +131,7 @@
   text-decoration: underline;
 }
 
-/* Estilos para Prontuários */
+/* --- SEÇÃO DE PRONTUÁRIOS --- */
 .prontuarios-section {
   margin-top: 40px;
   padding: 25px;
@@ -175,7 +181,7 @@
   border: 1px solid #ddd;
   border-radius: 4px;
   font-size: 16px;
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', sans-serif;
   box-sizing: border-box;
 }
 
@@ -347,4 +353,21 @@
 
 .form-actions button[type="button"]:hover {
   background-color: #545b62;
+}
+
+/* --- ESTILOS PARA A PÁGINA DE CRIAR PRONTUÁRIO --- */
+/* Adicionado aqui para garantir que a caixa seja maior */
+
+.prontuario-container {
+  font-family: 'Segoe UI', sans-serif;
+  max-width: 950px; /* Aumentado para dar mais espaço */
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #f8faff;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(100, 120, 150, 0.15);
+}
+
+.prontuario-container h1 {
+  color: #003366;
 }

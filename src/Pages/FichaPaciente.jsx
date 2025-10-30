@@ -261,12 +261,10 @@ function FichaPaciente() {
         <h2>Ficha do Paciente</h2>
         <div className="ficha-acoes">
           <Link to="/pacientes" className="btn-voltar">← Voltar</Link>
-          <button 
-            onClick={() => setMostrarFormulario(!mostrarFormulario)}
-            className="btn-prontuario"
-          >
-            {mostrarFormulario ? 'Cancelar' : 'Adicionar Prontuário'}
-          </button>
+          {/* Alterado para navegar para a página de criação de prontuário */}
+          <Link to={`/pacientes/${id}/criar-prontuario`} className="btn-prontuario">
+            Adicionar Prontuário
+          </Link>
         </div>
       </div>
 
@@ -468,26 +466,31 @@ function FichaPaciente() {
                 <div className="prontuario-header">
                   <h4>{prontuario.titulo}</h4>
                   <div className="prontuario-meta">
-                    <span className="data-hora">
+                    <span className="data-hora" title="Data e Hora">
+                      <i className="fas fa-calendar-alt"></i>
                       {formatarDataHora(prontuario.created_at)}
                     </span>
                     {prontuario.aluno && (
-                      <span className="autor">
-                        Aluno: {prontuario.aluno.nome_completo}
+                      <span className="autor" title="Aluno Responsável">
+                        <i className="fas fa-user-graduate"></i>
+                        {prontuario.aluno.nome_completo}
                       </span>
                     )}
                     {prontuario.aluno_parceiro_nome && (
-                      <span className="parceiro">
-                        Parceiro: {prontuario.aluno_parceiro_nome}
+                      <span className="parceiro" title="Aluno Parceiro">
+                        <i className="fas fa-user-friends"></i>
+                        {prontuario.aluno_parceiro_nome}
                       </span>
                     )}
                     {prontuario.supervisor_nome && (
-                      <span className="supervisor">
-                        Supervisor: {prontuario.supervisor_nome}
+                      <span className="supervisor" title="Supervisor">
+                        <i className="fas fa-user-tie"></i>
+                        {prontuario.supervisor_nome}
                       </span>
                     )}
                     {prontuario.duracao_procedimento > 0 && (
-                      <span className="duracao">
+                      <span className="duracao" title="Duração">
+                        <i className="fas fa-clock"></i>
                         {prontuario.duracao_procedimento} min
                       </span>
                     )}

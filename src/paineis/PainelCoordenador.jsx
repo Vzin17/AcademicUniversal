@@ -22,15 +22,10 @@ function PainelCoordenador() {
 
             <div className="cards-painel-superior">
                 
-                <Link to="/prontuarios" className="card-painel">
+                <Link to="/prontuarios/recentes" className="card-painel">
                     <h3>Prontuários Recentes</h3>
                     <p>Últimos prontuários criados pelos alunos</p>
                 </Link>
-
-                <div className="card-painel">
-                    <h3>Especialidade</h3>
-                    <p>{user.areas?.name || 'Não definida'}</p>
-                </div>
 
             </div>
 

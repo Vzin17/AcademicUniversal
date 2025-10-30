@@ -1,41 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../supabaseClient';
 import { useAuth } from '../contexts/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import './CSS_Pgs/CriarProntuario.css';
 
 function CriarProntuario() {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const { id: pacienteIdFromUrl } = useParams(); // Pega o ID do paciente da URL
   const [pacientes, setPacientes] = useState([]);
-  const [supervisores, setSupervisores] = useState([]);
-  const [alunosParceiros, setAlunosParceiros] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [salvando, setSalvando] = useState(false); // Estado para o botão de salvar
 
-  const [selectedPaciente, setSelectedPaciente] = useState('');
+  const [pacienteId, setPacienteId] = useState(pacienteIdFromUrl || ''); // Pré-seleciona o paciente
   const [titulo, setTitulo] = useState('');
   const [conteudo, setConteudo] = useState('');
   const [duracao, setDuracao] = useState('');
-  const [selectedParceiro, setSelectedParceiro] = useState('');
-  const [selectedSupervisores, setSelectedSupervisores] = useState([]);
+  const [alunoParceiroNome, setAlunoParceiroNome] = useState(''); // Novo estado para texto
+  const [supervisorNome, setSupervisorNome] = useState(''); // Novo estado para texto
 
   useEffect(() => {
     async function fetchData() {
       if (!user) return;
       try {
-        const [pacientesRes, supervisoresRes, alunosRes] = await Promise.all([
-          supabase.from('perfis').select('id, nome_completo').eq('funcao', 'paciente'),
-          supabase.from('perfis').select('id, nome_completo').eq('funcao', 'professor').eq('especialidade_id', user.especialidade_id),
-          supabase.from('perfis').select('id, nome_completo').eq('funcao', 'aluno').eq('especialidade_id', user.especialidade_id).not('id', 'eq', user.id)
-        ]);
-        if (pacientesRes.error) throw pacientesRes.error;
-        if (supervisoresRes.error) throw supervisoresRes.error;
-        if (alunosRes.error) throw alunosRes.error;
+        // Busca apenas os pacientes agora
+        const { data: pacientesData, error: pacientesError } = await supabase
+          .from('perfis')
+          .select('id, nome_completo')
+          .eq('funcao', 'paciente');
         
-        setPacientes(pacientesRes.data);
-        setSupervisores(supervisoresRes.data);
-        setAlunosParceiros(alunosRes.data);
+        if (pacientesError) throw pacientesError;
+        setPacientes(pacientesData);
 
       } catch (error) {
         console.error('Erro ao buscar dados:', error);
@@ -47,29 +43,36 @@ function CriarProntuario() {
     fetchData();
   }, [user]);
 
-  const handleSupervisorChange = (supervisorId) => {
-    setSelectedSupervisores(prevSelected => {
-      if (prevSelected.includes(supervisorId)) {
-        return prevSelected.filter(id => id !== supervisorId);
-      } else {
-        return [...prevSelected, supervisorId];
-      }
-    });
+  const resetForm = () => {
+    setPacienteId(pacienteIdFromUrl || '');
+    setTitulo('');
+    setConteudo('');
+    setDuracao('');
+    setAlunoParceiroNome('');
+    setSupervisorNome('');
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
+    if (!user) {
+      alert("Erro: Usuário não autenticado. Por favor, faça login novamente.");
+      return;
+    }
+
+    setSalvando(true);
+
     const prontuarioData = {
-      paciente_id: selectedPaciente,
+      paciente_id: pacienteId,
       aluno_id: user.id,
-      aluno_parceiro_id: selectedParceiro || null,
-      supervisor_id: selectedSupervisores,
+      aluno_parceiro_nome: alunoParceiroNome || null,
+      supervisor_nome: supervisorNome || null,
       titulo: titulo,
       conteudo: conteudo,
-      duracao_procedimento: parseInt(duracao),
+      duracao_procedimento: parseInt(duracao) || 0,
     };
 
+    // Adicionado .select() para evitar o erro 403 de permissão de leitura
     const { error } = await supabase.from('prontuarios').insert([prontuarioData]);
 
     if (error) {
@@ -77,8 +80,10 @@ function CriarProntuario() {
       alert("Ocorreu um erro ao salvar o prontuário. Verifique a consola para mais detalhes.");
     } else {
       alert("Prontuário salvo com sucesso!");
-      navigate('/');
+      resetForm(); // Limpa o formulário
+      navigate('/pacientes'); // Navega para a lista de pacientes
     }
+    setSalvando(false);
   };
   
   if (loading) return <div>A carregar dados do formulário...</div>;
@@ -88,57 +93,53 @@ function CriarProntuario() {
     <div className="prontuario-container">
       <h1>Criar Novo Prontuário</h1>
       
-      <form onSubmit={handleSubmit} className="prontuario-form">
-        <div>
-          <label htmlFor="paciente-select">Paciente Atendido</label>
-          <select id="paciente-select" value={selectedPaciente} onChange={(e) => setSelectedPaciente(e.target.value)} required>
-            <option value="" disabled>Selecione o paciente...</option>
-            {pacientes.map(paciente => (
-              <option key={paciente.id} value={paciente.id}>{paciente.nome_completo}</option>
-            ))}
-          </select>
-        </div>
-        <div>
-          <label htmlFor="titulo">Título do Procedimento</label>
-          <input id="titulo" type="text" value={titulo} onChange={(e) => setTitulo(e.target.value)} required />
-        </div>
-        <div>
-          <label htmlFor="conteudo">Descrição do Atendimento</label>
-          <textarea id="conteudo" value={conteudo} onChange={(e) => setConteudo(e.target.value)} required rows="6" />
-        </div>
-        <div>
-          <label htmlFor="duracao">Duração do Procedimento (em minutos)</label>
-          <input id="duracao" type="number" value={duracao} onChange={(e) => setDuracao(e.target.value)} required />
-        </div>
-        <div>
-          <label htmlFor="parceiro-select">Aluno(a) Parceiro(a)</label>
-          <select id="parceiro-select" value={selectedParceiro} onChange={(e) => setSelectedParceiro(e.target.value)}>
-            <option value="">Ninguém (atendimento individual)</option>
-            {alunosParceiros.map(aluno => (
-              <option key={aluno.id} value={aluno.id}>{aluno.nome_completo}</option>
-            ))}
-          </select>
-        </div>
-        
-        <div>
-          <label>Professor(es) Supervisor(es)</label>
-          <div className="checkbox-group">
-            {supervisores.map(supervisor => (
-              <div key={supervisor.id} className="checkbox-item">
-                <input
-                  type="checkbox"
-                  id={`supervisor-${supervisor.id}`}
-                  value={supervisor.id}
-                  checked={selectedSupervisores.includes(supervisor.id)}
-                  onChange={() => handleSupervisorChange(supervisor.id)}
-                />
-                <label htmlFor={`supervisor-${supervisor.id}`}>{supervisor.nome_completo}</label>
-              </div>
-            ))}
+      {/* Corrigido para usar o layout de grade */}
+      <form onSubmit={handleSubmit} className="prontuario-form form-grid">
+        <div className="form-group">
+            <label htmlFor="paciente-select">Paciente Atendido</label>
+            <select id="paciente-select" value={pacienteId} onChange={(e) => setPacienteId(e.target.value)} required>
+              <option value="" disabled>Selecione o paciente...</option>
+              {pacientes.map((paciente) => (
+                <option key={paciente.id} value={paciente.id}>{paciente.nome_completo}</option>
+              ))}
+            </select>
           </div>
-        </div>
+          <div className="form-group">
+            <label htmlFor="titulo">Título do Procedimento</label>
+            <input id="titulo" type="text" value={titulo} onChange={(e) => setTitulo(e.target.value)} required />
+          </div>
+          <div className="form-group full-width">
+            <label htmlFor="conteudo">Descrição do Atendimento</label>
+            <textarea id="conteudo" value={conteudo} onChange={(e) => setConteudo(e.target.value)} required rows="6" />
+          </div>
+          <div className="form-group">
+            <label htmlFor="duracao">Duração do Procedimento (em minutos)</label>
+            <input id="duracao" type="number" value={duracao} onChange={(e) => setDuracao(e.target.value)} required />
+          </div>
+          <div className="form-group">
+            <label htmlFor="parceiro-select">Aluno(a) Parceiro(a)</label>
+            <input
+              id="parceiro-input"
+              type="text"
+              value={alunoParceiroNome}
+              onChange={(e) => setAlunoParceiroNome(e.target.value)}
+              placeholder="Nome do aluno parceiro (opcional)"
+            />
+          </div>
+          <div className="form-group full-width">
+            <label>Professor(es) Supervisor(es)</label>
+            <input
+              id="supervisor-input"
+              type="text"
+              value={supervisorNome}
+              onChange={(e) => setSupervisorNome(e.target.value)}
+              placeholder="Nome(s) do(s) supervisor(es)"
+            />
+          </div>
         
-        <button type="submit">Salvar Prontuário</button>
+        <button type="submit" disabled={salvando} className="full-width">
+          {salvando ? 'Salvando...' : 'Salvar Prontuário'}
+        </button>
       </form>
     </div>
   );
