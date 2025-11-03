@@ -1,19 +1,32 @@
-// Header.jsx (Refatorado)
 import React from 'react';
 import './Header.css';
 import logo from './Imgs/InterSocial.png';
-import { Link } from 'react-router-dom';
-import { useAuth } from '../../contexts/AuthContext';
+import { Link, useNavigate } from 'react-router-dom';
 
+import { useAuth } from '../../Contexts/AuthContext.jsx';
 
 function Header() {
-  // CORREÇÃO: Desestruturando o objeto retornado por useAuth()
-  const { isAuthenticated, user, logout } = useAuth();
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await logout();
+    navigate('/');
+  };
+
+  const podeAcessarPacientes = user && (
+    user.funcao === 'professor' ||
+    user.funcao === 'coordenador' ||
+    user.funcao === 'recepcionista' ||
+    (user.funcao === 'aluno' && user.especialidade_id != null)
+  );
 
   return (
     <header className='meu-cabecalho'>
       <div className="logo-e-titulo">
-        <img src={logo} alt="Logotipo Inter Social" />
+        <Link to="/">
+          <img src={logo} alt="Logotipo Inter Social" />
+        </Link>
         <div className="textos-header">
           <h1>Vincle</h1>
         </div>
@@ -21,42 +34,34 @@ function Header() {
 
       <nav className="menu-navegacao">
         <ul>
-          <li><Link to="/">Início</Link></li>
-
-          <li><Link to="/agendamento">Agendamento</Link></li>
-
-          <li><Link to="/servicos">Serviços</Link></li>
-
-          <li><Link to="/projeto">O Projeto</Link></li>
-
-          {isAuthenticated && user && (
+         
+          {!user && (
             <>
-              {user.role === 'ALUNO' && (
-                <>
-                  {/* Mantido apenas o link de agendamento principal */}
-                  <li><Link to="/agendamento">Agendar Consulta</Link></li>
-                  <li><Link to="/historico">Meu Histórico</Link></li>
-                </>
-              )}
-              {user.role === 'COORDENADOR' && (
-                <>
-                  <li><Link to="/admin/gerenciar-alunos">Gerenciar Alunos</Link></li>
-                  <li><Link to="/admin/consultas">Consultas Agendadas</Link></li>
-                </>
-              )}
+              <li><Link to="/">Início</Link></li>
+              <li><Link to="/agendamento">Agendamentos</Link></li>
+              <li><Link to="/servicos">Serviços</Link></li>
+              <li><Link to="/projeto">O Projeto</Link></li>
             </>
+          )}
+          
+          
+          {user && (
+            <>
+              <li><Link to="/">Início</Link></li>
+              <li><Link to="/minha-conta">Minha Conta</Link></li>
+            </>
+          )}
+
+        
+          {podeAcessarPacientes && (
+            <li><Link to="/pacientes">Pacientes</Link></li>
           )}
         </ul>
       </nav>
 
       <div className="menu-conta">
-        {isAuthenticated && user ? (
-          <>
-            <span>Olá, {user.nome}</span>
-            <button onClick={logout}>Sair</button> {/* Botão de Logout! */}
-          </>
-        ) : (
-          <Link to="/login">Entrar</Link> // Link para a página de Login
+        {!user && (
+          <Link to="/login" className="botao-entrar">Entrar</Link>
         )}
       </div>
     </header>

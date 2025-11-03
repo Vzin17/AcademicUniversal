@@ -7,7 +7,7 @@ import { supabase } from '../supabaseClient';
 
 // Lista de áreas de atendimento
 const areasDeAtendimento = [
-  'Direito', 'Psicologia', 'Fisioterapia', 'Odontologia', 'Farmácia'
+  'Direito', 'Psicologia', 'Fisioterapia', 'Odontologia'
 ];
 
 // NOVO: Lista de horários disponíveis
@@ -20,6 +20,7 @@ function Agendamento() {
   const [areaSelecionada, setAreaSelecionada] = useState('');
   const [dataSelecionada, setDataSelecionada] = useState(null);
   const [horaSelecionada, setHoraSelecionada] = useState(''); // NOVO: Estado para a hora
+  const [motivo, setMotivo] = useState(''); // NOVO: Estado para o motivo da consulta
 
   const isDiaDesabilitado = ({ date }) => {
     const diaDaSemana = date.getDay();
@@ -42,14 +43,14 @@ function Agendamento() {
 
   const handleSelecionarData = (data) => {
     setDataSelecionada(data);
-    setHoraSelecionada(''); // NOVO: Limpa a hora ao escolher um novo dia
+    setHoraSelecionada('');
   };
 
   // ALTERADO: A função de envio agora é assíncrona e salva no Supabase
 const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!areaSelecionada || !dataSelecionada || !horaSelecionada) {
-      alert('Por favor, selecione uma área, um dia e um horário.');
+    if (!areaSelecionada || !dataSelecionada || !horaSelecionada || !motivo) {
+      alert('Por favor, preencha todos os campos, incluindo o motivo da consulta.');
       return;
     }
 
@@ -73,7 +74,8 @@ const handleSubmit = async (e) => {
           { 
             area_especialidade: areaSelecionada,
             data_consulta: dataConsultaFinal.toISOString(),
-            usuario_id: user.id
+            paciente_id: user.id, // Corrigido para paciente_id
+            motivo_consulta: motivo // Adicionado motivo
           },
         ]);
 
@@ -87,6 +89,7 @@ const handleSubmit = async (e) => {
       setAreaSelecionada('');
       setDataSelecionada(null);
       setHoraSelecionada('');
+      setMotivo('');
 
     } catch (error) {
       console.error('Erro ao criar agendamento:', error);
@@ -139,18 +142,31 @@ const handleSubmit = async (e) => {
           </div>
         )}
       </div>
-
+      
+      {/* NOVO: Seção para o motivo da consulta */}
+      {dataSelecionada && horaSelecionada && (
+        <div className="motivo-container">
+            <h3 className="motivo-title">4. Qual o motivo da sua consulta?</h3>
+            <textarea
+              className="motivo-textarea"
+              value={motivo}
+              onChange={(e) => setMotivo(e.target.value)}
+              placeholder="Descreva brevemente o que você está sentindo ou o que precisa. Isso nos ajuda a preparar seu atendimento."
+              rows="4"
+            />
+        </div>
+      )}
+      
       <div className="selection-info">
         {areaSelecionada && dataSelecionada && horaSelecionada
           ? `Seleção: ${areaSelecionada} em ${dataSelecionada.toLocaleDateString('pt-BR')} às ${horaSelecionada}`
           : 'Aguardando seleção...'}
       </div>
-
       <form onSubmit={handleSubmit} className="agendamento-form">
         <button
           type="submit"
           className="agendamento-submit-btn"
-          disabled={!areaSelecionada || !dataSelecionada || !horaSelecionada}
+          disabled={!areaSelecionada || !dataSelecionada || !horaSelecionada || !motivo}
         >
           Confirmar Agendamento
         </button>
