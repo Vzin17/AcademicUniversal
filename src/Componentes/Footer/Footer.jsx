@@ -10,7 +10,7 @@ function Footer(){
         <div className="Rodape">
             <h1 className='Copy'>© 2025 InterSocial</h1>
         </div>
-
+            
         <div className='Contato'>
             <Link to = '/contato' className='contato'> Contato </Link>
             
