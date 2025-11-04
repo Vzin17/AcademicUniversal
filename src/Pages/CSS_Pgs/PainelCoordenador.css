@@ -1,0 +1,122 @@
+.painel-coordenador-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
+}
+
+/* Título de boas-vindas */
+.painel-coordenador-container h2 {
+  font-size: 2rem;
+  color: #333;
+}
+
+/* Container dos cards superiores (Prontuários e Especialidade) */
+.cards-painel-superior {
+  display: flex; /* Coloca os cards lado a lado */
+  gap: 2rem; /* Espaçamento entre os cards */
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+/* Estilo individual de cada card superior */
+.card-painel {
+  flex: 1; /* Faz com que os dois cards ocupem o espaço igualmente */
+  background-color: #6d44b8; /* Cor roxa (similar à Foto 2) */
+  color: white;
+  padding: 1.5rem 2rem;
+  border-radius: 12px; /* Cantos arredondados */
+  text-decoration: none; /* Remove o sublinhado do link */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+  
+  /* Adicionado para alinhar o texto como na Imagem 2 */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.card-painel:hover {
+  transform: translateY(-5px); /* Efeito ao passar o mouse */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.card-painel h3 {
+  border-bottom: none; /* Remove a borda padrão */
+  padding-bottom: 0;
+  margin: 0 0 0.5rem 0; /* Ajusta margens */
+  font-size: 1.3rem; 
+}
+
+.card-painel p {
+  margin: 0;
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+/* Container de Notificações */
+.notificacoes-container {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 2rem;
+  text-align: center;
+  color: #888;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Título "Ações Rápidas" */
+.acoes-rapidas-section h3 {
+  font-size: 1.5rem;
+  color: #333;
+  padding-bottom: 1rem;
+  margin-top: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Container dos botões de Ações Rápidas */
+.acoes-rapidas-container {
+  display: flex;
+  flex-wrap: wrap; /* Permite que os botões quebrem a linha */
+  gap: 1rem; /* Espaçamento entre os botões */
+}
+
+/* Estilo individual dos botões de Ação Rápida */
+.botao-acao {
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px; /* Cantos mais arredondados */
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  transition: opacity 0.2s;
+  border: none;
+  cursor: pointer;
+}
+
+.botao-acao:hover {
+  opacity: 0.85;
+}
+
+/* Cores específicas para cada botão (baseado na Foto 2) */
+
+/* Botão 1: Início */
+.botao-acao:nth-of-type(1) {
+  background-color: #1e73be; /* Azul */
+}
+
+/* Botão 2: Buscar Pacientes */
+.botao-acao:nth-of-type(2) {
+  background-color: #1e73be; /* Azul */
+}
+
+/* Botão 3: Ver Agendamentos */
+.botao-acao:nth-of-type(3) {
+  background-color: #4caf50; /* Verde */
+}
+
+/* Botão 4: Painel Administrativo */
+.botao-acao:nth-of-type(4) {
+  background-color: #6c757d; /* Cinza */
+}
