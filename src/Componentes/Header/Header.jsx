@@ -29,6 +29,8 @@ function Header() {
 
           <li><Link to="/projeto">O Projeto</Link></li>
 
+          <li><Link to="/dashboard">Painel</Link></li>
+
           {isAuthenticated && user && (
             <>
               {user.role === 'ALUNO' && (
