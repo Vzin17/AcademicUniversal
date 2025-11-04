@@ -11,22 +11,16 @@ function FichaPaciente() {
   const [carregando, setCarregando] = useState(true);
   const [prontuarios, setProntuarios] = useState([]);
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
-  const [novoProntuario, setNovoProntuario] = useState({
-    titulo: '',
-    conteudo: '',
-    duracao_procedimento: '',
-    aluno_parceiro_nome: '',
-    supervisor_nome: ''
-  });
   const [editandoProntuario, setEditandoProntuario] = useState(null);
   const [prontuarioEditado, setProntuarioEditado] = useState({
     titulo: '',
     conteudo: '',
     duracao_procedimento: '',
     aluno_parceiro_nome: '',
-    supervisor_nome: ''
+    supervisor_nome: '',
   });
   const [editando, setEditando] = useState(false);
+  const [salvando, setSalvando] = useState(false);
 
   useEffect(() => {
     // Carregamento de dados reais do paciente e prontuários
@@ -77,70 +71,6 @@ function FichaPaciente() {
     carregarDados();
   }, [id]);
 
-  const handleSalvarProntuario = async (e) => {
-    e.preventDefault();
-    if (!user) {
-      alert('Você precisa estar logado para adicionar prontuários.');
-      return;
-    }
-
-    setSalvando(true);
-    try {
-      // Primeiro, vamos tentar salvar sem as novas colunas para testar
-      const prontuarioData = {
-        paciente_id: id,
-        aluno_id: user.id,
-        titulo: novoProntuario.titulo,
-        conteudo: novoProntuario.conteudo,
-        duracao_procedimento: parseInt(novoProntuario.duracao_procedimento) || 0,
-        created_at: new Date().toISOString()
-      };
-
-      // Se as novas colunas existirem, adicionamos elas
-      if (novoProntuario.aluno_parceiro_nome) {
-        prontuarioData.aluno_parceiro_nome = novoProntuario.aluno_parceiro_nome;
-      }
-      if (novoProntuario.supervisor_nome) {
-        prontuarioData.supervisor_nome = novoProntuario.supervisor_nome;
-      }
-
-      console.log('Dados do prontuário a serem salvos:', prontuarioData);
-
-      const { data, error } = await supabase
-        .from('prontuarios')
-        .insert([prontuarioData]);
-
-      if (error) {
-        console.error('Erro detalhado ao salvar prontuário:', error);
-        console.error('Código do erro:', error.code);
-        console.error('Mensagem do erro:', error.message);
-        console.error('Detalhes do erro:', error.details);
-        alert(`Erro ao salvar prontuário: ${error.message}`);
-      } else {
-        alert('Prontuário salvo com sucesso!');
-        setNovoProntuario({ titulo: '', conteudo: '', duracao_procedimento: '', aluno_parceiro_nome: '', supervisor_nome: '' });
-        setMostrarFormulario(false);
-        
-        // Recarrega os prontuários
-        const { data: prontuariosData } = await supabase
-          .from('prontuarios')
-          .select(`
-            *,
-            aluno:perfis!prontuarios_aluno_id_fkey(nome_completo)
-          `)
-          .eq('paciente_id', id)
-          .order('created_at', { ascending: false });
-        
-        setProntuarios(prontuariosData || []);
-      }
-    } catch (error) {
-      console.error('Erro ao salvar prontuário:', error);
-      alert('Erro ao salvar prontuário. Tente novamente.');
-    } finally {
-      setSalvando(false);
-    }
-  };
-
   const handleEditarProntuario = (prontuario) => {
     setEditandoProntuario(prontuario);
     setProntuarioEditado({
@@ -161,10 +91,9 @@ function FichaPaciente() {
       const dadosAtualizados = {
         titulo: prontuarioEditado.titulo,
         conteudo: prontuarioEditado.conteudo,
-        duracao_procedimento: parseInt(prontuarioEditado.duracao_procedimento) || 0,
+        duracao_procedimento: parseInt(prontuarioEditado.duracao_procedimento) || 0, // O valor já está em minutos
         aluno_parceiro_nome: prontuarioEditado.aluno_parceiro_nome || null,
         supervisor_nome: prontuarioEditado.supervisor_nome || null,
-        updated_at: new Date().toISOString()
       };
 
       console.log('Atualizando prontuário:', editandoProntuario.id, dadosAtualizados);
@@ -319,73 +248,6 @@ function FichaPaciente() {
       <div className="prontuarios-section">
         <h3>Prontuários</h3>
         
-        {/* Formulário para novo prontuário */}
-        {mostrarFormulario && (
-          <div className="novo-prontuario-form">
-            <h4>Novo Prontuário</h4>
-            <form onSubmit={handleSalvarProntuario}>
-              <div className="form-group">
-                <label>Título:</label>
-                <input
-                  type="text"
-                  value={novoProntuario.titulo}
-                  onChange={(e) => setNovoProntuario({...novoProntuario, titulo: e.target.value})}
-                  placeholder="Ex: Consulta inicial, Retorno..."
-                  required
-                />
-              </div>
-              
-              <div className="form-group">
-                <label>Conteúdo:</label>
-                <textarea
-                  value={novoProntuario.conteudo}
-                  onChange={(e) => setNovoProntuario({...novoProntuario, conteudo: e.target.value})}
-                  placeholder="Descreva o procedimento, observações, diagnóstico..."
-                  rows="5"
-                  required
-                />
-              </div>
-              
-              <div className="form-group">
-                <label>Duração (minutos):</label>
-                <input
-                  type="number"
-                  value={novoProntuario.duracao_procedimento}
-                  onChange={(e) => setNovoProntuario({...novoProntuario, duracao_procedimento: e.target.value})}
-                  placeholder="Ex: 30"
-                  min="0"
-                />
-              </div>
-              
-              <div className="form-group">
-                <label>Aluno Parceiro (opcional):</label>
-                <input
-                  type="text"
-                  value={novoProntuario.aluno_parceiro_nome}
-                  onChange={(e) => setNovoProntuario({...novoProntuario, aluno_parceiro_nome: e.target.value})}
-                  placeholder="Nome do aluno parceiro"
-                />
-              </div>
-              
-              <div className="form-group">
-                <label>Supervisor (opcional):</label>
-                <input
-                  type="text"
-                  value={novoProntuario.supervisor_nome}
-                  onChange={(e) => setNovoProntuario({...novoProntuario, supervisor_nome: e.target.value})}
-                  placeholder="Nome do supervisor"
-                />
-              </div>
-              
-              <div className="form-actions">
-                <button type="submit" disabled={salvando}>
-                  {salvando ? 'Salvando...' : 'Salvar Prontuário'}
-                </button>
-              </div>
-            </form>
-          </div>
-        )}
-
         {/* Formulário de edição de prontuário */}
         {editandoProntuario && (
           <div className="editar-prontuario-form">
@@ -398,6 +260,7 @@ function FichaPaciente() {
                   value={prontuarioEditado.titulo}
                   onChange={(e) => setProntuarioEditado({...prontuarioEditado, titulo: e.target.value})}
                   placeholder="Ex: Consulta inicial, Retorno..."
+                  maxLength="100"
                   required
                 />
               </div>
@@ -408,6 +271,7 @@ function FichaPaciente() {
                   value={prontuarioEditado.conteudo}
                   onChange={(e) => setProntuarioEditado({...prontuarioEditado, conteudo: e.target.value})}
                   placeholder="Descreva o procedimento, observações, diagnóstico..."
+                  maxLength="1000"
                   rows="5"
                   required
                 />
@@ -420,7 +284,7 @@ function FichaPaciente() {
                   value={prontuarioEditado.duracao_procedimento}
                   onChange={(e) => setProntuarioEditado({...prontuarioEditado, duracao_procedimento: e.target.value})}
                   placeholder="Ex: 30"
-                  min="0"
+                  min="0" max="240" step="1"
                 />
               </div>
               

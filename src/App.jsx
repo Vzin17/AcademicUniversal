@@ -19,12 +19,11 @@ import Login from './Pages/Login';
 import Register from './Pages/Register';
 import MinhaConta from './Pages/MinhaConta';
 
-// --- NOSSAS MUDANÇAS AQUI ---
-// 1. Importamos as novas páginas
 import Pacientes from './Pages/Pacientes.jsx'; 
 import FichaPaciente from './Pages/FichaPaciente.jsx';
-// 2. Mantemos o CriarProntuario, pois ele será usado *dentro* da Ficha
+import ProntuariosRecentes from './Pages/ProntuariosRecentes.jsx';
 import CriarProntuario from './Pages/CriarProntuario.jsx'; 
+import PainelAdmin from './paineis/PainelAdmin.jsx';
 
 function App() {
   return (
@@ -93,7 +92,23 @@ function App() {
                   </ProtectedRoute>
                 }
               />
+
+              <Route
+                path="/prontuarios/recentes"
+                element={
+                  <ProtectedRoute allowedRoles={['coordenador', 'professor']}><ProntuariosRecentes /></ProtectedRoute>
+                }
+              />
               
+              {/* Rota para o painel administrativo do coordenador */}
+              <Route
+                path="/admin"
+                element={
+                  <ProtectedRoute allowedRoles={['coordenador']}>
+                    <PainelAdmin />
+                  </ProtectedRoute>
+                }
+              />
               {/* Esta rota antiga não é mais necessária no Header */}
               {/*
               <Route

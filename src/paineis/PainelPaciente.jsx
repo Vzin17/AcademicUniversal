@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
 import './PainelPaciente.css'; // Novo arquivo de estilo
 
-const PacienteDashboard = () => {
+const PainelPaciente = () => {
   const { user } = useAuth();
   const [agendamentos, setAgendamentos] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -16,8 +16,8 @@ const PacienteDashboard = () => {
       try {
         const { data, error } = await supabase
           .from('agendamentos')
-          .select('id, data_consulta, areas!agendamentos_especialidade_id_fkey(name)')
-          .eq('paciente_id', user.id)
+          .select('id, data_consulta, area:especialidade_id(name)')
+          .eq('usuario_id', user.id)
           .gte('data_consulta', new Date().toISOString())
           .order('data_consulta', { ascending: true })
           .limit(5);
@@ -67,7 +67,7 @@ const PacienteDashboard = () => {
           {agendamentos.map(ag => (
             <div key={ag.id} className="agendamento-card">
               <div className="agendamento-info">
-                <span className="agendamento-area">{ag.areas?.name || 'Clínica Geral'}</span>
+                <span className="agendamento-area">{ag.area?.name || 'Área não definida'}</span>
                 <span className="agendamento-data"><i className="fas fa-calendar-alt"></i> {formatarDataHora(ag.data_consulta)}</span>
               </div>
             </div>
@@ -78,4 +78,4 @@ const PacienteDashboard = () => {
   );
 };
 
-export default PacienteDashboard; 
+export default PainelPaciente;

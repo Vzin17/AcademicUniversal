@@ -14,7 +14,7 @@ function CriarProntuario() {
   const [salvando, setSalvando] = useState(false); // Estado para o botão de salvar
 
   const [pacienteId, setPacienteId] = useState(pacienteIdFromUrl || ''); // Pré-seleciona o paciente
-  const [titulo, setTitulo] = useState('');
+  const [titulo, setTitulo] = useState(''); // Máximo de 100 caracteres
   const [conteudo, setConteudo] = useState('');
   const [duracao, setDuracao] = useState('');
   const [alunoParceiroNome, setAlunoParceiroNome] = useState(''); // Novo estado para texto
@@ -69,7 +69,7 @@ function CriarProntuario() {
       supervisor_nome: supervisorNome || null,
       titulo: titulo,
       conteudo: conteudo,
-      duracao_procedimento: parseInt(duracao) || 0,
+      duracao_procedimento: parseInt(duracao) || 0, // O valor já está em minutos
     };
 
     // Adicionado .select() para evitar o erro 403 de permissão de leitura
@@ -106,15 +106,34 @@ function CriarProntuario() {
           </div>
           <div className="form-group">
             <label htmlFor="titulo">Título do Procedimento</label>
-            <input id="titulo" type="text" value={titulo} onChange={(e) => setTitulo(e.target.value)} required />
+            <input 
+              id="titulo" 
+              type="text" 
+              value={titulo} 
+              onChange={(e) => setTitulo(e.target.value)} 
+              maxLength="100"
+              required 
+            />
           </div>
           <div className="form-group full-width">
             <label htmlFor="conteudo">Descrição do Atendimento</label>
-            <textarea id="conteudo" value={conteudo} onChange={(e) => setConteudo(e.target.value)} required rows="6" />
+            <textarea 
+              id="conteudo" 
+              value={conteudo} 
+              onChange={(e) => setConteudo(e.target.value)} 
+              maxLength="1000"
+              required 
+              rows="6" 
+            />
           </div>
           <div className="form-group">
             <label htmlFor="duracao">Duração do Procedimento (em minutos)</label>
-            <input id="duracao" type="number" value={duracao} onChange={(e) => setDuracao(e.target.value)} required />
+            <input 
+              id="duracao" type="number" value={duracao} 
+              onChange={(e) => setDuracao(e.target.value)} 
+              required min="0" max="240" step="1"
+              placeholder="Ex: 30"
+            />
           </div>
           <div className="form-group">
             <label htmlFor="parceiro-select">Aluno(a) Parceiro(a)</label>

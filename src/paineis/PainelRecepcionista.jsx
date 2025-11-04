@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '../Contexts/AuthContext.jsx';
+import { useAuth } from '../contexts/AuthContext';
 import { supabase } from '../supabaseClient';
 import { Link } from 'react-router-dom';
 import '../Pages/CSS_Pgs/PainelCoordenador.css'; 
@@ -11,7 +11,7 @@ function PainelRecepcionista() {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        if (!user?.especialidade_id) return;
+        if (!user?.area?.name) return;
 
         async function fetchAgendamentos() {
             setLoading(true);
@@ -25,9 +25,9 @@ function PainelRecepcionista() {
                     .select(`
                         id,
                         data_consulta,
-                        perfis (id, nome_completo)
+                        paciente:usuario_id (id, nome_completo)
                     `)
-                    .eq('especialidade_id', user.especialidade_id)
+                    .eq('area_especialidade', user.area.name)
                     .gte('data_consulta', inicioDoDia)
                     .lte('data_consulta', fimDoDia)
                     .order('data_consulta', { ascending: true });
@@ -69,8 +69,8 @@ function PainelRecepcionista() {
                             <p className="info-message">Nenhum agendamento para hoje.</p>
                         ) : (
                             agendamentos.map(ag => (
-                                <Link to={`/pacientes/${ag.perfis.id}`} key={ag.id} className="prontuario-recente-card">
-                                    <h4>{ag.perfis.nome_completo}</h4>
+                                <Link to={`/pacientes/${ag.paciente.id}`} key={ag.id} className="prontuario-recente-card">
+                                    <h4>{ag.paciente.nome_completo}</h4>
                                     <span><strong>Horário:</strong> {formatarHora(ag.data_consulta)}</span>
                                 </Link>
                             ))

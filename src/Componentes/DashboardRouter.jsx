@@ -2,31 +2,33 @@
 
 import React from 'react';
 import { useAuth } from '../contexts/AuthContext'; 
-import DashboardInicio from './DashboardInicio.jsx';
-import AlunoDashboard from './AlunoDashboard.jsx'; // 1. Importamos o painel correto do aluno
 import PainelPaciente from '../paineis/PainelPaciente.jsx';
-import PainelRecepcionista from '../paineis/PainelRecepcionista.jsx'; // Corrigido o caminho
+import PainelRecepcionista from '../paineis/PainelRecepcionista.jsx';
+import PainelAluno from '../paineis/PainelAluno.jsx';
+import PainelCoordenador from '../paineis/PainelCoordenador.jsx';
+import PainelProfessor from '../paineis/PainelProfessor.jsx';
 
 
 const DashboardRouter = () => {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
 
-  if (!user) {
-    // Se o usuário não estiver logado, não mostra nada
-    return null;
+  if (loading) {
+    return <div>Carregando...</div>;
   }
+
+  if (!user) return null;
 
   const userRole = user.funcao;
 
   switch (userRole) {
-     case 'aluno':
-      return <AlunoDashboard />; // 2. Usamos o painel correto
+    case 'aluno':
+      return <PainelAluno />;
     case 'paciente':
       return <PainelPaciente />;
-    // 2. Coordenadores e Professores agora veem o DashboardInicio
     case 'coordenador': 
+      return <PainelCoordenador />;
     case 'professor': 
-      return <DashboardInicio />;
+      return <PainelProfessor />;
     case 'recepcionista':
       return <PainelRecepcionista />;
     default:
