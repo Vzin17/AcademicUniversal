@@ -16,7 +16,7 @@ const PainelPaciente = () => {
       try {
         const { data, error } = await supabase
           .from('agendamentos')
-          .select('id, data_consulta, area:especialidade_id(name)')
+          .select('id, data_consulta, area_especialidade')
           .eq('usuario_id', user.id)
           .gte('data_consulta', new Date().toISOString())
           .order('data_consulta', { ascending: true })
@@ -67,7 +67,7 @@ const PainelPaciente = () => {
           {agendamentos.map(ag => (
             <div key={ag.id} className="agendamento-card">
               <div className="agendamento-info">
-                <span className="agendamento-area">{ag.area?.name || 'Área não definida'}</span>
+                <span className="agendamento-area">{ag.area_especialidade || 'Área não definida'}</span>
                 <span className="agendamento-data"><i className="fas fa-calendar-alt"></i> {formatarDataHora(ag.data_consulta)}</span>
               </div>
             </div>

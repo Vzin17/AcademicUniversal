@@ -9,6 +9,39 @@ export const AuthProvider = ({ children }) => {
  const [loading, setLoading] = useState(true);
 
  useEffect(() => {
+   // Função para buscar o perfil do usuário
+   const fetchUserProfile = async (authUser) => {
+     if (!authUser) {
+       setUser(null);
+       return;
+     }
+
+     const { data: profile, error } = await supabase
+       .from('perfis')
+       .select('*, area:area_id(name)')
+       .eq('id', authUser.id)
+       .single();
+
+     if (error) {
+       console.error("Erro ao buscar perfil:", error);
+       setUser(authUser); // Usa dados básicos se o perfil falhar
+     } else if (profile) {
+       const finalUser = { ...authUser, ...profile };
+       if (profile.area) {
+         finalUser.area = profile.area;
+       }
+       setUser(finalUser);
+     } else {
+       setUser(authUser);
+     }
+   };
+
+   // Verifica a sessão inicial
+   supabase.auth.getSession().then(({ data: { session } }) => {
+     setSession(session);
+     fetchUserProfile(session?.user).finally(() => setLoading(false));
+   });
+
    const { data: { subscription } } = supabase.auth.onAuthStateChange(
      async (_event, session) => {
        setSession(session);
@@ -38,8 +71,8 @@ export const AuthProvider = ({ children }) => {
        } else {
           // Se não há sessão, limpa o usuário
           setUser(null);
+          setLoading(false); // Garante que o carregamento termine se não houver usuário
         }
-        setLoading(false);
      }
    );
 
@@ -56,7 +89,8 @@ export const AuthProvider = ({ children }) => {
  };
 
  if (loading) {
-  return null; 
+ 
+  return <AuthContext.Provider value={{ loading: true, user: null, session: null, logout: () => supabase.auth.signOut() }}>{children}</AuthContext.Provider>;
  }
 
  return (
