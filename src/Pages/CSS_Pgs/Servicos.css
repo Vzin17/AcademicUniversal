@@ -1,4 +1,3 @@
-
 :root {
   --cor-azul-escuro: #0a3d62;
   --cor-azul-claro: #f0f8ff;
@@ -43,6 +42,8 @@
   grid-template-columns: repeat(2, 1fr);
   justify-content: center;
   gap: 2rem;
+  max-width: 960px;
+  margin: 0 auto;
 }
 
 /* Estilo Individual do Card de Serviço */
@@ -113,7 +114,7 @@
 
 /* Seção "Como Funciona" */
 .how-it-works {
-    margin-top: 5rem;
+  margin-top: 5rem;
 }
 
 .how-it-works .section-title {
@@ -121,33 +122,43 @@
 }
 
 .steps-list {
-    list-style: none;
-    padding: 0;
-    max-width: 600px;
-    margin: 2rem auto 0 auto;
-    text-align: left;
+  list-style: none;
+  padding: 0;
+  max-width: 600px;
+  margin: 2rem auto 0 auto;
+  text-align: left;
 }
 
 .steps-list li {
-    display: flex;
-    align-items: center;
-    font-size: 1.1rem;
-    margin-bottom: 1.5rem;
+  display: flex;
+  align-items: flex-start;
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
 }
 
 .steps-list .step-number {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: var(--cor-azul-escuro);
-    color: var(--cor-branco);
-    font-weight: 700;
-    font-size: 1.2rem;
-    margin-right: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--cor-azul-escuro);
+  color: var(--cor-branco);
+  font-weight: 700;
+  font-size: 1.2rem;
+  margin-right: 15px;
+  flex-shrink: 0;
 }
+
+
+/* Correção para alinhamento do texto em "Como funciona" */
+.steps-list li strong {
+  display: inline-block;
+  width: 220px; /* Largura fixa para o título */
+  margin-right: 8px;
+}
+
 
 /* Seção Final de Chamada para Ação (CTA) */
 .cta-section {
@@ -186,25 +197,18 @@
 
 /* Ajustes para Telas Menores (Responsividade) */
 @media (max-width: 768px) {
+  .services-container {
+    grid-template-columns: 1fr; /* Cards em coluna única */
+  }
+
   .services-section .section-title {
     font-size: 2.2rem;
   }
   .cta-section h2 {
     font-size: 1.8rem;
   }
-}
 
-
-/* Container dos Cards */
-.services-container {
-  /* Layout em grade com 2 colunas */
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-
-  /* Controla o tamanho e o alinhamento do conjunto de caixas */
-  max-width: 960px;
-  margin: 0 auto;
-
-  /* Espaçamento entre as caixas */
-  gap: 2rem;
+  .steps-list li strong {
+    width: auto; /* Remove a largura fixa em telas menores */
+  }
 }

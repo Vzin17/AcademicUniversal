@@ -1,25 +1,39 @@
 import React from 'react';
-import { useAuth } from './contexts/AuthContext';
+
+import { useAuth } from './Contexts/AuthContext.jsx'; 
 import { Navigate } from 'react-router-dom';
 
 function ProtectedRoute({ children, allowedRoles }) {
-  const { user } = useAuth();
+  // 'loading' também vem do useAuth, para evitar mostrar
+  // a página de login brevemente antes de carregar o usuário
+  const { user, loading } = useAuth();
 
-  if (!user) {
-    return <Navigate to="/login" replace />;
+  // Se estiver carregando, não faça nada ainda
+  if (loading) {
+    return null; // Ou um componente de "Carregando..."
   }
 
-  if (!allowedRoles) {
-    return children;
-  }
+  // Se não estiver carregando e NÃO houver usuário, vá para o login
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
 
-  const userRole = user?.funcao?.trim().toLowerCase() || '';
+  // Se a rota não exige roles, apenas deixe passar
+  // (ex: rota /perfil que todo usuário logado pode ver)
+  if (!allowedRoles || allowedRoles.length === 0) {
+    return children;
+  }
 
-  if (allowedRoles.includes(userRole)) {
-    return children;
-  } else {
-    return <Navigate to="/" replace />;
-  }
+  // Lógica de verificação de 'funcao'
+  // Seu código aqui está excelente!
+  const userRole = user?.funcao?.trim().toLowerCase() || '';
+
+  if (allowedRoles.includes(userRole)) {
+    return children; // Usuário tem a permissão, mostre a página
+  } else {
+    // Usuário não tem permissão, mande para a home (ou página de "Acesso Negado")
+    return <Navigate to="/" replace />; 
+  }
 }
 
 export default ProtectedRoute;

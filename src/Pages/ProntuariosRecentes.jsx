@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../Contexts/AuthContext';
 import './CSS_Pgs/ProntuariosRecentes.css';
 
 const ProntuariosRecentes = () => {

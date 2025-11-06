@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../supabaseClient';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../Contexts/AuthContext';
 import { useNavigate, useParams } from 'react-router-dom';
 import './CSS_Pgs/CriarProntuario.css';
 

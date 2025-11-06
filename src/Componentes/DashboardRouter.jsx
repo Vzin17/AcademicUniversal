@@ -1,7 +1,7 @@
 // Salve este código em: src/components/DashboardRouter.jsx
 
 import React from 'react';
-import { useAuth } from '../contexts/AuthContext'; 
+import { useAuth } from '../Contexts/AuthContext'; 
 import PainelPaciente from '../paineis/PainelPaciente.jsx';
 import PainelRecepcionista from '../paineis/PainelRecepcionista.jsx';
 import PainelAluno from '../paineis/PainelAluno.jsx';
@@ -18,12 +18,13 @@ const DashboardRouter = () => {
 
   if (!user) return null;
 
-  const userRole = user.funcao;
+  // Normaliza a role para evitar problemas com espaços ou maiúsculas/minúsculas
+  const userRole = user.funcao?.trim().toLowerCase() || '';
 
   switch (userRole) {
     case 'aluno':
       return <PainelAluno />;
-    case 'paciente':
+    case 'paciente_comunidade': // Corrigido para corresponder ao valor do banco
       return <PainelPaciente />;
     case 'coordenador': 
       return <PainelCoordenador />;

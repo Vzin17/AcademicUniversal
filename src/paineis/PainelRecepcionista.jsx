@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../Contexts/AuthContext';
 import { supabase } from '../supabaseClient';
 import { Link } from 'react-router-dom';
 import '../Pages/CSS_Pgs/PainelCoordenador.css'; 

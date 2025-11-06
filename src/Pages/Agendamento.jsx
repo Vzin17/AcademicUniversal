@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import Calendar from 'react-calendar'; // Corrigido
+import Calendar from 'react-calendar'; 
 import 'react-calendar/dist/Calendar.css';
 import './CSS_Pgs/Agendamento.css';
 import { useAuth } from '../contexts/AuthContext'
@@ -13,7 +13,7 @@ const areasDeAtendimento = [
   { id: 4, name: 'Odontologia' },
 ];
 
-// NOVO: Lista de horários disponíveis
+
 const horariosDisponiveis = [
   '09:00', '10:00', '11:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00',
 ];
@@ -133,7 +133,7 @@ const handleSubmit = async (e) => {
           />
         </div>
 
-        {/* NOVO: Seção para escolher o horário, só aparece se um dia for selecionado */}
+
         {dataSelecionada && (
           <div className="horarios-container">
             <h3 className="horarios-title">3. Escolha um Horário</h3>

@@ -1,7 +1,7 @@
 // src/Componentes/HomeRouter.jsx
 
 import React from 'react';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../Contexts/AuthContext';
 import Inicio from '../Pages/Inicio/Inicio.jsx';
 import DashboardRouter from './DashboardRouter.jsx';
 
