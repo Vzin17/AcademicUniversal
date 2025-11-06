@@ -1,16 +1,23 @@
 import React from 'react';
-import { useAuth } from '../Contexts/AuthContext';
+import { useAuth } from '../contexts/AuthContext';
 import './MinhaConta.css'; // Usaremos um novo CSS para esta página
-import Seguranca from './Seguranca'; // Importando o componente de segurança
-import MeusAgendamentos from './MeusAgendamentos'; // Importando o componente de agendamentos
+import Seguranca from './Seguranca';
+import MeusAgendamentos from './MeusAgendamentos';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function MinhaConta() {
-  const { user, loading } = useAuth();
+  const { user, loading, logout } = useAuth();
+  const navigate = useNavigate();
 
   if (loading) {
     return <div>Carregando informações da conta...</div>;
   }
+
+  const handleLogout = async () => {
+    await logout();
+    navigate('/');
+  };
 
   if (!user) {
     return <div>Não foi possível carregar as informações do usuário.</div>;
@@ -61,6 +68,13 @@ function MinhaConta() {
               <h2 className="card-title">Segurança</h2>
               <Seguranca />
             </div>
+
+            {/* Card para o botão de sair */}
+            <div className="conta-card card-sair">
+              <button onClick={handleLogout} className="btn-sair">
+                Sair da Conta
+              </button>
+            </div>
           </div>
 
           {/* Coluna da Direita */}
@@ -68,7 +82,6 @@ function MinhaConta() {
             <div className="conta-card">
               <h2 className="card-title">Ações Rápidas</h2>
               <div className="acoes-rapidas-conta">
-                <Link to="/agendamento" className="acao-item">Novo Agendamento</Link>
                 <Link to="/servicos" className="acao-item">Ver Serviços</Link>
                 {/* Adicione outras ações conforme necessário */}
               </div>

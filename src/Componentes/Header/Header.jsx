@@ -2,7 +2,7 @@ import React from 'react';
 import './Header.css';
 import logo from './Imgs/InterSocial.png';
 import { Link, useNavigate } from 'react-router-dom';
-// Corrigindo o caminho de importação
+
 import { useAuth } from '../../Contexts/AuthContext.jsx';
 
 function Header() {
@@ -60,12 +60,7 @@ function Header() {
       </nav>
 
       <div className="menu-conta">
-        {user ? (
-          <>
-            <span className="saudacao-usuario">Olá, {user?.nome_completo}</span>
-            <button onClick={handleLogout} className="botao-sair">Sair</button>
-          </>
-        ) : (
+        {!user && (
           <Link to="/login" className="botao-entrar">Entrar</Link>
         )}
       </div>

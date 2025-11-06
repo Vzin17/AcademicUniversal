@@ -12,7 +12,6 @@ function Inicio(){
         <p>Unindo estudantes e professores para oferecer o apoio jurídico, psicológico e de saúde que você precisa!</p>
         
 
-
     </section>
 
     <section className="features">

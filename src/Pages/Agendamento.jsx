@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import Calendar from 'react-calendar';
+import React, { useState, useMemo, useEffect } from 'react';
+import Calendar from 'react-calendar'; 
 import 'react-calendar/dist/Calendar.css';
 import './CSS_Pgs/Agendamento.css';
 import { useAuth } from '../contexts/AuthContext'
@@ -7,19 +7,30 @@ import { supabase } from '../supabaseClient';
 
 // Lista de áreas de atendimento
 const areasDeAtendimento = [
-  'Direito', 'Psicologia', 'Fisioterapia', 'Odontologia', 'Farmácia'
+  { id: 1, name: 'Direito' },
+  { id: 2, name: 'Psicologia' },
+  { id: 3, name: 'Fisioterapia' },
+  { id: 4, name: 'Odontologia' },
 ];
 
-// NOVO: Lista de horários disponíveis
+
 const horariosDisponiveis = [
-  '09:00', '10:00', '11:00', '14:00', '15:00', '16:00'
+  '09:00', '10:00', '11:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00',
 ];
 
 function Agendamento() {
     const { user } = useAuth();
-  const [areaSelecionada, setAreaSelecionada] = useState('');
+  const [areaSelecionadaId, setAreaSelecionadaId] = useState(null);
   const [dataSelecionada, setDataSelecionada] = useState(null);
-  const [horaSelecionada, setHoraSelecionada] = useState(''); // NOVO: Estado para a hora
+  const [horaSelecionada, setHoraSelecionada] = useState('');
+
+  // Filtra as áreas de atendimento com base na função do usuário
+  const areasDisponiveis = useMemo(() => {
+    if (user && user.funcao === 'paciente') {
+      return areasDeAtendimento.filter(area => area.name !== 'Psicologia');
+    }
+    return areasDeAtendimento;
+  }, [user]);
 
   const isDiaDesabilitado = ({ date }) => {
     const diaDaSemana = date.getDay();
@@ -34,22 +45,22 @@ function Agendamento() {
     return false;
   };
 
-  const handleSelecionarArea = (area) => {
-    setAreaSelecionada(area);
-    setDataSelecionada(null);
-    setHoraSelecionada(''); // NOVO: Limpa a hora ao trocar de área
+  const handleSelecionarArea = (areaId) => {
+    setAreaSelecionadaId(areaId);
+    setDataSelecionada(null); // Limpa a data para forçar nova seleção
+    setHoraSelecionada('');
   };
 
   const handleSelecionarData = (data) => {
     setDataSelecionada(data);
-    setHoraSelecionada(''); // NOVO: Limpa a hora ao escolher um novo dia
+    setHoraSelecionada(''); // Limpa a hora para forçar nova seleção
   };
 
   // ALTERADO: A função de envio agora é assíncrona e salva no Supabase
 const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!areaSelecionada || !dataSelecionada || !horaSelecionada) {
-      alert('Por favor, selecione uma área, um dia e um horário.');
+    if (!areaSelecionadaId || !dataSelecionada || !horaSelecionada) {
+      alert('Por favor, preencha todos os campos.');
       return;
     }
 
@@ -71,20 +82,21 @@ const handleSubmit = async (e) => {
         .from('agendamentos')
         .insert([
           { 
-            area_especialidade: areaSelecionada,
+            area_especialidade: areasDeAtendimento.find(a => a.id === areaSelecionadaId)?.name,
             data_consulta: dataConsultaFinal.toISOString(),
             usuario_id: user.id
           },
         ]);
 
       if (error) {
+        console.error('Erro detalhado do Supabase:', error);
         throw error; // Joga o erro para o bloco catch
       }
 
-      alert(`Agendamento confirmado para ${areaSelecionada} no dia ${dataConsultaFinal.toLocaleString('pt-BR')}!`);
+      alert(`Agendamento confirmado no dia ${dataConsultaFinal.toLocaleString('pt-BR')}!`);
 
       // Limpa os campos após o sucesso
-      setAreaSelecionada('');
+      setAreaSelecionadaId(null);
       setDataSelecionada(null);
       setHoraSelecionada('');
 
@@ -100,13 +112,13 @@ const handleSubmit = async (e) => {
       <div className="agendamento-content">
         <div className="areas-container">
           <h3 className="areas-title">1. Selecione a Área</h3>
-          {areasDeAtendimento.map((area) => (
+          {areasDisponiveis.map((area) => (
             <div
-              key={area}
-              className={`area-item ${area === areaSelecionada ? 'selected' : ''}`}
-              onClick={() => handleSelecionarArea(area)}
+              key={area.id}
+              className={`area-item ${area.id === areaSelecionadaId ? 'selected' : ''}`}
+              onClick={() => handleSelecionarArea(area.id)}
             >
-              {area}
+              {area.name}
             </div>
           ))}
         </div>
@@ -121,7 +133,7 @@ const handleSubmit = async (e) => {
           />
         </div>
 
-        {/* NOVO: Seção para escolher o horário, só aparece se um dia for selecionado */}
+
         {dataSelecionada && (
           <div className="horarios-container">
             <h3 className="horarios-title">3. Escolha um Horário</h3>
@@ -139,18 +151,17 @@ const handleSubmit = async (e) => {
           </div>
         )}
       </div>
-
+      
       <div className="selection-info">
-        {areaSelecionada && dataSelecionada && horaSelecionada
-          ? `Seleção: ${areaSelecionada} em ${dataSelecionada.toLocaleDateString('pt-BR')} às ${horaSelecionada}`
+        {areaSelecionadaId && dataSelecionada && horaSelecionada
+          ? `Seleção: ${areasDeAtendimento.find(a => a.id === areaSelecionadaId)?.name} em ${dataSelecionada.toLocaleDateString('pt-BR')} às ${horaSelecionada}`
           : 'Aguardando seleção...'}
       </div>
-
       <form onSubmit={handleSubmit} className="agendamento-form">
         <button
           type="submit"
           className="agendamento-submit-btn"
-          disabled={!areaSelecionada || !dataSelecionada || !horaSelecionada}
+          disabled={!areaSelecionadaId || !dataSelecionada || !horaSelecionada}
         >
           Confirmar Agendamento
         </button>

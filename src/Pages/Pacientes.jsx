@@ -81,18 +81,12 @@ function Pacientes() {
     }
   };
 
-  const handleBusca = async (e) => {
-    e.preventDefault();
-    if (termoBusca.trim() === '') return;
-    buscarPacientes(termoBusca);
-  };
-
   return (
     <div className="pacientes-container">
       <h2>Busca de Pacientes</h2>
       <p>Digite o nome do paciente (mínimo 2 caracteres) - a busca é automática.</p>
 
-      <form className="pacientes-busca-form" onSubmit={handleBusca}>
+      <form className="pacientes-busca-form" onSubmit={(e) => e.preventDefault()}>
         <input 
           type="text" 
           placeholder="Digite o nome do paciente..."
@@ -101,9 +95,6 @@ function Pacientes() {
           autoComplete="off"
           autoFocus
         />
-        <button type="submit" disabled={buscando || termoBusca.trim().length < 2}>
-          {buscando ? 'Buscando...' : 'Buscar'}
-        </button>
       </form>
 
       <div className="pacientes-resultados-busca">
@@ -134,4 +125,3 @@ function Pacientes() {
 }
 
 export default Pacientes;
-

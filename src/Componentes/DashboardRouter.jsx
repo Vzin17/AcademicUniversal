@@ -1,32 +1,35 @@
 // Salve este código em: src/components/DashboardRouter.jsx
 
 import React from 'react';
-import { useAuth } from '../contexts/AuthContext'; 
-import DashboardInicio from './DashboardInicio.jsx';
-import AlunoDashboard from './AlunoDashboard.jsx'; // 1. Importamos o painel correto do aluno
+import { useAuth } from '../Contexts/AuthContext'; 
 import PainelPaciente from '../paineis/PainelPaciente.jsx';
-import PainelRecepcionistas from '../paineis/PainelRecepcionista.jsx';
+import PainelRecepcionista from '../paineis/PainelRecepcionista.jsx';
+import PainelAluno from '../paineis/PainelAluno.jsx';
+import PainelCoordenador from '../paineis/PainelCoordenador.jsx';
+import PainelProfessor from '../paineis/PainelProfessor.jsx';
 
 
 const DashboardRouter = () => {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
 
-  if (!user) {
-    // Se o usuário não estiver logado, não mostra nada
-    return null;
+  if (loading) {
+    return <div>Carregando...</div>;
   }
 
-  const userRole = user.funcao;
+  if (!user) return null;
+
+  // Normaliza a role para evitar problemas com espaços ou maiúsculas/minúsculas
+  const userRole = user.funcao?.trim().toLowerCase() || '';
 
   switch (userRole) {
-     case 'aluno':
-      return <AlunoDashboard />; // 2. Usamos o painel correto
-    case 'paciente':
+    case 'aluno':
+      return <PainelAluno />;
+    case 'paciente_comunidade': // Corrigido para corresponder ao valor do banco
       return <PainelPaciente />;
-    // 2. Coordenadores e Professores agora veem o DashboardInicio
     case 'coordenador': 
+      return <PainelCoordenador />;
     case 'professor': 
-      return <DashboardInicio />;
+      return <PainelProfessor />;
     case 'recepcionista':
       return <PainelRecepcionista />;
     default:
