@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }) => {
       // Busca o perfil do usuário na tabela 'perfis'
       const { data: profile, error } = await supabase
         .from('perfis')
-        .select('*, area:area_id(name)') // Seu select original
+        .select('*, area:area_id(id, name)') // Correção: especifica a tabela e a coluna
         .eq('id', authUser.id)
         .single();
   

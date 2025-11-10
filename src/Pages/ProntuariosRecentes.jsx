@@ -26,14 +26,14 @@ const ProntuariosRecentes = () => {
           created_at,
           paciente_id,
           paciente:perfis!prontuarios_paciente_id_fkey(nome_completo),
-          aluno:perfis!prontuarios_aluno_id_fkey(especialidade_id)
+          aluno:perfis!prontuarios_aluno_id_fkey(area_id)
         `)
         .gte('created_at', umaSemanaAtras.toISOString())
         .order('created_at', { ascending: false });
 
       // Filtra por especialidade para coordenadores
-      if (user.funcao === 'coordenador' && user.especialidade_id) {
-        query = query.eq('aluno.especialidade_id', user.especialidade_id);
+      if (user.funcao === 'coordenador' && user.area?.id) {
+        query = query.eq('aluno.area_id', user.area.id);
       }
       // Filtra por nome do supervisor para professores
       else if (user.funcao === 'professor') {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../supabaseClient.js';
 import './CSS_Pgs/Paciente.css';
 
 function FichaPaciente() {
@@ -47,8 +47,8 @@ function FichaPaciente() {
         const { data: prontuariosData, error: prontuariosError } = await supabase
           .from('prontuarios')
           .select(`
-            *,
-            aluno:perfis!prontuarios_aluno_id_fkey(nome_completo)
+            *, 
+            aluno:perfis!prontuarios_aluno_id_fkey(id, nome_completo)
           `)
           .eq('paciente_id', id)
           .order('created_at', { ascending: false });
@@ -113,10 +113,7 @@ function FichaPaciente() {
         // Recarrega os prontuários
         const { data: prontuariosData } = await supabase
           .from('prontuarios')
-          .select(`
-            *,
-            aluno:perfis!prontuarios_aluno_id_fkey(nome_completo)
-          `)
+          .select(`*, aluno:perfis!prontuarios_aluno_id_fkey(id, nome_completo)`)
           .eq('paciente_id', id)
           .order('created_at', { ascending: false });
         
