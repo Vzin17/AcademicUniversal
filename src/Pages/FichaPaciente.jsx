@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
-import { useAuth } from '../supabaseClient.js';
+import { useAuth } from '../Contexts/AuthContext.jsx';
 import './CSS_Pgs/Paciente.css';
 
 function FichaPaciente() {

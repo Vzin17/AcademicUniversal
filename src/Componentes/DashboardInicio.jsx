@@ -37,7 +37,7 @@ function DashboardInicio() {
           <Link to="/pacientes" className="botao-acao">
             Buscar Pacientes
           </Link>
-          <Link to="/agendamento" className="botao-acao">Ver Agendamentos</Link>
+          <Link to="/agendamento" className="botao-acao">Fazer Agendamento</Link>
           {user.funcao === 'coordenador' && (
             <Link to="/admin" className="botao-acao">
               Painel Administrativo

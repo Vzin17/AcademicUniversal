@@ -4,76 +4,70 @@ import { supabase } from '../supabaseClient.js';
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null); 
-  const [session, setSession] = useState(null);
-  const [loading, setLoading] = useState(true);
+ const [user, setUser] = useState(null); 
+ const [session, setSession] = useState(null);
+ const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    
-    const fetchUserProfile = async (authUser) => {
-      if (!authUser) {
-        setUser(null);
-        setLoading(false);
-        return;
-      }
-  
-      // Busca o perfil do usuário na tabela 'perfis'
-      const { data: profile, error } = await supabase
-        .from('perfis')
-        .select('*, area:area_id(id, name)') // Correção: especifica a tabela e a coluna
-        .eq('id', authUser.id)
-        .single();
-  
-      if (error) {
-        console.error("Erro ao buscar perfil:", error);
-        setUser(authUser); // Em último caso, usa dados básicos se o perfil falhar
-      } else {
-        // Junta os dados do Auth (email) com os dados do Perfil (funcao, nome, etc.)
-        setUser({ ...authUser, ...profile });
-      }
-      setLoading(false);
-    };
-  
-    // 1. Verifica a sessão existente na carga inicial
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      fetchUserProfile(session?.user); // Busca perfil na carga inicial
-    });
-  
-    // 2. Ouve as mudanças de estado (login/logout)
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (_event, session) => {
-        setSession(session);
-      
-        fetchUserProfile(session?.user);
-      }
-    );
-  
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, []); // Roda apenas uma vez
+ useEffect(() => {
+   const fetchUserProfile = async (authUser) => {
+     if (!authUser) return;
+     
+     // Busca o perfil do usuário logado
+     const { data: profile, error } = await supabase
+       .from('perfis')
+       .select('*, area:areas(id, name)')
+       .eq('id', authUser.id)
+       .single();
 
-  const value = {
-    session,
-    user, 
-    loading, 
-    logout: () => supabase.auth.signOut(),
-  };
+     if (error) {
+       console.error("Erro ao buscar perfil:", error);
+       setUser(authUser); // Se falhar, usa os dados básicos da autenticação
+     } else {
+       // Combina os dados da autenticação com os do perfil
+       setUser({ ...authUser, ...profile });
+     }
+   };
 
-  // Otimização: Não renderiza o 'children' se estiver 'loading'
-  // Mostra 'children' apenas quando 'loading' for 'false'
-  return (
-   <AuthContext.Provider value={value}>
-    {children} 
-   </AuthContext.Provider>
-  );
+   supabase.auth.getSession().then(({ data: { session } }) => {
+     setSession(session);
+     fetchUserProfile(session?.user); 
+     setLoading(false);
+   });
+
+   const { data: { subscription } } = supabase.auth.onAuthStateChange(
+     (_event, session) => {
+       setSession(session);
+       if (session?.user) {
+         fetchUserProfile(session.user);
+       } else {
+         setUser(null);
+       }
+     }
+   );
+
+   return () => {
+     subscription.unsubscribe();
+   };
+ }, []);
+
+ const value = {
+  session,
+  user, 
+  loading, 
+  logout: () => supabase.auth.signOut(),
+ };
+
+ if (loading) {
+  return null; 
+ }
+
+ return (
+  <AuthContext.Provider value={value}>
+   {children}
+  </AuthContext.Provider>
+ );
 };
 
 export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error('useAuth deve ser usado dentro de um AuthProvider');
-  }
-  return context;
+ return useContext(AuthContext);
 };

@@ -33,7 +33,7 @@ const ProntuariosRecentes = () => {
 
       // Filtra por especialidade para coordenadores
       if (user.funcao === 'coordenador' && user.area?.id) {
-        query = query.eq('aluno.area_id', user.area.id);
+        query = query.eq('aluno:perfis!prontuarios_aluno_id_fkey(area_id)', user.area.id);
       }
       // Filtra por nome do supervisor para professores
       else if (user.funcao === 'professor') {
