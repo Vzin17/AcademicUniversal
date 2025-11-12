@@ -34,8 +34,17 @@ function Header() {
 
       <nav className="menu-navegacao">
         <ul>
-         
-          {!user && (
+          <li><Link to="/">Início</Link></li>
+
+          <li><Link to="/agendamento">Agendamento</Link></li>
+
+          <li><Link to="/servicos">Serviços</Link></li>
+
+          <li><Link to="/projeto">O Projeto</Link></li>
+
+          <li><Link to="/dashboard">Painel</Link></li>
+
+          {isAuthenticated && user && (
             <>
               <li><Link to="/">Início</Link></li>
               <li><Link to="/agendamento">Agendamentos</Link></li>

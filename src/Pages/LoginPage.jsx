@@ -14,7 +14,7 @@ const LoginPage = () => {
     setError('');
     const success = login(email, password);
     if (success) {
-      navigate('/dashboard'); // Redireciona para o dashboard após o login
+      navigate('/dashboards'); // Redireciona para o dashboard após o login
     } else {
       setError('E-mail ou senha incorretos.');
     }

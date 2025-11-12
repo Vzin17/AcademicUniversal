@@ -4,17 +4,24 @@ import './Footer.css';
 
 function Footer(){
     return(
-    <footer className="site-footer">
-      <div className="footer-content">
-        <div className="footer-info">
-          <p className="copyright">© 2025 Vincle</p>
-          <p className="contact-info">
-            <strong>Contato:</strong> <a href="mailto:contato@vincle.com.br">contato@vincle.com.br</a>
-          </p>
+
+    <footer>
+        <div className="Rodape">
+            <h1 className='Copy'>© 2025 InterSocial</h1>
         </div>
-        <Link to="/denuncia" className="denuncia-link">Canal de Denúncia Anônima</Link>
-      </div>
-    </footer>    
+            
+        <div className='Contato'>
+            <Link to = '/contato' className='contato'> Contato </Link>
+            
+        </div>
+
+        <div className='denuncia'>
+            <Link to ='/denuncia' className='denuncia'> Denúncia anônima </Link>
+        </div>
+
+
+        
+    </footer>
 
 );
 }
