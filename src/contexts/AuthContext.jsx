@@ -15,7 +15,7 @@ export const AuthProvider = ({ children }) => {
      // Busca o perfil do usuário logado
      const { data: profile, error } = await supabase
        .from('perfis')
-       .select('*')
+       .select('*, area:areas(id, name)')
        .eq('id', authUser.id)
        .single();
 

@@ -164,7 +164,11 @@ const handleSubmit = async (event) => {
             type="text" 
             placeholder="Registro Acadêmico (RA)" 
             value={ra}
-            onChange={(e) => setRa(e.target.value)}
+            onChange={(e) => {
+              // Permite apenas a inserção de números
+              const numericValue = e.target.value.replace(/\D/g, '');
+              setRa(numericValue);
+            }}
             required 
           />
         )}

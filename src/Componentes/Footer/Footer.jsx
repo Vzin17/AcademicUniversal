@@ -1,11 +1,10 @@
 import React from 'react';
-import './Footer.css';
 import { Link } from 'react-router-dom';
-import Contato from '../../Pages/Contato';
-import Denuncia from '../../Pages/Denuncia';
+import './Footer.css';
 
 function Footer(){
     return(
+
     <footer>
         <div className="Rodape">
             <h1 className='Copy'>© 2025 InterSocial</h1>

@@ -1,31 +1,52 @@
-
-
 footer {
+  background-color: #0a3d62; /* Azul escuro, consistente com o painel */
+  color: #ffffff;
+  padding: 25px 40px;
   text-align: center;
-  padding: 20px 0; /* Aumentei um pouco o padding para dar mais respiro */
-  background: linear-gradient(to right, #4da8f8, #005893);
-  border-top: 2px solid #535353;
-  color: white; /* Define branco como a cor padrão para todo o texto dentro do footer */
+  font-family: 'Poppins', sans-serif;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.Copy {
-  font-size: 20px;
-  color: #000000; /* O texto do Copyright na sua imagem é preto, então mantive */
-  margin-bottom: 15px; /* Adiciona um espaçamento abaixo */
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
 }
 
-/* Estilo para AMBOS os links do rodapé (Contato e Denúncia) */
-.contato, .denuncia {
-  color: #B0E0E6; /* Um azul claro (PowderBlue) para destacar do fundo */
-  text-decoration: none; /* Remove o sublinhado padrão */
-  font-size: 16px;
-  margin: 0 15px; /* Espaçamento entre os links */
-  display: block; /* Faz cada link ocupar uma linha, como na sua imagem */
-  margin-bottom: 8px; /* Espaço entre "Contato" e "Denúncia" */
+.footer-info {
+  display: flex;
+  gap: 25px;
+  align-items: center;
 }
 
-/* Efeito ao passar o mouse sobre os links */
-.contato:hover, .denuncia:hover {
-  text-decoration: underline; /* Adiciona sublinhado ao passar o mouse */
-  color: #FFFFFF; /* Muda a cor para branco */
+.copyright, .contact-info {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #e0e8f5;
+}
+
+.contact-info a {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.contact-info a:hover {
+  color: #a9cffc;
+}
+
+.denuncia-link {
+  color: #f1c40f; /* Amarelo para destaque */
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.denuncia-link:hover {
+  text-decoration: underline;
 }

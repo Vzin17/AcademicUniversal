@@ -1,0 +1,64 @@
+.prontuarios-page-container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 30px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.prontuarios-page-container h1 {
+    color: #0a3d62;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.prontuarios-lista-detalhada {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 25px;
+}
+
+.prontuario-card-detalhado {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0, 43, 92, 0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.prontuario-card-detalhado:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 43, 92, 0.12);
+}
+
+.prontuario-card-detalhado h3 {
+    color: #0056b3;
+    font-size: 1.2rem;
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.prontuario-card-detalhado p {
+    margin: 5px 0;
+    color: #334e68;
+}
+
+.prontuario-card-actions {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.btn-action {
+    padding: 8px 15px;
+    border-radius: 6px;
+    text-decoration: none;
+    color: #fff;
+    font-weight: 500;
+    text-align: center;
+    transition: background-color 0.2s ease;
+}
+
+.btn-action.ver { background-color: #1e73be; }
+.btn-action.ver:hover { background-color: #165a9a; }
+.btn-action.editar { background-color: #28a745; }
+.btn-action.editar:hover { background-color: #218838; }

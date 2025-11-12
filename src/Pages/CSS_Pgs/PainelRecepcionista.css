@@ -1,0 +1,103 @@
+/* /src/paineis/CSS/PainelRecepcionista.css */
+
+.painel-recepcionista-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.painel-recepcionista-container h2 {
+  font-size: 2.2rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.painel-recepcionista-container .subtitulo {
+  font-size: 1.1rem;
+  color: #666;
+  margin-top: 0;
+  margin-bottom: 2.5rem;
+}
+
+/* Seção de Ações Rápidas */
+.acoes-rapidas-section {
+  margin-bottom: 2.5rem;
+}
+
+.acoes-rapidas-section h3 {
+  font-size: 1.5rem;
+  color: #333;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.acoes-rapidas-container {
+  display: flex;
+  gap: 1rem;
+}
+
+.botao-acao-recepcionista {
+  background-color: #6d44b8;
+  color: white;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s, transform 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.botao-acao-recepcionista:hover {
+  background-color: #5a379a;
+  transform: translateY(-2px);
+}
+
+/* Container de Agendamentos */
+.agendamentos-container {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  padding: 2rem;
+}
+
+.agendamentos-container h3 {
+  margin-top: 0;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.lista-agendamentos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.agendamento-card-link {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1.5rem;
+  text-decoration: none;
+  color: #333;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.agendamento-card-link:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.agendamento-card-link h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.2rem;
+  color: #6d44b8;
+}
+
+.agendamento-card-link span {
+  font-size: 1rem;
+  color: #555;
+}

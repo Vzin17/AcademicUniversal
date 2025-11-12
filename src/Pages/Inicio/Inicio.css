@@ -8,13 +8,14 @@
   padding: 80px 20px;
   background: linear-gradient(to right, #4da8f8, #005893);
   color: #fff;
-  width: 100vw;
+  width: 99vw;
   min-height: 65vh;
   padding-top: 100px;
   padding-bottom: 80px; 
   padding-left: 20px;
   padding-right: 20px;
   box-sizing: border-box;
+  overflow: auto;
 
 }
 
@@ -70,4 +71,15 @@
 .card:hover {
   transform: translateY(-5px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+main {
+  margin: 0;
+  padding: 0;
+  display: block; /* Garante que o navegador trate o <main> como um bloco */
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
 }
