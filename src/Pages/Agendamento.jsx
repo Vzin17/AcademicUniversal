@@ -1,7 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import Calendar from 'react-calendar'; 
-import 'react-calendar/dist/Calendar.css';
-import './CSS_Pgs/Agendamento.css';
 import 'react-calendar/dist/Calendar.css'; // Mantido, pois vem de node_modules
 import './CSS_Pgs/Agendamento.css'; // Corrigido para o caminho relativo correto
 import { useAuth } from '../contexts/AuthContext'
