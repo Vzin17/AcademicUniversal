@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css'; // Importa o CSS global
-import { AuthProvider } from './Contexts/AuthContext';
+import { AuthProvider } from './contexts/AuthContext';
 import ProtectedRoute from './ProtectedRoute';
 
 // --- Componentes de Página ---

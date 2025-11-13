@@ -1,7 +1,7 @@
 // Salve este código em: src/components/DashboardRouter.jsx
 
 import React from 'react';
-import { useAuth } from '../Contexts/AuthContext'; 
+import { useAuth } from '../contexts/AuthContext'; 
 import PainelPaciente from '../paineis/PainelPaciente.jsx';
 import PainelRecepcionista from '../paineis/PainelRecepcionista.jsx';
 import PainelAluno from '../paineis/PainelAluno.jsx';

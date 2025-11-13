@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../supabaseClient';
-import { useAuth } from '../Contexts/AuthContext';
+import { useAuth } from '../contexts/AuthContext';
 import './CSS_Pgs/MeusAgendamentos.css';
 
 function MeusAgendamentos() {
@@ -14,9 +14,8 @@ function MeusAgendamentos() {
 
       const { data, error } = await supabase
         .from('agendamentos')
-        // ----- CORREÇÃO AQUI (1) -----
-        // Usamos a mesma sintaxe explícita
-        .select('id, data_consulta, areas!agendamentos_especialidade_id_fkey(name)')
+        
+        .select('id, data_consulta, area_especialidade')
         .eq('paciente_id', user.id)
         .gte('data_consulta', new Date().toISOString()) 
         .order('data_consulta', { ascending: true })
@@ -44,7 +43,7 @@ function MeusAgendamentos() {
           <div key={ag.id} className="agendamento-item-card">
             <span className="agendamento-data">{new Date(ag.data_consulta).toLocaleDateString('pt-BR')}</span>
             <span className="agendamento-hora">{new Date(ag.data_consulta).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</span>
-            <span className="agendamento-area">{ag.areas?.name || 'Área não definida'}</span>
+            <span className="agendamento-area">{ag.area_especialidade || 'Área não definida'}</span>
           </div>
         ))
       ) : (

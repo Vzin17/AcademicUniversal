@@ -27,9 +27,6 @@ function DashboardInicio() {
           <p>Ver prontuários da última semana</p>
         </Link>
       </div>
-      <div className="notificacoes-container">
-        <p>Nenhuma notificação encontrada.</p>
-      </div>
 
       <div className="acoes-rapidas-section">
         <h3>Ações Rápidas</h3>

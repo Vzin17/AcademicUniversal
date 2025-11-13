@@ -1,6 +1,6 @@
 import React from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import './MinhaConta.css'; // Usaremos um novo CSS para esta página
+import '../Pages/CSS_Pgs/MinhaConta.css'; // Usaremos um novo CSS para esta página
 import Seguranca from './Seguranca';
 import MeusAgendamentos from './MeusAgendamentos';
 import { Link } from 'react-router-dom';
