@@ -122,11 +122,13 @@
 }
 
 .steps-list {
-  list-style: none;
-  padding: 0;
-  max-width: 600px;
-  margin: 2rem auto 0 auto;
-  text-align: left;
+
+    list-style: none;
+    padding: 0;
+    max-width: 700px;
+    margin: 2rem auto 0 auto;
+    text-align: left;
+
 }
 
 .steps-list li {
