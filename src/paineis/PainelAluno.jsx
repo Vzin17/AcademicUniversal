@@ -50,16 +50,14 @@ function PainelAluno() {
 
       <section className="painel-aluno-acoes">
         
-        {/* ======================= CORREÇÃO 1 AQUI ======================= */}
-        {/* Antes era "/novo-agendamento", agora é "/agendamento" para bater com o App.js */}
+       
         <Link to="/agendamento" className="acao-card-aluno primary">
           <FaCalendarPlus size={28} />
           <h3>Agendar Nova Consulta</h3>
           <p>Veja os horários e profissionais disponíveis.</p>
         </Link>
         
-        {/* ======================= CORREÇÃO 2 AQUI ======================= */}
-        {/* Antes era "/meus-pacientes", agora é "/pacientes" para bater com o App.js */}
+        
         <Link to="/pacientes" className="acao-card-aluno secondary">
           <FaUserMd size={28} />
           <h3>Meus Pacientes</h3>

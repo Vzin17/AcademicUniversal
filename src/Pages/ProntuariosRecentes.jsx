@@ -57,6 +57,7 @@ const ProntuariosRecentes = () => {
   const formatarData = (dataISO) => new Date(dataISO).toLocaleDateString('pt-BR');
 
   return (
+  
     <div className="prontuarios-page-container">
       <h1>Prontuários da Última Semana</h1>
       {loading && <p>Carregando...</p>}
@@ -71,7 +72,7 @@ const ProntuariosRecentes = () => {
                 <h3>{prontuario.titulo}</h3>
                 <p><strong>Paciente:</strong> {prontuario.paciente?.nome_completo || 'Não identificado'}</p>
                 <p><strong>Aluno:</strong> {prontuario.aluno?.nome_completo || 'Não identificado'}</p>
-              <p><strong>Data:</strong> {formatarData(prontuario.created_at)}</p>
+                <p><strong>Data:</strong> {formatarData(prontuario.created_at)}</p>
                 <div className="prontuario-card-actions">
                   <Link to={`/pacientes/${prontuario.paciente_id}`} className="btn-action ver">Ver Ficha</Link>
                   <Link to={`/pacientes/${prontuario.paciente_id}?editarProntuario=${prontuario.id}`} className="btn-action editar">
@@ -88,3 +89,5 @@ const ProntuariosRecentes = () => {
 };
 
 export default ProntuariosRecentes;
+
+

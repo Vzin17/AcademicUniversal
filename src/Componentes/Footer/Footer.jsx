@@ -1,30 +1,32 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './Footer.css';
+import './Footer.css'; // Este import está correto
 
-function Footer(){
-    return(
+function Footer() {
+  return (
+    // A tag <footer> já está a ser estilizada pelo teu CSS
+    <footer>
+      
+      <div className="footer-content">
+        
+        
+        <div className="footer-info">
+        
+          <p className='copyright'>© 2025 Vincle</p>
+          
+         
+          <p className='contact-info'>
+         
+            <Link to='/contato'>Contato</Link>
+          </p>
+        </div>
 
-    <footer>
-        <div className="Rodape">
-            <h1 className='Copy'>© 2025 InterSocial</h1>
-        </div>
-            
-        <div className='Contato'>
-            <Link to = '/contato' className='contato'> Contato </Link>
-            
-        </div>
+      
+        <Link to='/denuncia' className='denuncia-link'> Denúncia anônima </Link>
 
-        <div className='denuncia'>
-            <Link to ='/denuncia' className='denuncia'> Denúncia anônima </Link>
-        </div>
-
-
-        
-    </footer>
-
-);
+      </div>
+    </footer>
+  );
 }
-
 
 export default Footer;
