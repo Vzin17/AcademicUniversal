@@ -28,43 +28,37 @@ import PainelRecepcionista from './paineis/PainelRecepcionista.jsx';
 // (Valores exatos em minúsculo, como no banco de dados)
 
 const ROLES = {
-  Coordenador: 'coordenador',
-  Professor: 'professor',
-  Aluno: 'aluno', // O aluno das 3 áreas clínicas
-  Recepcionista: 'recepcionista', // Adicionado
-  Psicologa: 'psicologa', // Role da psicóloga
-  Paciente: 'paciente_comunidade',
-  // Se "aluno da faculdade" for uma role diferente de "aluno" (das 3 áreas),
-  // adicione-a aqui. Ex: AlunoFaculdade: 'aluno_geral'
+  Coordenador: 'coordenador',
+  Professor: 'professor',
+  Aluno: 'aluno', // O aluno das 3 áreas clínicas
+  Recepcionista: 'recepcionista', // Adicionado
+  Psicologa: 'psicologa', // Role da psicóloga
+  Paciente: 'paciente_comunidade',
 };
 
-
-
-
 const EQUIPE_GESTAO_CLINICA = [
-  ROLES.Coordenador,
-  ROLES.Professor,
-  ROLES.Aluno,
-  ROLES.Recepcionista
-  // A psicóloga provavelmente não vê os pacientes das *outras* clínicas
+  ROLES.Coordenador,
+  ROLES.Professor,
+  ROLES.Aluno,
+  ROLES.Recepcionista
 ];
 
 // Quem pode CRIAR/EDITAR prontuários
 const EQUIPE_CLINICA_AUTORIZADA = [
-  ROLES.Coordenador,
-  ROLES.Professor,
-  ROLES.Aluno
+  ROLES.Coordenador,
+  ROLES.Professor,
+  ROLES.Aluno
 ];
 
 function App() {
   return (
     <BrowserRouter>
-      <AuthProvider>
-        <div className="App">
+      <AuthProvider>
+        <div className="App">
           <Header />
           <main>
             <Routes>
-              {/* --- 1. Rotas Públicas (Ninguém logado) --- */}
+              {/* --- 1. Rotas Públicas (Ninguém logado) --- */}
               <Route path="/" element={<HomeRouter />} />
               <Route path="/cadastro" element={<Cadastro />} />
               <Route path="/servicos" element={<Servicos />} />
@@ -74,7 +68,7 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
 
-         
+         
               <Route
                 path="/agendamento"
                 element={
@@ -84,7 +78,7 @@ function App() {
                 }
               />
 
-              <Route
+              <Route
                 path="/minha-conta/*"
                 element={
                   <ProtectedRoute> 
@@ -93,52 +87,47 @@ function App() {
                 }
               />
 
-             
-
-              <Route
+              <Route
                 path="/pacientes" 
                 element={
                   <ProtectedRoute allowedRoles={EQUIPE_GESTAO_CLINICA}>
                     <Pacientes />
                   </ProtectedRoute>
-              }
+              }
               />
 
-
-              <Route
+              <Route
                 path="/pacientes/:id" 
-                element={
+                element={
                   <ProtectedRoute allowedRoles={EQUIPE_GESTAO_CLINICA}>
                     <FichaPaciente />
                   </ProtectedRoute>
-                }
+                }
               />
 
-
-              <Route
+             
+                            <Route
                 path="/pacientes/:id/criar-prontuario"
-                element={
-                  <ProtectedRoute allowedRoles={[ROLES.Aluno]}> 
-                    <CriarProntuario />
+                element={
+                  // MUDANÇA: Trocamos [ROLES.Aluno] por EQUIPE_CLINICA_AUTORIZADA
+                  <ProtectedRoute allowedRoles={EQUIPE_CLINICA_AUTORIZADA}> 
+                    <CriarProntuario />
                   </ProtectedRoute>
-                }
-              />
+                }
+              />
 
-
-
-              <Route
+              <Route
                 path="/prontuarios/recentes"
-                element={
+                element={
                   <ProtectedRoute allowedRoles={[ROLES.Coordenador, ROLES.Professor]}>
-                  <ProntuariosRecentes />
-                </ProtectedRoute>
+                  <ProntuariosRecentes />
+                </ProtectedRoute>
                 }
               />
-
-              
-              <Route
+              
+              <Route
                 path="/admin"
-                element={
+                element={
                   <ProtectedRoute allowedRoles={[ROLES.Coordenador]}>
                     <PainelAdmin />
                   </ProtectedRoute>
@@ -146,10 +135,10 @@ function App() {
               />
 
             </Routes>
-          </main>
+          </main>
           <Footer />
         </div>
-      </AuthProvider>
+      </AuthProvider>
     </BrowserRouter>
   );
 }

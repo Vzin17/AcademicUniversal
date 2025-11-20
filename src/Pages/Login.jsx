@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { supabase } from '../supabaseClient'; // Importa o supabase diretamente
+import { supabase } from '../supabaseClient'; 
 import './CSS_Pgs/Login.css';
 import logo from '../Componentes/IMAGENS/InterSocial.png';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';

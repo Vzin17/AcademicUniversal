@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
-import './CSS_Pgs/Pacientes.css'; 
+import "./CSS_Pgs/Paciente.css"; 
 
 function Pacientes() {
   const [termoBusca, setTermoBusca] = useState('');
   const [resultados, setResultados] = useState([]);
   const [buscando, setBuscando] = useState(false);
 
-  // Carrega todos os pacientes quando a página inicia (para debug)
+  
   useEffect(() => {
     const carregarTodosPacientes = async () => {
       try {
