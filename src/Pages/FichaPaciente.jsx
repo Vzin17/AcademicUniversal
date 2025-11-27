@@ -10,7 +10,6 @@ function FichaPaciente() {
   const [paciente, setPaciente] = useState(null);
   const [carregando, setCarregando] = useState(true);
   const [prontuarios, setProntuarios] = useState([]);
-  const [mostrarFormulario, setMostrarFormulario] = useState(false);
   const [editandoProntuario, setEditandoProntuario] = useState(null);
   const [prontuarioEditado, setProntuarioEditado] = useState({
     titulo: '',
@@ -20,15 +19,13 @@ function FichaPaciente() {
     supervisor_nome: '',
   });
   const [editando, setEditando] = useState(false);
-  const [salvando, setSalvando] = useState(false);
 
   useEffect(() => {
-    // Carregamento de dados reais do paciente e prontuários
     const carregarDados = async () => {
       setCarregando(true);
       
       try {
-        // Busca dados reais do paciente na tabela perfis
+        // Busca dados reais do paciente
         const { data: pacienteData, error: pacienteError } = await supabase
           .from('perfis')
           .select('*')
@@ -36,14 +33,10 @@ function FichaPaciente() {
           .eq('funcao', 'paciente')
           .single();
         
-        if (pacienteError) {
-          console.error('Erro ao buscar paciente:', pacienteError);
-          setPaciente(null);
-        } else {
-          setPaciente(pacienteData);
-        }
+        if (pacienteError) throw pacienteError;
+        setPaciente(pacienteData);
 
-        // Busca prontuários do paciente com informações dos participantes
+        // Busca prontuários do paciente
         const { data: prontuariosData, error: prontuariosError } = await supabase
           .from('prontuarios')
           .select(`
@@ -53,16 +46,11 @@ function FichaPaciente() {
           .eq('paciente_id', id)
           .order('created_at', { ascending: false });
         
-        if (prontuariosError) {
-          console.error('Erro ao buscar prontuários:', prontuariosError);
-          setProntuarios([]);
-        } else {
-          setProntuarios(prontuariosData || []);
-        }
+        if (prontuariosError) throw prontuariosError;
+        setProntuarios(prontuariosData || []);
+
       } catch (error) {
         console.error('Erro na busca:', error);
-        setPaciente(null);
-        setProntuarios([]);
       } finally {
         setCarregando(false);
       }
@@ -91,37 +79,29 @@ function FichaPaciente() {
       const dadosAtualizados = {
         titulo: prontuarioEditado.titulo,
         conteudo: prontuarioEditado.conteudo,
-        duracao_procedimento: parseInt(prontuarioEditado.duracao_procedimento) || 0, // O valor já está em minutos
+        duracao_procedimento: parseInt(prontuarioEditado.duracao_procedimento) || 0,
         aluno_parceiro_nome: prontuarioEditado.aluno_parceiro_nome || null,
         supervisor_nome: prontuarioEditado.supervisor_nome || null,
       };
-
-      console.log('Atualizando prontuário:', editandoProntuario.id, dadosAtualizados);
 
       const { error } = await supabase
         .from('prontuarios')
         .update(dadosAtualizados)
         .eq('id', editandoProntuario.id);
 
-      if (error) {
-        console.error('Erro ao atualizar prontuário:', error);
-        alert(`Erro ao atualizar prontuário: ${error.message}`);
-      } else {
-        alert('Prontuário atualizado com sucesso!');
-        setEditandoProntuario(null);
-        
-        // Recarrega os prontuários
-        const { data: prontuariosData } = await supabase
-          .from('prontuarios')
-          .select(`*, aluno:perfis!prontuarios_aluno_id_fkey(id, nome_completo)`)
-          .eq('paciente_id', id)
-          .order('created_at', { ascending: false });
-        
-        setProntuarios(prontuariosData || []);
-      }
+      if (error) throw error;
+
+      alert('Prontuário atualizado com sucesso!');
+      setEditandoProntuario(null);
+      
+      // Atualiza a lista localmente para não precisar recarregar tudo
+      setProntuarios(prontuarios.map(p => 
+        p.id === editandoProntuario.id ? { ...p, ...dadosAtualizados } : p
+      ));
+      
     } catch (error) {
       console.error('Erro ao atualizar prontuário:', error);
-      alert('Erro ao atualizar prontuário. Tente novamente.');
+      alert('Erro ao atualizar. Tente novamente.');
     } finally {
       setEditando(false);
     }
@@ -129,71 +109,43 @@ function FichaPaciente() {
 
   const podeEditarProntuario = (prontuario) => {
     if (!user) return false;
-    
-    // Coordenadores podem editar todos os prontuários da especialidade
-    if (user.funcao === 'coordenador') {
-      return true;
-    }
-    
-    // Professores podem editar prontuários onde são supervisores
+    if (user.funcao === 'coordenador') return true;
     if (user.funcao === 'professor') {
       return prontuario.supervisor_nome && 
              prontuario.supervisor_nome.toLowerCase().includes(user.nome_completo.toLowerCase());
     }
-    
-    // Alunos só podem editar seus próprios prontuários
     if (user.funcao === 'aluno') {
       return prontuario.aluno_id === user.id;
     }
-    
     return false;
   };
 
   const formatarDataHora = (dataISO) => {
     const data = new Date(dataISO);
     return data.toLocaleString('pt-BR', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
+      day: '2-digit', month: '2-digit', year: 'numeric',
+      hour: '2-digit', minute: '2-digit'
     });
   };
 
-  if (carregando) {
-    return (
-      <div className="ficha-paciente-container">
-        <div className="carregando">
-          <p>Carregando dados do paciente...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (!paciente) {
-    return (
-      <div className="ficha-paciente-container">
-        <div className="erro">
-          <p>Paciente não encontrado.</p>
-          <Link to="/pacientes">← Voltar para busca</Link>
-        </div>
-      </div>
-    );
-  }
+  if (carregando) return <div className="ficha-paciente-container"><p>Carregando...</p></div>;
+  if (!paciente) return <div className="ficha-paciente-container"><p>Paciente não encontrado.</p></div>;
 
   return (
     <div className="ficha-paciente-container">
+      
+      {/* Cabeçalho */}
       <div className="ficha-header">
         <h2>Ficha do Paciente</h2>
         <div className="ficha-acoes">
           <Link to="/pacientes" className="btn-voltar">← Voltar</Link>
-          {/* Alterado para navegar para a página de criação de prontuário */}
           <Link to={`/pacientes/${id}/criar-prontuario`} className="btn-prontuario">
             Adicionar Prontuário
           </Link>
         </div>
       </div>
 
+      {/* Dados Pessoais */}
       <div className="ficha-dados">
         <div className="dados-pessoais">
           <h3>Dados Pessoais</h3>
@@ -201,51 +153,24 @@ function FichaPaciente() {
             <label>Nome Completo:</label>
             <span>{paciente.nome_completo}</span>
           </div>
-          {paciente.cpf && (
-            <div className="campo">
-              <label>CPF:</label>
-              <span>{paciente.cpf}</span>
-            </div>
-          )}
-          {paciente.data_nascimento && (
-            <div className="campo">
-              <label>Data de Nascimento:</label>
-              <span>{paciente.data_nascimento}</span>
-            </div>
-          )}
+          <div className="campo">
+            <label>Email:</label>
+            <span>{paciente.email}</span>
+          </div>
           {paciente.telefone && (
             <div className="campo">
               <label>Telefone:</label>
               <span>{paciente.telefone}</span>
             </div>
           )}
-          {paciente.email && (
-            <div className="campo">
-              <label>Email:</label>
-              <span>{paciente.email}</span>
-            </div>
-          )}
-          {paciente.endereco && (
-            <div className="campo">
-              <label>Endereço:</label>
-              <span>{paciente.endereco}</span>
-            </div>
-          )}
         </div>
-
-        {paciente.observacoes && (
-          <div className="observacoes">
-            <h3>Observações</h3>
-            <p>{paciente.observacoes}</p>
-          </div>
-        )}
       </div>
 
-      {/* Seção de Prontuários */}
+      {/* Lista de Prontuários */}
       <div className="prontuarios-section">
         <h3>Prontuários</h3>
         
-        {/* Formulário de edição de prontuário */}
+        {/* Formulário de Edição (Modal/Pop-up) */}
         {editandoProntuario && (
           <div className="editar-prontuario-form">
             <h4>Editar Prontuário</h4>
@@ -256,8 +181,6 @@ function FichaPaciente() {
                   type="text"
                   value={prontuarioEditado.titulo}
                   onChange={(e) => setProntuarioEditado({...prontuarioEditado, titulo: e.target.value})}
-                  placeholder="Ex: Consulta inicial, Retorno..."
-                  maxLength="100"
                   required
                 />
               </div>
@@ -267,8 +190,6 @@ function FichaPaciente() {
                 <textarea
                   value={prontuarioEditado.conteudo}
                   onChange={(e) => setProntuarioEditado({...prontuarioEditado, conteudo: e.target.value})}
-                  placeholder="Descreva o procedimento, observações, diagnóstico..."
-                  maxLength="1000"
                   rows="5"
                   required
                 />
@@ -280,28 +201,24 @@ function FichaPaciente() {
                   type="number"
                   value={prontuarioEditado.duracao_procedimento}
                   onChange={(e) => setProntuarioEditado({...prontuarioEditado, duracao_procedimento: e.target.value})}
-                  placeholder="Ex: 30"
-                  min="0" max="240" step="1"
                 />
               </div>
               
               <div className="form-group">
-                <label>Aluno Parceiro (opcional):</label>
+                <label>Aluno Parceiro:</label>
                 <input
                   type="text"
                   value={prontuarioEditado.aluno_parceiro_nome}
                   onChange={(e) => setProntuarioEditado({...prontuarioEditado, aluno_parceiro_nome: e.target.value})}
-                  placeholder="Nome do aluno parceiro"
                 />
               </div>
-              
+
               <div className="form-group">
-                <label>Supervisor (opcional):</label>
+                <label>Supervisor:</label>
                 <input
                   type="text"
                   value={prontuarioEditado.supervisor_nome}
                   onChange={(e) => setProntuarioEditado({...prontuarioEditado, supervisor_nome: e.target.value})}
-                  placeholder="Nome do supervisor"
                 />
               </div>
               
@@ -317,7 +234,7 @@ function FichaPaciente() {
           </div>
         )}
 
-        {/* Lista de prontuários existentes */}
+        {/* Lista */}
         <div className="prontuarios-lista">
           {prontuarios.length === 0 ? (
             <p className="sem-prontuarios">Nenhum prontuário encontrado.</p>
@@ -327,36 +244,32 @@ function FichaPaciente() {
                 <div className="prontuario-header">
                   <h4>{prontuario.titulo}</h4>
                   <div className="prontuario-meta">
-                    <span className="data-hora" title="Data e Hora">
-                      <i className="fas fa-calendar-alt"></i>
+                    <span title="Data e Hora">
                       {formatarDataHora(prontuario.created_at)}
                     </span>
                     {prontuario.aluno && (
-                      <span className="autor" title="Aluno Responsável">
-                        <i className="fas fa-user-graduate"></i>
+                      <span title="Aluno Responsável">
                         {prontuario.aluno.nome_completo}
                       </span>
                     )}
                     {prontuario.aluno_parceiro_nome && (
-                      <span className="parceiro" title="Aluno Parceiro">
-                        <i className="fas fa-user-friends"></i>
+                      <span title="Aluno Parceiro">
                         {prontuario.aluno_parceiro_nome}
                       </span>
                     )}
                     {prontuario.supervisor_nome && (
-                      <span className="supervisor" title="Supervisor">
-                        <i className="fas fa-user-tie"></i>
+                      <span title="Supervisor">
                         {prontuario.supervisor_nome}
                       </span>
                     )}
                     {prontuario.duracao_procedimento > 0 && (
-                      <span className="duracao" title="Duração">
-                        <i className="fas fa-clock"></i>
+                      <span title="Duração">
                         {prontuario.duracao_procedimento} min
                       </span>
                     )}
                   </div>
                 </div>
+                
                 <div className="prontuario-conteudo">
                   <p>{prontuario.conteudo}</p>
                 </div>

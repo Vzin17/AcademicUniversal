@@ -1,0 +1,164 @@
+/* ==========================================================================
+   ESTILOS PARA A PÁGINA DE HISTÓRICO
+   Arquivo: CSS_Pgs/Historico.css
+   ========================================================================== */
+
+.historico-wrapper {
+  background-color: #f8fafc; /* Fundo cinza muito suave */
+  min-height: 100vh;
+  padding: 40px 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.historico-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* --- Cabeçalho --- */
+.historico-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.historico-title {
+  color: #1c3d5a;
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.btn-voltar {
+  background-color: white;
+  color: #5a7b9c;
+  border: 1px solid #cbd5e1;
+  padding: 10px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.btn-voltar:hover {
+  background-color: #f1f5f9;
+  color: #1c3d5a;
+}
+
+/* --- Lista de Itens --- */
+.historico-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Estilo do Cartão de Histórico */
+.historico-card {
+  background-color: white;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: transform 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.historico-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+/* Borda lateral colorida para indicar status (opcional) */
+.historico-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 5px;
+  background-color: #3498db; /* Azul padrão */
+}
+
+/* Quando cancelado, fica vermelho */
+.historico-card.cancelado::before {
+  background-color: #e74c3c;
+}
+
+/* Quando concluído, fica verde */
+.historico-card.concluido::before {
+  background-color: #27ae60;
+}
+
+/* --- Conteúdo do Cartão --- */
+.card-info h3 {
+  margin: 0 0 8px 0;
+  color: #1c3d5a;
+  font-size: 1.2rem;
+}
+
+.card-info .data-hora {
+  color: #5a7b9c;
+  font-size: 0.95rem;
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.card-info .profissional {
+  color: #64748b;
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+/* Badge de Status */
+.status-badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-badge.concluido {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.status-badge.cancelado {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+.status-badge.pendente {
+  background-color: #fff7ed;
+  color: #c2410c;
+}
+
+/* Estados vazios e loading */
+.sem-historico, .loading {
+  text-align: center;
+  padding: 40px;
+  color: #64748b;
+  background: white;
+  border-radius: 12px;
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+  .historico-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+  
+  .status-badge {
+    align-self: flex-start;
+  }
+}

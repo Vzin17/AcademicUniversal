@@ -1,14 +1,98 @@
-/* --- ESTILOS PARA A PÁGINA DE CRIAR PRONTUÁRIO --- */
+/* ==========================================================================
+   FICHEIRO COMPLETO: Paciente.css
+   (Substitui TUDO o que tens no arquivo por isto)
+   ========================================================================== */
+
+/* --- 1. ESTILOS PARA A PÁGINA DE BUSCA DE PACIENTES --- */
+
+.pacientes-container {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  max-width: 800px;
+  width: 90%;
+  margin: 40px auto;
+  text-align: center;
+}
+
+.pacientes-container h2 {
+  color: #0f3460;
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+}
+
+.pacientes-container p {
+  color: #505f79;
+  margin-bottom: 30px;
+}
+
+.pacientes-busca-form input {
+  width: 100%;
+  max-width: 500px;
+  padding: 16px 20px;
+  font-size: 1.1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 50px;
+  outline: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  text-align: left;
+}
+
+.pacientes-busca-form input:focus {
+  border-color: #0052cc;
+  box-shadow: 0 4px 15px rgba(0, 82, 204, 0.2);
+}
+
+.pacientes-resultados-busca {
+  margin-top: 40px;
+}
+
+.pacientes-resultados-busca ul {
+  list-style-type: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+.pacientes-resultados-busca li a {
+  display: block;
+  background-color: white;
+  padding: 20px;
+  border-radius: 12px;
+  text-decoration: none;
+  color: #172b4d;
+  font-weight: 600;
+  font-size: 1.1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border: 1px solid #f0f2f5;
+  transition: all 0.2s ease-in-out;
+  text-transform: capitalize;
+}
+
+.pacientes-resultados-busca li a:hover {
+  transform: translateY(-3px);
+  background-color: #0052cc;
+  color: white;
+  box-shadow: 0 8px 16px rgba(0, 82, 204, 0.2);
+}
+
+.pacientes-resultados-busca p {
+  font-style: italic;
+  color: #888;
+}
+
+
+/* --- 2. ESTILOS PARA A PÁGINA DE CRIAR PRONTUÁRIO --- */
 
 .prontuario-container {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  max-width: 1100px; /* Aumentei para ficar bem largo */
-  width: 95%; /* Garante que não vaza em telas menores */
+  max-width: 1100px;
+  width: 95%;
   margin: 40px auto;
   padding: 40px 50px;
   background-color: #ffffff;
   border-radius: 15px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); /* Sombra suave e moderna */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
 }
 
 .prontuario-container h1 {
@@ -21,24 +105,21 @@
   padding-bottom: 20px;
 }
 
-/* Configuração do Grid (2 colunas) */
 .prontuario-form.form-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr; /* Divide em 2 colunas iguais */
-  gap: 25px; /* Espaço entre os campos */
+  grid-template-columns: 1fr 1fr;
+  gap: 25px;
 }
 
-/* Estilo padrão dos campos */
 .form-group {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-/* Classe mágica para campos que devem ocupar a linha inteira (Descrição, Botão, Supervisor) */
 .form-group.full-width, 
 button.full-width {
-  grid-column: 1 / -1; /* Estica da coluna 1 até o final */
+  grid-column: 1 / -1;
 }
 
 .prontuario-form label {
@@ -72,21 +153,19 @@ button.full-width {
 }
 
 .prontuario-form textarea {
-  min-height: 200px; /* Bem alto para escrever bastante */
+  min-height: 200px;
   resize: vertical;
   line-height: 1.6;
 }
 
-/* Botão de Salvar */
 .prontuario-form button {
   margin-top: 30px;
   padding: 16px;
   font-size: 1.1rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
   color: #ffffff;
-  background-color: #0052cc; /* Azul profissional */
+  background-color: #0052cc;
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -98,23 +177,295 @@ button.full-width {
   transform: translateY(-2px);
 }
 
-.prontuario-form button:active {
-  transform: translateY(0);
+
+/* --- 3. ESTILOS PARA A FICHA DO PACIENTE (VISUALIZAÇÃO) --- */
+
+.ficha-paciente-container {
+  max-width: 900px;
+  margin: 40px auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 0 20px;
 }
 
-.prontuario-form button:disabled {
-  background-color: #a5adba;
-  cursor: not-allowed;
-  transform: none;
+.ficha-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
 }
 
-/* Responsividade: No celular, tudo vira 1 coluna */
-@media (max-width: 768px) {
-  .prontuario-container {
-    padding: 20px;
-  }
+.ficha-header h2 {
+  color: #343a40; 
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.ficha-acoes {
+  display: flex;
+  gap: 15px;
+}
+
+.btn-voltar {
+  background-color: #6c757d; 
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: opacity 0.2s;
+}
+
+.btn-prontuario {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: opacity 0.2s;
+}
+
+.btn-voltar:hover, .btn-prontuario:hover {
+  opacity: 0.9;
+}
+
+.ficha-dados, 
+.prontuarios-section {
+  background-color: #ffffff;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 40px;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+.dados-pessoais h3,
+.observacoes h3,
+.prontuarios-section h3 {
+  color: #343a40;
+  text-align: center;
+  font-size: 1.4rem;
+  margin-top: 0;
+  margin-bottom: 35px;
+  font-weight: 700;
+}
+
+.dados-pessoais {
+  padding: 0;
+}
+
+.campo {
+  display: flex;
+  margin-bottom: 20px;
+  align-items: center;
+  justify-content: center;
+}
+
+.campo label {
+  width: 45%;
+  text-align: right;
+  padding-right: 30px;
+  color: #495057;
+  font-weight: 600;
+}
+
+.campo span {
+  width: 45%;
+  text-align: left;
+  color: #212529;
+}
+
+
+/* --- 4. LISTA DE PRONTUÁRIOS --- */
+
+.prontuarios-section {
+  background-color: transparent;
+  border: none;
+  padding: 10px 0;
+  box-shadow: none;
+}
+
+.prontuario-item {
+  background-color: #ffffff;
+  border: 1px solid #e9ecef;
+  border-radius: 12px;
+  padding: 30px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.prontuario-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 15px rgba(0,0,0,0.06);
+  border-color: #dfe6ed;
+}
+
+.prontuario-header h4 {
+  color: #343a40;
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: 800;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.prontuario-meta {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 25px;
+}
+
+.prontuario-meta span {
+  background-color: #fff;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  border: 1px solid #ccc;
+}
+
+.prontuario-meta span:nth-of-type(1) { color: #007bff; border-color: #b8daff; background-color: #f0f7ff; }
+.prontuario-meta span:nth-of-type(2) { color: #28a745; border-color: #c3e6cb; background-color: #f0fff4; }
+.prontuario-meta span:nth-of-type(3) { color: #17a2b8; border-color: #bee5eb; background-color: #f0fcff; }
+.prontuario-meta span:nth-of-type(4) { color: #fd7e14; border-color: #ffeeba; background-color: #fffbf0; }
+.prontuario-meta span:last-child { color: #6c757d; border-color: #dee2e6; background-color: #f8f9fa; }
+
+.prontuario-meta span i { display: none; }
+
+.prontuario-conteudo p {
+  text-align: center;
+  color: #495057;
+  font-size: 1.1rem;
+  margin-bottom: 30px;
+  line-height: 1.6;
+}
+
+.prontuario-acoes {
+  display: flex;
+  justify-content: center;
+  padding-top: 10px;
+  border-top: 1px solid #f1f3f5;
+  margin-top: 20px;
+}
+
+.btn-editar {
+  background-color: #ffc107;
+  color: #212529;
+  border: none;
+  width: 100%;
+  padding: 12px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-top: 10px;
+}
+
+.btn-editar:hover {
+  background-color: #e0a800;
+}
+
+
+/* --- 5. ESTILOS DO FORMULÁRIO DE EDIÇÃO (POP-UP FLUTUANTE) --- */
+/* Esta é a parte que te faltava! */
+
+.editar-prontuario-form {
+  /* POSICIONAMENTO FORÇADO NO CENTRO */
+  position: fixed !important; 
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  z-index: 9999 !important; /* Fica na frente de tudo */
+  margin: 0 !important;
   
-  .prontuario-form.form-grid {
-    grid-template-columns: 1fr; /* Força 1 coluna */
-  }
+  /* ESTILO DA CAIXA */
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  border: 1px solid #cfe2ff;
+  
+  /* TAMANHO */
+  width: 90%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  
+  /* SOMBRA GIGANTE PARA ESCURECER O FUNDO */
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2), 0 0 0 100vw rgba(0, 0, 0, 0.5) !important;
+}
+
+.editar-prontuario-form h4 {
+  color: #0052cc;
+  text-align: center;
+  font-size: 1.5rem;
+  margin-top: 0;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #f0f7ff;
+  padding-bottom: 15px;
+}
+
+.editar-prontuario-form .form-group label {
+  color: #2c3e50;
+  font-weight: 700;
+  margin-bottom: 5px;
+  display: block;
+  font-size: 0.95rem;
+}
+
+.editar-prontuario-form input,
+.editar-prontuario-form textarea {
+  background-color: #f0f7ff !important;
+  border: 1px solid #cce5ff !important;
+  color: #333333;
+  padding: 12px;
+  border-radius: 8px;
+  width: 100%;
+  font-size: 1rem;
+  box-sizing: border-box;
+  margin-bottom: 15px;
+  font-family: inherit;
+}
+
+.editar-prontuario-form input:focus,
+.editar-prontuario-form textarea:focus {
+  background-color: #ffffff !important;
+  border-color: #0052cc !important;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 82, 204, 0.15);
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+  padding-top: 15px;
+  border-top: 1px solid #f0f7ff;
+}
+
+.form-actions button[type="button"] {
+  background-color: #f1f3f5;
+  color: #495057;
+  border: 1px solid #dee2e6;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.form-actions button[type="submit"] {
+  background-color: #0052cc;
+  color: white;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  box-shadow: 0 4px 6px rgba(0, 82, 204, 0.2);
 }

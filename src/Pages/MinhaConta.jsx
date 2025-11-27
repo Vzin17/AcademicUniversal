@@ -1,97 +1,113 @@
 import React from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import '../Pages/CSS_Pgs/MinhaConta.css'; // Usaremos um novo CSS para esta página
+import '../Pages/CSS_Pgs/MinhaConta.css';
 import Seguranca from './Seguranca';
 import MeusAgendamentos from './MeusAgendamentos';
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function MinhaConta() {
   const { user, loading, logout } = useAuth();
   const navigate = useNavigate();
 
-  if (loading) {
-    return <div>Carregando informações da conta...</div>;
-  }
+  if (loading) return <div className="loading-screen">Carregando perfil...</div>;
+  if (!user) return <div>Erro ao carregar usuário.</div>;
 
   const handleLogout = async () => {
-    await logout();
-    navigate('/');
+    try {
+      await logout();
+      navigate('/');
+    } catch (error) {
+      console.error("Erro ao sair", error);
+    }
   };
 
-  if (!user) {
-    return <div>Não foi possível carregar as informações do usuário.</div>;
-  }
+  // Função para pegar as iniciais ou a primeira letra
+  const getInitials = (name) => {
+    if (!name) return 'U';
+    return name.charAt(0).toUpperCase();
+  };
 
   return (
     <div className="minha-conta-wrapper">
       <div className="minha-conta-container">
+        
+        {/* Cabeçalho da Página */}
         <div className="minha-conta-header">
-          <h1 className="minha-conta-title">Minha Conta</h1>
-          <p className="minha-conta-subtitle">Gerencie suas informações, agendamentos e segurança.</p>
+          <div>
+            <h1 className="minha-conta-title">Minha Conta</h1>
+            <p className="minha-conta-subtitle">Bem-vindo ao seu painel pessoal.</p>
+          </div>
         </div>
 
         <div className="minha-conta-grid">
-          {/* Coluna da Esquerda */}
-          <div className="coluna-principal">
+          
+          {/* --- COLUNA ESQUERDA (Perfil e Ações Focadas) --- */}
+          <aside className="coluna-perfil">
+            
+            {/* Card de Identidade */}
             <div className="conta-card">
-              <h2 className="card-title">Meus Dados</h2>
-              <div className="dados-pessoais">
-                <div className="dado-item">
-                  <strong>Nome:</strong>
-                  <span>{user.nome_completo || 'Não informado'}</span>
+              <div className="perfil-header">
+                <div className="avatar-circle">
+                  {getInitials(user.nome_completo)}
                 </div>
-                <div className="dado-item">
-                  <strong>E-mail:</strong>
-                  <span>{user.email || 'Não informado'}</span>
+                <div>
+                  <h2 className="perfil-nome">{user.nome_completo || 'Usuário'}</h2>
+                  <p className="perfil-email">{user.email}</p>
+                  <span className="funcao-badge">{user.funcao || 'Membro'}</span>
                 </div>
-                <div className="dado-item">
-                  <strong>Função:</strong>
-                  <span className="funcao-tag">{user.funcao || 'Não informada'}</span>
-                </div>
+              </div>
+
+              <div className="perfil-detalhes">
                 {user.ra && (
-                  <div className="dado-item">
-                    <strong>RA:</strong>
-                    <span>{user.ra}</span>
+                  <div className="info-row">
+                    <span className="info-label">RA</span>
+                    <span className="info-value">{user.ra}</span>
                   </div>
                 )}
                 {user.areas?.name && (
-                  <div className="dado-item">
-                    <strong>Especialidade:</strong>
-                    <span>{user.areas.name}</span>
+                  <div className="info-row">
+                    <span className="info-label">Especialidade</span>
+                    <span className="info-value">{user.areas.name}</span>
                   </div>
                 )}
+                <div className="info-row">
+                  <span className="info-label">Status</span>
+                  <span className="info-value" style={{color: '#27ae60'}}>Ativo</span>
+                </div>
               </div>
+
+              <button onClick={handleLogout} className="btn-sair-outline">
+                <span>Encerrar Sessão</span>
+              </button>
             </div>
 
+            {/* Ações Rápidas */}
             <div className="conta-card">
-              <h2 className="card-title">Segurança</h2>
+              <h3 className="card-title">Acesso Rápido</h3>
+              <div className="acoes-grid">
+                <Link to="/servicos" className="acao-btn">Serviços</Link>
+                <Link to="/historico" className="acao-btn">Histórico</Link>
+              </div>
+            </div>
+          </aside>
+
+          {/* --- COLUNA DIREITA (Conteúdo Principal - MAIS LARGURA AQUI) --- */}
+          <main className="coluna-conteudo">
+            
+            {/* Agendamentos */}
+            <div className="conta-card">
+              <h2 className="card-title">📅 Meus Agendamentos</h2>
+              <MeusAgendamentos />
+            </div>
+
+            {/* Segurança da Conta (MOVIDO PARA AQUI) */}
+            <div className="conta-card">
+              <h2 className="card-title">🔒 Segurança da Conta</h2>
+              {/* O componente Seguranca agora terá espaço total */}
               <Seguranca />
             </div>
 
-            {/* Card para o botão de sair */}
-            <div className="conta-card card-sair">
-              <button onClick={handleLogout} className="btn-sair">
-                Sair da Conta
-              </button>
-            </div>
-          </div>
-
-          {/* Coluna da Direita */}
-          <div className="coluna-lateral">
-            <div className="conta-card">
-              <h2 className="card-title">Ações Rápidas</h2>
-              <div className="acoes-rapidas-conta">
-                <Link to="/servicos" className="acao-item">Ver Serviços</Link>
-                {/* Adicione outras ações conforme necessário */}
-              </div>
-            </div>
-
-            <div className="conta-card">
-              <h2 className="card-title">Meus Agendamentos</h2>
-              <MeusAgendamentos />
-            </div>
-          </div>
+          </main>
         </div>
       </div>
     </div>

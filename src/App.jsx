@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css'; // Importa o CSS global
-import { AuthProvider } from './contexts/AuthContext';
+import { AuthProvider } from './Contexts/AuthContext';
 import ProtectedRoute from './ProtectedRoute';
 
 // --- Componentes de Página ---
@@ -17,6 +17,7 @@ import Denuncia from './Pages/Denuncia';
 import Login from './Pages/Login';
 import Register from './Pages/Register';
 import MinhaConta from './Pages/MinhaConta';
+import Historico from './Pages/Historico'; // <--- NOVO IMPORT AQUI
 import Pacientes from './Pages/Pacientes.jsx'; 
 import FichaPaciente from './Pages/FichaPaciente.jsx';
 import ProntuariosRecentes from './Pages/ProntuariosRecentes.jsx';
@@ -28,119 +29,130 @@ import PainelRecepcionista from './paineis/PainelRecepcionista.jsx';
 // (Valores exatos em minúsculo, como no banco de dados)
 
 const ROLES = {
-  Coordenador: 'coordenador',
-  Professor: 'professor',
-  Aluno: 'aluno', // O aluno das 3 áreas clínicas
-  Recepcionista: 'recepcionista', // Adicionado
-  Psicologa: 'psicologa', // Role da psicóloga
-  Paciente: 'paciente_comunidade',
+  Coordenador: 'coordenador',
+  Professor: 'professor',
+  Aluno: 'aluno', // O aluno das 3 áreas clínicas
+  Recepcionista: 'recepcionista', 
+  Psicologa: 'psicologa', 
+  Paciente: 'paciente_comunidade',
 };
 
 const EQUIPE_GESTAO_CLINICA = [
-  ROLES.Coordenador,
-  ROLES.Professor,
-  ROLES.Aluno,
-  ROLES.Recepcionista
+  ROLES.Coordenador,
+  ROLES.Professor,
+  ROLES.Aluno,
+  ROLES.Recepcionista
 ];
 
 // Quem pode CRIAR/EDITAR prontuários
 const EQUIPE_CLINICA_AUTORIZADA = [
-  ROLES.Coordenador,
-  ROLES.Professor,
-  ROLES.Aluno
+  ROLES.Coordenador,
+  ROLES.Professor,
+  ROLES.Aluno
 ];
 
 function App() {
-  return (
-    <BrowserRouter>
-      <AuthProvider>
-        <div className="App">
-          <Header />
-          <main>
-            <Routes>
-              {/* --- 1. Rotas Públicas (Ninguém logado) --- */}
-              <Route path="/" element={<HomeRouter />} />
-              <Route path="/cadastro" element={<Cadastro />} />
-              <Route path="/servicos" element={<Servicos />} />
-              <Route path="/projeto" element={<Projeto />} />
-              <Route path="/contato" element={<Contato />} />
-              <Route path="/denuncia" element={<Denuncia />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
+  return (
+    <BrowserRouter>
+      <AuthProvider>
+        <div className="App">
+          <Header />
+          <main>
+            <Routes>
+              {/* --- 1. Rotas Públicas (Ninguém logado) --- */}
+              <Route path="/" element={<HomeRouter />} />
+              <Route path="/cadastro" element={<Cadastro />} />
+              <Route path="/servicos" element={<Servicos />} />
+              <Route path="/projeto" element={<Projeto />} />
+              <Route path="/contato" element={<Contato />} />
+              <Route path="/denuncia" element={<Denuncia />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
 
-         
-              <Route
-                path="/agendamento"
-                element={
-                  <ProtectedRoute> 
-                    <Agendamento />
-                  </ProtectedRoute>
-                }
-              />
+              {/* --- 2. Rotas Protegidas (Precisa estar logado) --- */}
+              
+              <Route
+                path="/agendamento"
+                element={
+                  <ProtectedRoute> 
+                    <Agendamento />
+                  </ProtectedRoute>
+                }
+              />
 
-              <Route
-                path="/minha-conta/*"
-                element={
-                  <ProtectedRoute> 
-                    <MinhaConta />
-                  </ProtectedRoute>
-                }
-              />
+              <Route
+                path="/minha-conta/*"
+                element={
+                  <ProtectedRoute> 
+                    <MinhaConta />
+                  </ProtectedRoute>
+                }
+              />
 
-              <Route
-                path="/pacientes" 
-                element={
-                  <ProtectedRoute allowedRoles={EQUIPE_GESTAO_CLINICA}>
-                    <Pacientes />
-                  </ProtectedRoute>
-              }
-              />
+              {/* --- NOVA ROTA DE HISTÓRICO --- */}
+              <Route
+                path="/historico"
+                element={
+                  <ProtectedRoute> 
+                    <Historico />
+                  </ProtectedRoute>
+                }
+              />
 
-              <Route
-                path="/pacientes/:id" 
-                element={
-                  <ProtectedRoute allowedRoles={EQUIPE_GESTAO_CLINICA}>
-                    <FichaPaciente />
-                  </ProtectedRoute>
-                }
-              />
+              {/* --- 3. Rotas de Gestão Clínica (Equipe) --- */}
 
-             
-                            <Route
+              <Route
+                path="/pacientes" 
+                element={
+                  <ProtectedRoute allowedRoles={EQUIPE_GESTAO_CLINICA}>
+                    <Pacientes />
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="/pacientes/:id" 
+                element={
+                  <ProtectedRoute allowedRoles={EQUIPE_GESTAO_CLINICA}>
+                    <FichaPaciente />
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route
                 path="/pacientes/:id/criar-prontuario"
                 element={
-                  // MUDANÇA: Trocamos [ROLES.Aluno] por EQUIPE_CLINICA_AUTORIZADA
                   <ProtectedRoute allowedRoles={EQUIPE_CLINICA_AUTORIZADA}> 
                     <CriarProntuario />
                   </ProtectedRoute>
                 }
               />
 
-              <Route
-                path="/prontuarios/recentes"
-                element={
-                  <ProtectedRoute allowedRoles={[ROLES.Coordenador, ROLES.Professor]}>
-                  <ProntuariosRecentes />
-                </ProtectedRoute>
-                }
-              />
-              
-              <Route
-                path="/admin"
-                element={
-                  <ProtectedRoute allowedRoles={[ROLES.Coordenador]}>
-                    <PainelAdmin />
-                  </ProtectedRoute>
-                }
-              />
+              <Route
+                path="/prontuarios/recentes"
+                element={
+                  <ProtectedRoute allowedRoles={[ROLES.Coordenador, ROLES.Professor]}>
+                    <ProntuariosRecentes />
+                  </ProtectedRoute>
+                }
+              />
+              
+              <Route
+                path="/admin"
+                element={
+                  <ProtectedRoute allowedRoles={[ROLES.Coordenador]}>
+                    <PainelAdmin />
+                  </ProtectedRoute>
+                }
+              />
 
-            </Routes>
-          </main>
-          <Footer />
-        </div>
-      </AuthProvider>
-    </BrowserRouter>
-  );
+            </Routes>
+          </main>
+          <Footer />
+        </div>
+      </AuthProvider>
+    </BrowserRouter>
+  );
 }
 
 export default App;
